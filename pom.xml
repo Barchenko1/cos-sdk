@@ -66,53 +66,9 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.orm</groupId>-->
-<!--            <artifactId>hibernate-core</artifactId>-->
-<!--            <version>${hibernate.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.search</groupId>-->
-<!--            <artifactId>hibernate-search-mapper-orm-orm6</artifactId>-->
-<!--            <version>${hibernate.search.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.search</groupId>-->
-<!--            <artifactId>hibernate-search-backend-lucene</artifactId>-->
-<!--            <version>${hibernate.lucene.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>ch.qos.logback</groupId>-->
-<!--            <artifactId>logback-classic</artifactId>-->
-<!--            <version>${logback.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <version>${h2.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate</groupId>-->
-<!--            <artifactId>hibernate-jcache</artifactId>-->
-<!--            <version>${hibernate.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate</groupId>-->
-<!--            <artifactId>hibernate-ehcache</artifactId>-->
-<!--            <version>${hibernate.ehcache.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.ehcache</groupId>-->
-<!--            <artifactId>ehcache</artifactId>-->
-<!--            <version>${ehcache.version}</version>-->
-<!--        </dependency>-->
     </dependencies>
 
     <properties>
-        <jaxb.core.version>2.3.0.1</jaxb.core.version>
-        <jaxb.api.version>2.3.1</jaxb.api.version>
-
         <spring.version>5.3.19</spring.version>
         <hibernate.version>6.0.1.Final</hibernate.version>
         <javax.version>2.2</javax.version>

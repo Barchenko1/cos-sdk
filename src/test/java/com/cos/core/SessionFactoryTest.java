@@ -54,7 +54,7 @@ public class SessionFactoryTest {
     Book book = new Book();
     book.setName("test");
 
-//    Assertions.assertNull(user.getId());
+//    Assertions.assertNull(book.getId());
 
     session.persist(book);
 

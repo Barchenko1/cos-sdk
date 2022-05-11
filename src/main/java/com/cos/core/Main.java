@@ -1,7 +1,7 @@
 package com.cos.core;
 
 
-import com.cos.core.config.HibernateConfiguration;
+import com.cos.core.config.ConfigurationManagerDB;
 import com.cos.core.modal.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,12 +13,9 @@ import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public class Main {
 
@@ -28,8 +25,7 @@ public class Main {
         LOG.info("test");
         Book entityTest = new Book();
         entityTest.setName("aaa");
-//        getObjects();
-//        HibernateConfiguration hb = new HibernateConfiguration(properties);
+        SessionFactory sessionFactory = new ConfigurationManagerDB().createSessionFactoryWithOutXML();
         saveObject(entityTest);
 //        createSessionFactoryWithoutXML();
         System.out.println(entityTest);
@@ -38,7 +34,7 @@ public class Main {
 
     private static void saveObject(Book entityTest) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = new HibernateConfiguration().getSessionFactory();
+        SessionFactory sessionFactory = new ConfigurationManagerDB().createSessionFactoryWithOutXML();
 
         try (Session session = sessionFactory.getCurrentSession()) {
             // start a transaction
@@ -55,21 +51,9 @@ public class Main {
     }
 
     public static List<Book> getObjects() {
-        try (Session session = new HibernateConfiguration().getSessionFactory().openSession()) {
-            return session.createQuery("from User", Book.class).list();
+        try (Session session = new ConfigurationManagerDB().createSessionFactoryWithOutXML().openSession()) {
+            return session.createQuery("from Book", Book.class).list();
         }
-    }
-
-    private static Properties testProperties() {
-        Properties appProps = new Properties();
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-
-        try {
-            appProps.load(new FileInputStream(rootPath + "db.properties"));
-        } catch (IOException ex) {
-            throw new RuntimeException();
-        }
-        return appProps;
     }
 
     private static void createSessionFactoryWithoutXML() {
