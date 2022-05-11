@@ -1,7 +1,9 @@
 package com.cos.core;
 
 
-import com.cos.core.config.ConfigurationManagerDB;
+import com.cos.core.config.ConnectionPullConfiguration;
+import com.cos.core.dao.IUserDao;
+import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,39 +24,37 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOG.info("test");
-        Book entityTest = new Book();
-        entityTest.setName("aaa");
-        SessionFactory sessionFactory = new ConfigurationManagerDB().createSessionFactoryWithOutXML();
-        saveObject(entityTest);
+        LOG.info("test123");
+        Book book = new Book();
+        IUserDao<Book> userDao = new UserDao<>();
+//        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
+        userDao.saveUser(book);
 //        createSessionFactoryWithoutXML();
-        System.out.println(entityTest);
-        LOG.info("phone: {}",entityTest);
     }
 
-    private static void saveObject(Book entityTest) {
-        Transaction transaction = null;
-        SessionFactory sessionFactory = new ConfigurationManagerDB().createSessionFactoryWithOutXML();
-
-        try (Session session = sessionFactory.getCurrentSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the student object
-            session.persist(entityTest);
-            // commit transaction
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-    }
-
-    public static List<Book> getObjects() {
-        try (Session session = new ConfigurationManagerDB().createSessionFactoryWithOutXML().openSession()) {
-            return session.createQuery("from Book", Book.class).list();
-        }
-    }
+//    private static void saveObject(Book entityTest) {
+//        Transaction transaction = null;
+//        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
+//
+//        try (Session session = sessionFactory.getCurrentSession()) {
+//            // start a transaction
+//            transaction = session.beginTransaction();
+//            // save the student object
+//            session.persist(entityTest);
+//            // commit transaction
+//            transaction.commit();
+//        } catch (Exception e) {
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//        }
+//    }
+//
+//    public static List<Book> getObjects() {
+//        try (Session session = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML().openSession()) {
+//            return session.createQuery("from Book", Book.class).list();
+//        }
+//    }
 
     private static void createSessionFactoryWithoutXML() {
 
