@@ -16,10 +16,16 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     protected ServiceRegistry serviceRegistry;
     protected SessionFactory sessionFactory;
     protected IPropertiesProvider propertiesProvider;
+    protected Class<?>[] annotatedClasses;
 
     @Override
     public void setPropertiesProvider(IPropertiesProvider propertiesProvider) {
         this.propertiesProvider = propertiesProvider;
+    }
+
+    @Override
+    public void setAnnotatedClasses(Class<?>[] annotatedClasses) {
+        this.annotatedClasses = annotatedClasses;
     }
 
     @Override

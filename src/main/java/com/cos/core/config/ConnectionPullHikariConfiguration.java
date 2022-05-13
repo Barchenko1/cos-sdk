@@ -17,7 +17,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
     private SessionFactory sessionFactory;
 
     @Override
-    public SessionFactory createSessionFactoryWithProperties(Class<?>[] annotatedClasses) {
+    public SessionFactory createSessionFactoryWithProperties() {
         if (sessionFactory == null) {
             try {
                 Properties settings = new Properties();

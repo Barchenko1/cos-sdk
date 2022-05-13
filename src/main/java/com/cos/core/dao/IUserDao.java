@@ -1,5 +1,7 @@
 package com.cos.core.dao;
 
+import com.cos.core.connect.IConnectionPullManager;
+
 import java.util.List;
 import java.util.Optional;
 

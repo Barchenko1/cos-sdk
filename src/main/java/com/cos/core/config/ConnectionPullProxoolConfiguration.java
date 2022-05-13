@@ -13,7 +13,7 @@ import java.util.Properties;
 public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullConfiguration {
 
     @Override
-    public SessionFactory createSessionFactoryWithProperties(Class<?>[] annotatedClasses) {
+    public SessionFactory createSessionFactoryWithProperties() {
         if (sessionFactory == null) {
             try {
                 Properties settings = new Properties();

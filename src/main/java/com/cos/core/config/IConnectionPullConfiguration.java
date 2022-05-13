@@ -7,9 +7,11 @@ import org.hibernate.SessionFactory;
 
 public interface IConnectionPullConfiguration {
 
-    SessionFactory createSessionFactoryWithProperties(Class<?>[] annotatedClasses);
+    SessionFactory createSessionFactoryWithProperties();
     SessionFactory createSessionFactoryWithHibernateXML();
     SessionFactory createDefaultSessionFactory(ConnectionDetails connectionDetails, Class<?>[] annotatedClasses);
 
     void setPropertiesProvider(IPropertiesProvider propertiesProvider);
+
+    void setAnnotatedClasses(Class<?>[] classes);
 }

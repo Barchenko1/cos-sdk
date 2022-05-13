@@ -14,8 +14,8 @@ public class UserDao<E> extends AbstractDaoConnector implements IUserDao<E> {
     private Class<E> clazz;
     private final SessionFactory sessionFactory;
 
-    public UserDao() {
-        sessionFactory = getSessionFactory();
+    public UserDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override

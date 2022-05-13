@@ -6,6 +6,7 @@ import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
 
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,9 @@ public class SessionFactoryC3P0Test {
     connectionPullManager.setAnnotatedClasses(annotationClasses);
 
     Book book = new Book();
-    IUserDao<Book> userDao = new UserDao<>();
+    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactory();
+
+    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testprops");
 
@@ -44,7 +47,8 @@ public class SessionFactoryC3P0Test {
     connectionPullManager.setAnnotatedClasses(annotationClasses);
 
     Book book = new Book();
-    IUserDao<Book> userDao = new UserDao<>();
+    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactory();
+    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testprops");
     book.setName("testxml");

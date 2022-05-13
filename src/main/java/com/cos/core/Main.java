@@ -24,8 +24,8 @@ public class Main {
         LOG.info("test123");
 //        Book book = new Book();
 //        book.setName("test123");
-        IUserDao<Book> userDao = new UserDao<>();
-        userDao.setClazz(Book.class);
+//        IUserDao<Book> userDao = new UserDao<>();
+//        userDao.setClazz(Book.class);
 ////        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
 //        userDao.saveUser(book);
 //        System.out.println(userDao.getAllUsers());

@@ -6,8 +6,7 @@ import org.hibernate.SessionFactory;
 public interface IConnectionPullManager {
 
     SessionFactory getConfigureSessionFactory();
-
-    SessionFactory getDefaultSessionFactory(ConnectionDetails connectionDetails);
-
     void setAnnotatedClasses(Class<?>[] annotatedClasses);
+    void setConnectionDetails(ConnectionDetails connectionDetails);
+
 }

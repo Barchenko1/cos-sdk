@@ -17,11 +17,12 @@ import java.util.Properties;
 public class ConnectionPullManager implements IConnectionPullManager {
 
     private final IPropertiesProvider propertiesProvider;
+    private Class<?>[] annotatedClasses;
+    private ConnectionDetails connectionDetails;
     private final IConnectionPullConfiguration connectionPullC3P0Configuration;
     private final IConnectionPullConfiguration connectionPullHikariConfiguration;
     private final IConnectionPullConfiguration connectionPullProxoolConfiguration;
     private final IConnectionPullConfiguration connectionPullDBCP2Configuration;
-    private Class<?>[] annotatedClasses;
 
     public ConnectionPullManager() {
         this.propertiesProvider = new PropertiesProvider();
@@ -38,6 +39,11 @@ public class ConnectionPullManager implements IConnectionPullManager {
     }
 
     @Override
+    public void setConnectionDetails(ConnectionDetails connectionDetails) {
+        this.connectionDetails = connectionDetails;
+    }
+
+    @Override
     public SessionFactory getConfigureSessionFactory() {
         if (propertiesProvider.isHibernateConfigExist()) {
             return connectionPullC3P0Configuration.createSessionFactoryWithHibernateXML();
@@ -49,14 +55,10 @@ public class ConnectionPullManager implements IConnectionPullManager {
             IConnectionPullConfiguration connectionPullConfiguration =
                     getConnectionPullConfigurationByConnectionProviderProperty(properties);
             connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-            return connectionPullConfiguration.createSessionFactoryWithProperties(annotatedClasses);
+            connectionPullConfiguration.setAnnotatedClasses(annotatedClasses);
+            return connectionPullConfiguration.createSessionFactoryWithProperties();
         }
-        return null;
-    }
-
-    @Override
-    public SessionFactory getDefaultSessionFactory(ConnectionDetails connectionDetails) {
-        return connectionPullC3P0Configuration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
+        return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
     }
 
     private IConnectionPullConfiguration getConnectionPullConfigurationByConnectionProviderProperty(Properties properties) {
