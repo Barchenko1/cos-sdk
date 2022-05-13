@@ -20,9 +20,6 @@ public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullCo
                 Properties properties = propertiesProvider.getProperties();
                 setGeneralDBSettings(settings);
 
-                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
-                settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
-
                 settings.put(Environment.PROXOOL_POOL_ALIAS, properties.getProperty(Environment.PROXOOL_POOL_ALIAS));
                 settings.put(Environment.PROXOOL_EXISTING_POOL, properties.getProperty(Environment.PROXOOL_EXISTING_POOL));
                 settings.put(Environment.PROXOOL_PROPERTIES, properties.getProperty(Environment.PROXOOL_PROPERTIES));

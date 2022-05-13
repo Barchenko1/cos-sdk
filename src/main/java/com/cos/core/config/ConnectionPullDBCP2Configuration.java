@@ -1,7 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.modal.Book;
-import com.cos.core.properties.PropertiesProvider;
+import com.cos.core.properties.modal.ConnectionDetails;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -11,11 +11,9 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
-public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConfiguration{
+public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConfiguration {
 
     private ServiceRegistry serviceRegistry;
     private SessionFactory sessionFactory;
@@ -27,8 +25,10 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                 Properties settings = new Properties();
                 Properties properties = propertiesProvider.getProperties();
                 settings.put(Environment.DATASOURCE, getDataSource());
-                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
                 settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
+                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
+                        properties.getProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS));
+                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings)
@@ -58,10 +58,10 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
         dataSource.setPassword(properties.getProperty(Environment.PASS));
 
         // Connection pooling properties
-        dataSource.setInitialSize(0);
-        dataSource.setMaxIdle(5);
-        dataSource.setMaxTotal(5);
-        dataSource.setMinIdle(0);
+        dataSource.setInitialSize(connectionDetails.getInitialSize());
+        dataSource.setMaxIdle(connectionDetails.getMaxIdle());
+        dataSource.setMaxTotal(connectionDetails.getMaxTotal());
+        dataSource.setMinIdle(connectionDetails.getMixIdle());
         return dataSource;
     }
 }

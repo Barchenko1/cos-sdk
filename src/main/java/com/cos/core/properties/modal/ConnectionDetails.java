@@ -6,6 +6,10 @@ public class ConnectionDetails {
     private String username;
     private String password;
     private String dialect;
+    private int initialSize;
+    private int minIdle;
+    private int maxIdle;
+    private int maxTotal;
     private Class<?> connectionPullProviderClass;
 
     private ConnectionDetails() {
@@ -33,6 +37,22 @@ public class ConnectionDetails {
 
     public Class<?> getConnectionPullProviderClass() {
         return connectionPullProviderClass;
+    }
+
+    public int getInitialSize() {
+        return initialSize;
+    }
+
+    public int getMixIdle() {
+        return minIdle;
+    }
+
+    public int getMaxIdle() {
+        return maxIdle;
+    }
+
+    public int getMaxTotal() {
+        return maxTotal;
     }
 
     public static Builder newBuilder() {
@@ -65,7 +85,27 @@ public class ConnectionDetails {
         }
 
         public Builder setDialect(String dialect) {
-            ConnectionDetails.this.driver = dialect;
+            ConnectionDetails.this.dialect = dialect;
+            return this;
+        }
+
+        public Builder setInitialSize(int initialSize) {
+            ConnectionDetails.this.initialSize = initialSize;
+            return this;
+        }
+
+        public Builder setMinIdle(int minIdle) {
+            ConnectionDetails.this.minIdle = minIdle;
+            return this;
+        }
+
+        public Builder setMaxIdle(int maxIdle) {
+            ConnectionDetails.this.maxIdle = maxIdle;
+            return this;
+        }
+
+        public Builder setMaxTotal(int maxTotal) {
+            ConnectionDetails.this.maxTotal = maxTotal;
             return this;
         }
 

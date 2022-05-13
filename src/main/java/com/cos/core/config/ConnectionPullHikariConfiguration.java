@@ -24,30 +24,20 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                 Properties properties = propertiesProvider.getProperties();
                 setGeneralDBSettings(settings);
 
-                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
-                settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
-
                 // Maximum waiting time for a connection from the pool
-                settings.put(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT, properties.getProperty(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT));
+                settings.put(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT,
+                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT, "20000"));
                 // Minimum number of ideal connections in the pool
-                settings.put(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE, properties.getProperty(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE));
+                settings.put(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE,
+                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE, "10"));
                 // Maximum number of actual connection in the pool
-                settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, properties.getProperty(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE));
+                settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE,
+                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20"));
                 settings.put(Environment.CONNECTION_PROVIDER, HikariProxyConnection.class);
 
                 // Maximum time that a connection is allowed to sit ideal in the pool
-                settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, properties.getProperty(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT));
-
-//                // Maximum waiting time for a connection from the pool
-//                settings.put(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT, "20000");
-//                // Minimum number of ideal connections in the pool
-//                settings.put(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE, "10");
-//                // Maximum number of actual connection in the pool
-//                settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20");
-//                settings.put(Environment.CONNECTION_PROVIDER, HikariProxyConnection.class);
-//
-//                // Maximum time that a connection is allowed to sit ideal in the pool
-//                settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, "300000");
+                settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT,
+                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, "300000"));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings).build();
