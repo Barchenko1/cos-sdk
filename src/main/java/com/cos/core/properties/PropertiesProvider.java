@@ -1,8 +1,5 @@
 package com.cos.core.properties;
 
-import com.cos.core.properties.modal.ConnectionDetails;
-import org.hibernate.cfg.Environment;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

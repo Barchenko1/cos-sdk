@@ -1,7 +1,6 @@
 package com.cos.core.config;
 
 import com.cos.core.modal.Book;
-import com.cos.core.properties.modal.ConnectionDetails;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
