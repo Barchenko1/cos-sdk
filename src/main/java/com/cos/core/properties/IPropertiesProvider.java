@@ -8,5 +8,5 @@ public interface IPropertiesProvider {
     Properties getDefaultConnectionPoolProperties(ConnectionDetails connectionDetails);
     boolean isHibernateConfigExist();
     Properties getProperties();
-    Properties loadProperties(String name);
+    void loadProperties(String name);
 }

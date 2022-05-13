@@ -1,8 +1,5 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.Book;
-import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.PropertiesProvider;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

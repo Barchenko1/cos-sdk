@@ -19,6 +19,11 @@ public class PropertiesProvider implements IPropertiesProvider {
     }
 
     @Override
+    public Properties getProperties() {
+        return properties;
+    }
+
+    @Override
     public Properties getDefaultConnectionPoolProperties(ConnectionDetails connectionDetails) {
         Properties settings = new Properties();
 
@@ -56,12 +61,7 @@ public class PropertiesProvider implements IPropertiesProvider {
     }
 
     @Override
-    public Properties getProperties() {
-        return properties;
-    }
-
-    @Override
-    public Properties loadProperties(String name) {
+    public void loadProperties(String name) {
         Properties appProps = new Properties();
         String rootPath = Thread.currentThread().getContextClassLoader()
                 .getResource("").getPath();
@@ -70,6 +70,6 @@ public class PropertiesProvider implements IPropertiesProvider {
         } catch (IOException ex) {
             throw new RuntimeException();
         }
-        return appProps;
+        properties = appProps;
     }
 }

@@ -1,6 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.modal.Book;
+import com.cos.core.properties.PropertiesProvider;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -23,11 +24,11 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
     public SessionFactory createSessionFactoryWithProperties(Class<?>[] annotatedClasses) {
         if (sessionFactory == null) {
             try {
-
-                Map<String, Object> settings = new HashMap<>();
+                Properties settings = new Properties();
+                Properties properties = propertiesProvider.getProperties();
                 settings.put(Environment.DATASOURCE, getDataSource());
-                settings.put(Environment.HBM2DDL_AUTO, "update");
-                settings.put(Environment.SHOW_SQL, "true");
+                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
+                settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings)

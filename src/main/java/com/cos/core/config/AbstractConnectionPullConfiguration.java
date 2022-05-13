@@ -18,6 +18,11 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     protected IPropertiesProvider propertiesProvider;
 
     @Override
+    public void setPropertiesProvider(IPropertiesProvider propertiesProvider) {
+        this.propertiesProvider = propertiesProvider;
+    }
+
+    @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
         if (sessionFactory == null) {
             try {

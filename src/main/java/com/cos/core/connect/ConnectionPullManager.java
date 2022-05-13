@@ -8,6 +8,7 @@ import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 
@@ -31,20 +32,24 @@ public class ConnectionPullManager implements IConnectionPullManager {
 
     }
 
+    @Override
     public void setAnnotatedClasses(Class<?>[] annotatedClasses) {
         this.annotatedClasses = annotatedClasses;
     }
 
     @Override
     public SessionFactory getConfigureSessionFactory() {
-        Properties properties = propertiesProvider.loadProperties("db.properties");
-
         if (propertiesProvider.isHibernateConfigExist()) {
             return connectionPullC3P0Configuration.createSessionFactoryWithHibernateXML();
         }
+        propertiesProvider.loadProperties(CosCoreConstants.DB_PROPERTIES_FILE_NAME);
+        Properties properties = propertiesProvider.getProperties();
+
         if (properties != null) {
-            return getConnectionPullConfigurationByConnectionProviderProperty(properties)
-                    .createSessionFactoryWithProperties(annotatedClasses);
+            IConnectionPullConfiguration connectionPullConfiguration =
+                    getConnectionPullConfigurationByConnectionProviderProperty(properties);
+            connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+            return connectionPullConfiguration.createSessionFactoryWithProperties(annotatedClasses);
         }
         return null;
     }
@@ -59,10 +64,10 @@ public class ConnectionPullManager implements IConnectionPullManager {
         if ("org.hibernate.c3p0.internal.C3P0ConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullC3P0Configuration;
         }
-        if ("".equals(connectionProviderClass)) {
+        if ("com.zaxxer.hikari.pool.HikariProxyConnection".equals(connectionProviderClass)) {
             return connectionPullHikariConfiguration;
         }
-        if ("".equals(connectionProviderClass)) {
+        if ("org.hibernate.proxool.internal.ProxoolConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullProxoolConfiguration;
         }
         if ("".equals(connectionProviderClass)) {
