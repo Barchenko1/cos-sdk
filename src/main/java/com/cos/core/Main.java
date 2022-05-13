@@ -1,13 +1,11 @@
 package com.cos.core;
 
 
-import com.cos.core.config.ConnectionPullConfiguration;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -16,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -25,10 +22,14 @@ public class Main {
 
     public static void main(String[] args) {
         LOG.info("test123");
-        Book book = new Book();
+//        Book book = new Book();
+//        book.setName("test123");
         IUserDao<Book> userDao = new UserDao<>();
-//        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
-        userDao.saveUser(book);
+        userDao.setClazz(Book.class);
+////        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
+//        userDao.saveUser(book);
+//        System.out.println(userDao.getAllUsers());
+//        System.out.println(userDao.getUserByUserName("test123"));
 //        createSessionFactoryWithoutXML();
     }
 

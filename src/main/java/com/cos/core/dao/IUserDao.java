@@ -5,15 +5,16 @@ import java.util.Optional;
 
 public interface IUserDao<E> {
 
+    void setClazz(Class<E> clazz);
     List<E> getAllUsers();
 
     Optional<E> getUserByUserName(String name);
 
     Optional<E> getUserByEmail(String email);
 
-    void saveUser(E product);
+    void saveUser(E user);
 
-    void updateUser(E product);
+    void updateUser(E user);
 
-    void deleteUser(E product);
+    void deleteUser(E user);
 }
