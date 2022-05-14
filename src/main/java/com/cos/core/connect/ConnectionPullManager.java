@@ -153,13 +153,13 @@ public class ConnectionPullManager implements IConnectionPullManager {
     private IConnectionPullConfiguration getConnectionPullConfigurationByConnectionProviderProperty(
             Properties properties) {
         String connectionProviderClass = properties.getProperty(Environment.CONNECTION_PROVIDER);
-        if ("org.hibernate.c3p0.internal.C3P0ConnectionProvider".equals(connectionProviderClass)) {
+        if (CosCoreConstants.C3P0_CONNECTION_PROVIDER.equals(connectionProviderClass)) {
             return connectionPullC3P0Configuration;
         }
-        if ("com.zaxxer.hikari.hibernate.HikariConnectionProvider".equals(connectionProviderClass)) {
+        if (CosCoreConstants.HIKARI_CONNECTION_PROVIDER.equals(connectionProviderClass)) {
             return connectionPullHikariConfiguration;
         }
-        if ("org.hibernate.proxool.internal.ProxoolConnectionProvider".equals(connectionProviderClass)) {
+        if (CosCoreConstants.PROXOOL_CONNECTION_PROVIDER.equals(connectionProviderClass)) {
             return connectionPullProxoolConfiguration;
         }
         if (connectionProviderClass == null) {

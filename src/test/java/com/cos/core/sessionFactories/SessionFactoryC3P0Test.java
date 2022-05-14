@@ -1,10 +1,11 @@
-package com.cos.core;
+package com.cos.core.sessionFactories;
 
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
+
 import com.cos.core.properties.modal.ConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionFactoryProxoolTest {
+public class SessionFactoryC3P0Test {
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -26,8 +27,8 @@ public class SessionFactoryProxoolTest {
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager
-                    .getConfigureSessionFactoryByProperties("proxool.db.properties");
+    SessionFactory sessionFactory =
+            connectionPullManager.getConfigureSessionFactoryByProperties("c3p0.db.properties");
 
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
@@ -43,8 +44,8 @@ public class SessionFactoryProxoolTest {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager
-                    .getConfigureSessionFactoryByXML("proxool.hibernate.cfg.xml");
+    SessionFactory sessionFactory =
+            connectionPullManager.getConfigureSessionFactoryByXML("c3p0.hibernate.cfg.xml");
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testxml");
@@ -89,5 +90,4 @@ public class SessionFactoryProxoolTest {
 
     Assertions.assertNotNull(book.getId());
   }
-
 }

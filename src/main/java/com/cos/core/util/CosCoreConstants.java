@@ -7,4 +7,9 @@ public interface CosCoreConstants {
     String DBCP2_HIBERNATE_XML_FILE_NAME = "dbcp2.hibernate.cfg.xml";
     String HIKARI_HIBERNATE_XML_FILE_NAME = "hikari.hibernate.cfg.xml";
     String PROXOOL_HIBERNATE_XML_FILE_NAME = "proxool.hibernate.cfg.xml";
+
+    String C3P0_CONNECTION_PROVIDER = "org.hibernate.c3p0.internal.C3P0ConnectionProvider";
+    String HIKARI_CONNECTION_PROVIDER = "com.zaxxer.hikari.hibernate.HikariConnectionProvider";
+    String PROXOOL_CONNECTION_PROVIDER = "org.hibernate.proxool.internal.ProxoolConnectionProvider";
+    String DBCP2_CONNECTION_PROVIDER = "";
 }

@@ -1,4 +1,4 @@
-package com.cos.core;
+package com.cos.core.sessionFactories;
 
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionFactoryCPDB2Test {
+public class SessionFactoryProxoolTest {
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -27,7 +27,7 @@ public class SessionFactoryCPDB2Test {
     connectionPullManager.setAnnotatedClasses(annotationClasses);
     Book book = new Book();
     SessionFactory sessionFactory = connectionPullManager
-            .getConfigureSessionFactoryByProperties("dbcp2.db.properties");
+                    .getConfigureSessionFactoryByProperties("proxool.db.properties");
 
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
@@ -43,8 +43,8 @@ public class SessionFactoryCPDB2Test {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     Book book = new Book();
-    SessionFactory sessionFactory =
-            connectionPullManager.getConfigureSessionFactoryByXML("dbcp2.hibernate.cfg.xml");
+    SessionFactory sessionFactory = connectionPullManager
+                    .getConfigureSessionFactoryByXML("proxool.hibernate.cfg.xml");
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testxml");
@@ -89,4 +89,5 @@ public class SessionFactoryCPDB2Test {
 
     Assertions.assertNotNull(book.getId());
   }
+
 }

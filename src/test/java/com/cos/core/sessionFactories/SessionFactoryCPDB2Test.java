@@ -1,11 +1,10 @@
-package com.cos.core;
+package com.cos.core.sessionFactories;
 
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
-
 import com.cos.core.properties.modal.ConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
@@ -15,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionFactoryC3P0Test {
+public class SessionFactoryCPDB2Test {
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -27,8 +26,8 @@ public class SessionFactoryC3P0Test {
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
     Book book = new Book();
-    SessionFactory sessionFactory =
-            connectionPullManager.getConfigureSessionFactoryByProperties("c3p0.db.properties");
+    SessionFactory sessionFactory = connectionPullManager
+            .getConfigureSessionFactoryByProperties("dbcp2.db.properties");
 
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
@@ -45,7 +44,7 @@ public class SessionFactoryC3P0Test {
 
     Book book = new Book();
     SessionFactory sessionFactory =
-            connectionPullManager.getConfigureSessionFactoryByXML("c3p0.hibernate.cfg.xml");
+            connectionPullManager.getConfigureSessionFactoryByXML("dbcp2.hibernate.cfg.xml");
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testxml");

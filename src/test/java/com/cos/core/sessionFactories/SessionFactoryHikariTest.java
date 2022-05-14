@@ -1,4 +1,4 @@
-package com.cos.core;
+package com.cos.core.sessionFactories;
 
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
