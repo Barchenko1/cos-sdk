@@ -27,7 +27,8 @@ public class SessionFactoryC3P0Test {
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByProperties();
+    SessionFactory sessionFactory =
+            connectionPullManager.getConfigureSessionFactoryByProperties("c3p0.db.properties");
 
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
@@ -43,7 +44,8 @@ public class SessionFactoryC3P0Test {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByXML();
+    SessionFactory sessionFactory =
+            connectionPullManager.getConfigureSessionFactoryByXML("c3p0.hibernate.cfg.xml");
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testxml");

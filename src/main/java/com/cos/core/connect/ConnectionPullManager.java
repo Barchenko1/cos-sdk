@@ -64,8 +64,8 @@ public class ConnectionPullManager implements IConnectionPullManager {
     }
 
     @Override
-    public SessionFactory getConfigureSessionFactoryByProperties() {
-        Properties properties = propertiesProvider.loadProperties();
+    public SessionFactory getConfigureSessionFactoryByProperties(String propertiesName) {
+        Properties properties = propertiesProvider.loadPropertiesByName(propertiesName);
         if (properties != null) {
             return getSessionFactoryConfigurationByProperties(properties).createSessionFactoryWithProperties();
         }
@@ -73,9 +73,9 @@ public class ConnectionPullManager implements IConnectionPullManager {
     }
 
     @Override
-    public SessionFactory getConfigureSessionFactoryByXML() {
-        if (isHibernateConfigExist()) {
-            return getSessionFactoryConfigurationByXmlConfig().createSessionFactoryWithHibernateXML();
+    public SessionFactory getConfigureSessionFactoryByXML(String xmlConfigName) {
+        if (isHibernateConfigExist(xmlConfigName)) {
+            return getSessionFactoryConfigurationByXmlConfig(xmlConfigName).createSessionFactoryWithHibernateXML();
         }
         return null;
     }
@@ -83,6 +83,10 @@ public class ConnectionPullManager implements IConnectionPullManager {
     @Override
     public SessionFactory getConfigureSessionFactoryByDefault() {
         return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
+    }
+
+    private boolean isHibernateConfigExist(String xmlConfigName) {
+        return propertiesProvider.isHibernateConfigExistsByName(xmlConfigName);
     }
 
     private boolean isHibernateConfigExist() {
@@ -110,6 +114,22 @@ public class ConnectionPullManager implements IConnectionPullManager {
         throw new RuntimeException("No correct ConnectionProviderClass");
     }
 
+    private IConnectionPullConfiguration getSessionFactoryConfigurationByXmlConfig(String xmlConfigName) {
+        if (CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME.equals(xmlConfigName)) {
+            return connectionPullC3P0Configuration;
+        }
+        if (CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME.equals(xmlConfigName)) {
+            return connectionPullHikariConfiguration;
+        }
+        if (CosCoreConstants.PROXOOL_HIBERNATE_XML_FILE_NAME.equals(xmlConfigName)) {
+            return connectionPullProxoolConfiguration;
+        }
+        if (CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME.equals(xmlConfigName)) {
+            return connectionPullDBCP2Configuration;
+        }
+        throw new RuntimeException("No correct ConnectionProviderClass");
+    }
+
     private IConnectionPullConfiguration getSessionFactoryConfigurationByProperties(Properties properties) {
         IConnectionPullConfiguration connectionPullConfiguration =
                 getConnectionPullConfigurationByConnectionProviderProperty(properties);
@@ -118,13 +138,13 @@ public class ConnectionPullManager implements IConnectionPullManager {
         return connectionPullConfiguration;
     }
 
-    private IConnectionPullConfiguration
-        getConnectionPullConfigurationByConnectionProviderProperty(Properties properties) {
+    private IConnectionPullConfiguration getConnectionPullConfigurationByConnectionProviderProperty(
+            Properties properties) {
         String connectionProviderClass = properties.getProperty(Environment.CONNECTION_PROVIDER);
         if ("org.hibernate.c3p0.internal.C3P0ConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullC3P0Configuration;
         }
-        if ("com.zaxxer.hikari.pool.HikariProxyConnection".equals(connectionProviderClass)) {
+        if ("com.zaxxer.hikari.hibernate.HikariConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullHikariConfiguration;
         }
         if ("org.hibernate.proxool.internal.ProxoolConnectionProvider".equals(connectionProviderClass)) {

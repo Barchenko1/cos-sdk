@@ -40,6 +40,12 @@ public class PropertiesProvider implements IPropertiesProvider {
         return properties;
     }
 
+    @Override
+    public Properties loadPropertiesByName(String name) {
+        loadPropertiesByPropertyName(name);
+        return properties;
+    }
+
     private void loadPropertiesByPropertyName(String name) {
         Properties appProps = new Properties();
         String rootPath = Thread.currentThread().getContextClassLoader()

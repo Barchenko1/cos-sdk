@@ -6,4 +6,5 @@ public interface IPropertiesProvider {
     boolean isHibernateConfigExistsByName(String xmlConfigName);
     Properties getProperties();
     Properties loadProperties();
+    Properties loadPropertiesByName(String name);
 }

@@ -21,14 +21,19 @@ public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullCo
                 Properties properties = propertiesProvider.getProperties();
                 setGeneralDBSettings(settings);
 
-                settings.put(Environment.PROXOOL_POOL_ALIAS, properties.getProperty(Environment.PROXOOL_POOL_ALIAS));
-                settings.put(Environment.PROXOOL_EXISTING_POOL, properties.getProperty(Environment.PROXOOL_EXISTING_POOL));
-                settings.put(Environment.PROXOOL_PROPERTIES, properties.getProperty(Environment.PROXOOL_PROPERTIES));
+                settings.put(Environment.PROXOOL_POOL_ALIAS,
+                        properties.getOrDefault(Environment.PROXOOL_POOL_ALIAS, "poolCode"));
+                settings.put(Environment.PROXOOL_EXISTING_POOL,
+                        properties.getOrDefault(Environment.PROXOOL_EXISTING_POOL, "10"));
+                settings.put(Environment.PROXOOL_XML,
+                        properties.getOrDefault(Environment.PROXOOL_XML, "proxoolCode.xml"));
 
-                settings.put(Environment.CONNECTION_PROVIDER, ProxoolConnectionProvider.class);
+                settings.put(Environment.CONNECTION_PROVIDER,
+                        properties.getOrDefault(Environment.CONNECTION_PROVIDER, ProxoolConnectionProvider.class));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(settings).build();
+                        .applySettings(settings)
+                        .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
                         .addAnnotatedClass(Book.class)

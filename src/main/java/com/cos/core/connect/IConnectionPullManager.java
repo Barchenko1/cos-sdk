@@ -11,8 +11,8 @@ public interface IConnectionPullManager {
 
 
     //test
-    SessionFactory getConfigureSessionFactoryByProperties();
-    SessionFactory getConfigureSessionFactoryByXML();
+    SessionFactory getConfigureSessionFactoryByProperties(String propertiesName);
+    SessionFactory getConfigureSessionFactoryByXML(String xmlConfigName);
     SessionFactory getConfigureSessionFactoryByDefault();
 
 }

@@ -12,6 +12,12 @@
         <Logger name="org.hibernate" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="com.zaxxer" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="org.logicalcobwebs" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Logger name="com.cos.core" level="debug" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>

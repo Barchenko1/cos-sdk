@@ -3,7 +3,7 @@ package com.cos.core.config;
 import com.cos.core.modal.Book;
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.HikariSettings;
-import com.zaxxer.hikari.pool.HikariProxyConnection;
+import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -34,14 +34,16 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                 // Maximum number of actual connection in the pool
                 settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE,
                         properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20"));
-                settings.put(Environment.CONNECTION_PROVIDER, HikariProxyConnection.class);
+                settings.put(Environment.CONNECTION_PROVIDER,
+                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, HikariConnectionProvider.class));
 
                 // Maximum time that a connection is allowed to sit ideal in the pool
                 settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT,
                         properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, "300000"));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(settings).build();
+                        .applySettings(settings)
+                        .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
                         .addAnnotatedClass(Book.class)

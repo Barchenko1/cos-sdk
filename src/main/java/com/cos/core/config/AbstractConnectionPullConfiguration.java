@@ -33,11 +33,8 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     protected SessionFactory createSessionFactoryWithHibernateXML(String xmlConfigFileName) {
         if (sessionFactory == null) {
             try {
-                Configuration configuration = new Configuration()
-                        .configure(xmlConfigFileName);
                 serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties())
-                        .configure()
+                        .configure(xmlConfigFileName)
                         .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
@@ -63,7 +60,8 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
                 Properties settings = getDefaultConnectionPullSettings(connectionDetails);
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(settings).build();
+                        .applySettings(settings)
+                        .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
                         .addAnnotatedClasses(annotatedClasses)
@@ -99,6 +97,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         settings.put(Environment.C3P0_ACQUIRE_INCREMENT, 1); //Number of connections acquired at a time when pool is exhausted
         settings.put(Environment.C3P0_TIMEOUT, 1800); //Connection idle time
         settings.put(Environment.C3P0_MAX_STATEMENTS, 150); //PreparedStatement cache size
+        //change def conn provide class
         settings.put(Environment.CONNECTION_PROVIDER, connectionDetails.getConnectionPullProviderClass());
         settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 5);
         return settings;
