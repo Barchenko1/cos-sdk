@@ -18,6 +18,9 @@
         <Logger name="org.logicalcobwebs" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="org.apache.commons.dbcp2" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Logger name="com.cos.core" level="debug" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>

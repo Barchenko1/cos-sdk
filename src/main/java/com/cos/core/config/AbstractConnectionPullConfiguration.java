@@ -2,6 +2,8 @@ package com.cos.core.config;
 
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.util.cp.HikariSettings;
+import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -88,18 +90,21 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         settings.put(Environment.PASS, connectionDetails.getPassword());
         settings.put(Environment.DIALECT, connectionDetails.getDialect());
 
-        settings.put(Environment.SHOW_SQL, "true");
-        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-        settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+        settings.put(Environment.SHOW_SQL, connectionDetails.getShowSQL());
+        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, connectionDetails.getCurrentSessionContextClass());
+        settings.put(Environment.HBM2DDL_AUTO, connectionDetails.getHbm2ddlAuto());
 
-        settings.put(Environment.C3P0_MIN_SIZE, 5); //Minimum size of pool
-        settings.put(Environment.C3P0_MAX_SIZE, 20); //Maximum size of pool
-        settings.put(Environment.C3P0_ACQUIRE_INCREMENT, 1); //Number of connections acquired at a time when pool is exhausted
-        settings.put(Environment.C3P0_TIMEOUT, 1800); //Connection idle time
-        settings.put(Environment.C3P0_MAX_STATEMENTS, 150); //PreparedStatement cache size
+        // Maximum waiting time for a connection from the pool
+        settings.put(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT, "20000");
+        // Minimum number of ideal connections in the pool
+        settings.put(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE, "10");
+        // Maximum number of actual connection in the pool
+        settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20");
+
+        // Maximum time that a connection is allowed to sit ideal in the pool
+        settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, "300000");
         //change def conn provide class
         settings.put(Environment.CONNECTION_PROVIDER, connectionDetails.getConnectionPullProviderClass());
-        settings.put(Environment.C3P0_CONFIG_PREFIX+".initialPoolSize", 5);
         return settings;
     }
 

@@ -6,6 +6,9 @@ public class ConnectionDetails {
     private String username;
     private String password;
     private String dialect;
+    private String showSQL;
+    private String currentSessionContextClass;
+    private String hbm2ddlAuto;
     private int initialSize;
     private int minIdle;
     private int maxIdle;
@@ -33,6 +36,22 @@ public class ConnectionDetails {
 
     public String getDialect() {
         return dialect;
+    }
+
+    public String getShowSQL() {
+        return showSQL;
+    }
+
+    public String getCurrentSessionContextClass() {
+        return currentSessionContextClass;
+    }
+
+    public String getHbm2ddlAuto() {
+        return hbm2ddlAuto;
+    }
+
+    public int getMinIdle() {
+        return minIdle;
     }
 
     public Class<?> getConnectionPullProviderClass() {
@@ -86,6 +105,21 @@ public class ConnectionDetails {
 
         public Builder setDialect(String dialect) {
             ConnectionDetails.this.dialect = dialect;
+            return this;
+        }
+
+        public Builder setShowSQL(String showSQL) {
+            ConnectionDetails.this.showSQL = showSQL;
+            return this;
+        }
+
+        public Builder setCurrentSessionContextClass(String currentSessionContextClass) {
+            ConnectionDetails.this.currentSessionContextClass = currentSessionContextClass;
+            return this;
+        }
+
+        public Builder setHBM2ddlAuto(String hbm2ddlAuto) {
+            ConnectionDetails.this.hbm2ddlAuto = hbm2ddlAuto;
             return this;
         }
 

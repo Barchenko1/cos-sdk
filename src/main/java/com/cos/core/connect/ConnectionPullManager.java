@@ -67,7 +67,8 @@ public class ConnectionPullManager implements IConnectionPullManager {
     public SessionFactory getConfigureSessionFactoryByProperties(String propertiesName) {
         Properties properties = propertiesProvider.loadPropertiesByName(propertiesName);
         if (properties != null) {
-            return getSessionFactoryConfigurationByProperties(properties).createSessionFactoryWithProperties();
+            return getSessionFactoryConfigurationByProperties(properties)
+                    .createSessionFactoryWithProperties();
         }
         return null;
     }
@@ -150,7 +151,7 @@ public class ConnectionPullManager implements IConnectionPullManager {
         if ("org.hibernate.proxool.internal.ProxoolConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullProxoolConfiguration;
         }
-        if ("".equals(connectionProviderClass)) {
+        if (connectionProviderClass == null) {
             return connectionPullDBCP2Configuration;
         }
         throw new RuntimeException("No correct ConnectionProviderClass");

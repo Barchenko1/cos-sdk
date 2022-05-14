@@ -2,6 +2,7 @@ package com.cos.core.config;
 
 import com.cos.core.modal.Book;
 import com.cos.core.util.CosCoreConstants;
+import com.cos.core.util.cp.DBCP2Settings;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -26,9 +27,9 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                 Properties properties = propertiesProvider.getProperties();
                 settings.put(Environment.DATASOURCE, getDataSource());
                 settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
+                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
                         properties.getProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS));
-                settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings)
@@ -43,7 +44,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
-                e.printStackTrace();
+                throw new RuntimeException();
             }
         }
         return sessionFactory;
@@ -63,10 +64,11 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
         dataSource.setPassword(properties.getProperty(Environment.PASS));
 
         // Connection pooling properties
-        dataSource.setInitialSize(connectionDetails.getInitialSize());
-        dataSource.setMaxIdle(connectionDetails.getMaxIdle());
-        dataSource.setMaxTotal(connectionDetails.getMaxTotal());
-        dataSource.setMinIdle(connectionDetails.getMixIdle());
+        dataSource.setInitialSize(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_INITIAL_SIZE)));
+        dataSource.setMaxIdle(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_IDLE)));
+        dataSource.setMaxTotal(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_TOTAL)));
+        dataSource.setMinIdle(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MIN_IDLE)));
+        dataSource.setMaxWaitMillis(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_WAIT_MS)));
         return dataSource;
     }
 }
