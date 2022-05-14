@@ -1,6 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.modal.Book;
+import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.HikariSettings;
 import com.zaxxer.hikari.pool.HikariProxyConnection;
 import org.hibernate.SessionFactory;
@@ -56,6 +57,11 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
             }
         }
         return sessionFactory;
+    }
+
+    @Override
+    public SessionFactory createSessionFactoryWithHibernateXML() {
+        return createSessionFactoryWithHibernateXML(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME);
     }
 
 }

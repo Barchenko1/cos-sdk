@@ -12,10 +12,18 @@ import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
 
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 public class ConnectionPullManager implements IConnectionPullManager {
 
+    private static final Set<String> xmlConfigNameCollection = Set.of(
+            CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME,
+            CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME,
+            CosCoreConstants.PROXOOL_HIBERNATE_XML_FILE_NAME,
+            CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME
+    );
     private final IPropertiesProvider propertiesProvider;
     private Class<?>[] annotatedClasses;
     private ConnectionDetails connectionDetails;
@@ -45,23 +53,73 @@ public class ConnectionPullManager implements IConnectionPullManager {
 
     @Override
     public SessionFactory getConfigureSessionFactory() {
-        if (propertiesProvider.isHibernateConfigExist()) {
-            return connectionPullC3P0Configuration.createSessionFactoryWithHibernateXML();
+        if (isHibernateConfigExist()) {
+            return getSessionFactoryConfigurationByXmlConfig().createSessionFactoryWithHibernateXML();
         }
-        propertiesProvider.loadProperties(CosCoreConstants.DB_PROPERTIES_FILE_NAME);
-        Properties properties = propertiesProvider.getProperties();
-
+        Properties properties = propertiesProvider.loadProperties();
         if (properties != null) {
-            IConnectionPullConfiguration connectionPullConfiguration =
-                    getConnectionPullConfigurationByConnectionProviderProperty(properties);
-            connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-            connectionPullConfiguration.setAnnotatedClasses(annotatedClasses);
-            return connectionPullConfiguration.createSessionFactoryWithProperties();
+            return getSessionFactoryConfigurationByProperties(properties).createSessionFactoryWithProperties();
         }
         return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
     }
 
-    private IConnectionPullConfiguration getConnectionPullConfigurationByConnectionProviderProperty(Properties properties) {
+    @Override
+    public SessionFactory getConfigureSessionFactoryByProperties() {
+        Properties properties = propertiesProvider.loadProperties();
+        if (properties != null) {
+            return getSessionFactoryConfigurationByProperties(properties).createSessionFactoryWithProperties();
+        }
+        return null;
+    }
+
+    @Override
+    public SessionFactory getConfigureSessionFactoryByXML() {
+        if (isHibernateConfigExist()) {
+            return getSessionFactoryConfigurationByXmlConfig().createSessionFactoryWithHibernateXML();
+        }
+        return null;
+    }
+
+    @Override
+    public SessionFactory getConfigureSessionFactoryByDefault() {
+        return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
+    }
+
+    private boolean isHibernateConfigExist() {
+        boolean isExist;
+        isExist = xmlConfigNameCollection.stream()
+                .map(propertiesProvider::isHibernateConfigExistsByName)
+                .findFirst()
+                .orElse(false);
+        return isExist;
+    }
+
+    private IConnectionPullConfiguration getSessionFactoryConfigurationByXmlConfig() {
+        if (propertiesProvider.isHibernateConfigExistsByName(CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME)) {
+            return connectionPullC3P0Configuration;
+        }
+        if (propertiesProvider.isHibernateConfigExistsByName(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME)) {
+            return connectionPullHikariConfiguration;
+        }
+        if (propertiesProvider.isHibernateConfigExistsByName(CosCoreConstants.PROXOOL_HIBERNATE_XML_FILE_NAME)) {
+            return connectionPullProxoolConfiguration;
+        }
+        if (propertiesProvider.isHibernateConfigExistsByName(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME)) {
+            return connectionPullDBCP2Configuration;
+        }
+        throw new RuntimeException("No correct ConnectionProviderClass");
+    }
+
+    private IConnectionPullConfiguration getSessionFactoryConfigurationByProperties(Properties properties) {
+        IConnectionPullConfiguration connectionPullConfiguration =
+                getConnectionPullConfigurationByConnectionProviderProperty(properties);
+        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+        connectionPullConfiguration.setAnnotatedClasses(annotatedClasses);
+        return connectionPullConfiguration;
+    }
+
+    private IConnectionPullConfiguration
+        getConnectionPullConfigurationByConnectionProviderProperty(Properties properties) {
         String connectionProviderClass = properties.getProperty(Environment.CONNECTION_PROVIDER);
         if ("org.hibernate.c3p0.internal.C3P0ConnectionProvider".equals(connectionProviderClass)) {
             return connectionPullC3P0Configuration;

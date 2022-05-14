@@ -1,6 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.modal.Book;
+import com.cos.core.util.CosCoreConstants;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -46,6 +47,11 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
             }
         }
         return sessionFactory;
+    }
+
+    @Override
+    public SessionFactory createSessionFactoryWithHibernateXML() {
+        return createSessionFactoryWithHibernateXML(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
     }
 
     private DataSource getDataSource() {

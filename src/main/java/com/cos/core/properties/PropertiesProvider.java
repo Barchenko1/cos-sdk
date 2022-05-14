@@ -1,5 +1,7 @@
 package com.cos.core.properties;
 
+import com.cos.core.util.CosCoreConstants;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,9 +23,9 @@ public class PropertiesProvider implements IPropertiesProvider {
     }
 
     @Override
-    public boolean isHibernateConfigExist() {
+    public boolean isHibernateConfigExistsByName(String xmlConfigName) {
         Optional<URL> res = Optional.ofNullable(
-                getClass().getClassLoader().getResource("hibernate.cfg.xml"));
+                getClass().getClassLoader().getResource(xmlConfigName));
         boolean isExist = false;
         if (res.isPresent()) {
             File f = new File(res.get().getFile());
@@ -33,7 +35,12 @@ public class PropertiesProvider implements IPropertiesProvider {
     }
 
     @Override
-    public void loadProperties(String name) {
+    public Properties loadProperties() {
+        loadPropertiesByPropertyName(CosCoreConstants.DB_PROPERTIES_FILE_NAME);
+        return properties;
+    }
+
+    private void loadPropertiesByPropertyName(String name) {
         Properties appProps = new Properties();
         String rootPath = Thread.currentThread().getContextClassLoader()
                 .getResource("").getPath();

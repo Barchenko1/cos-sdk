@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class SessionFactoryHikariTest {
     @Test
-    void createSessionFactoryWithoutXML() {
+    void createSessionFactoryWithProperties() {
 
         Map<String, Object> settings = new HashMap<>();
         settings.put("hibernate.connection.driver_class", "org.h2.Driver");

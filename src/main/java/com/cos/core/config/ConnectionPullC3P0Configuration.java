@@ -1,5 +1,6 @@
 package com.cos.core.config;
 
+import com.cos.core.util.CosCoreConstants;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -46,6 +47,11 @@ public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfi
             }
         }
         return sessionFactory;
+    }
+
+    @Override
+    public SessionFactory createSessionFactoryWithHibernateXML() {
+        return createSessionFactoryWithHibernateXML(CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME);
     }
 
 }

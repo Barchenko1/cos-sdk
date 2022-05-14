@@ -9,4 +9,10 @@ public interface IConnectionPullManager {
     void setAnnotatedClasses(Class<?>[] annotatedClasses);
     void setConnectionDetails(ConnectionDetails connectionDetails);
 
+
+    //test
+    SessionFactory getConfigureSessionFactoryByProperties();
+    SessionFactory getConfigureSessionFactoryByXML();
+    SessionFactory getConfigureSessionFactoryByDefault();
+
 }

@@ -26,21 +26,8 @@ public class SessionFactoryC3P0Test {
     annotationList.add(Book.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
-    ConnectionDetails connectionDetails = ConnectionDetails.newBuilder()
-            .setDriver("org.h2.Driver")
-            .setUrl("jdbc:h2:mem:test")
-            .setUserName("sa")
-            .setPassword("")
-            .setDialect("org.hibernate.dialect.H2Dialect")
-            .setConnectionPullProviderClass(C3P0ConnectionProvider.class)
-            .setInitialSize(0)
-            .setMinIdle(5)
-            .setMaxIdle(5)
-            .setMaxTotal(0)
-            .build();
-    connectionPullManager.setConnectionDetails(connectionDetails);
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactory();
+    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByProperties();
 
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
@@ -55,17 +42,46 @@ public class SessionFactoryC3P0Test {
   void createSessionFactoryWithXML() {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
+    Book book = new Book();
+    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByXML();
+    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
+    userDao.setClazz(Book.class);
+    book.setName("testxml");
+
+    userDao.saveUser(book);
+
+    Assertions.assertNotNull(book.getId());
+  }
+
+  @Test
+  public void createDefaultSessionFactory() {
+    IConnectionPullManager connectionPullManager = new ConnectionPullManager();
+
     List<Class<?>> annotationList = new ArrayList<>();
     annotationList.add(Book.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
-
+    ConnectionDetails connectionDetails = ConnectionDetails.newBuilder()
+            .setDriver("org.h2.Driver")
+            .setUrl("jdbc:h2:mem:test")
+            .setUserName("sa")
+            .setPassword("")
+            .setDialect("org.hibernate.dialect.H2Dialect")
+            .setConnectionPullProviderClass(C3P0ConnectionProvider.class)
+            .setInitialSize(0)
+            .setMinIdle(5)
+            .setMaxIdle(5)
+            .setMaxTotal(0)
+            .build();
+    connectionPullManager.setConnectionDetails(connectionDetails);
     Book book = new Book();
-    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactory();
+    SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByDefault();
+
     IUserDao<Book> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(Book.class);
     book.setName("testprops");
-    book.setName("testxml");
+
+    userDao.saveUser(book);
 
     Assertions.assertNotNull(book.getId());
   }
