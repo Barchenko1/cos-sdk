@@ -7,8 +7,8 @@ import com.cos.core.dao.UserDao;
 import com.cos.core.modal.Book;
 
 import com.cos.core.properties.modal.ConnectionDetails;
+import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -69,7 +69,10 @@ public class SessionFactoryC3P0Test {
             .setUserName("sa")
             .setPassword("")
             .setDialect("org.hibernate.dialect.H2Dialect")
-            .setConnectionPullProviderClass(C3P0ConnectionProvider.class)
+            .setShowSQL("true")
+            .setCurrentSessionContextClass("thread")
+            .setHBM2ddlAuto("create-drop")
+            .setConnectionPullProviderClass(HikariConnectionProvider.class)
             .setInitialSize(0)
             .setMinIdle(5)
             .setMaxIdle(5)
