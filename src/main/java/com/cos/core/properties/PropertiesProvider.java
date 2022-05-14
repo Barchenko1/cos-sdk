@@ -1,6 +1,8 @@
 package com.cos.core.properties;
 
 import com.cos.core.util.CosCoreConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +12,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 public class PropertiesProvider implements IPropertiesProvider {
-
+    private static final Logger LOG = LoggerFactory.getLogger(PropertiesProvider.class);
     private Properties properties;
 
     public PropertiesProvider() {

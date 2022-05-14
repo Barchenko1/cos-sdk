@@ -8,13 +8,16 @@ import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.hibernate.cfg.Environment;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
 public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfiguration {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullC3P0Configuration.class);
     @Override
     public SessionFactory createSessionFactoryWithProperties() {
+        LOG.info("C3P0 createSessionFactoryWithProperties");
         if (sessionFactory == null) {
             try {
                 Properties settings = new Properties();
@@ -43,6 +46,7 @@ public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfi
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
+                LOG.warn("properties error {}", e.getMessage());
                 throw new RuntimeException();
             }
         }
@@ -51,6 +55,7 @@ public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfi
 
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
+        LOG.info("DBCP2 createSessionFactoryWithHibernateXML");
         return createSessionFactoryWithHibernateXML(CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME);
     }
 

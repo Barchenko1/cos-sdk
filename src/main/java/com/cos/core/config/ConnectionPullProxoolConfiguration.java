@@ -8,10 +8,13 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.proxool.internal.ProxoolConnectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
 public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullProxoolConfiguration.class);
 
     @Override
     public SessionFactory createSessionFactoryWithProperties() {
@@ -45,6 +48,7 @@ public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullCo
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
+                LOG.warn("properties error {}", e.getMessage());
                 throw new RuntimeException();
             }
         }

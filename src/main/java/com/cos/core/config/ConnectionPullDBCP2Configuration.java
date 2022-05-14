@@ -10,11 +10,14 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullDBCP2Configuration.class);
 
     private ServiceRegistry serviceRegistry;
     private SessionFactory sessionFactory;
@@ -44,6 +47,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
+                LOG.warn("properties error {}", e.getMessage());
                 throw new RuntimeException();
             }
         }
@@ -52,6 +56,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
 
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
+        LOG.info("C3P0 createSessionFactoryWithHibernateXML");
         return createSessionFactoryWithHibernateXML(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
     }
 

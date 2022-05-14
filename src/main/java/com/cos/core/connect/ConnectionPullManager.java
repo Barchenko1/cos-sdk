@@ -11,13 +11,15 @@ import com.cos.core.properties.modal.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 public class ConnectionPullManager implements IConnectionPullManager {
-
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractDaoConnector.class);
     private static final Set<String> xmlConfigNameCollection = Set.of(
             CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME,
             CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME,
@@ -54,12 +56,15 @@ public class ConnectionPullManager implements IConnectionPullManager {
     @Override
     public SessionFactory getConfigureSessionFactory() {
         if (isHibernateConfigExist()) {
+            LOG.info("getting hibernate.cfg.xml configuration");
             return getSessionFactoryConfigurationByXmlConfig().createSessionFactoryWithHibernateXML();
         }
         Properties properties = propertiesProvider.loadProperties();
         if (properties != null) {
+            LOG.info("getting custom properties configuration");
             return getSessionFactoryConfigurationByProperties(properties).createSessionFactoryWithProperties();
         }
+        LOG.info("getting default hikari configuration");
         return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
     }
 
@@ -67,6 +72,7 @@ public class ConnectionPullManager implements IConnectionPullManager {
     public SessionFactory getConfigureSessionFactoryByProperties(String propertiesName) {
         Properties properties = propertiesProvider.loadPropertiesByName(propertiesName);
         if (properties != null) {
+            LOG.info("getting custom properties configuration");
             return getSessionFactoryConfigurationByProperties(properties)
                     .createSessionFactoryWithProperties();
         }
@@ -76,6 +82,7 @@ public class ConnectionPullManager implements IConnectionPullManager {
     @Override
     public SessionFactory getConfigureSessionFactoryByXML(String xmlConfigName) {
         if (isHibernateConfigExist(xmlConfigName)) {
+            LOG.info("getting hibernate.cfg.xml configuration");
             return getSessionFactoryConfigurationByXmlConfig(xmlConfigName).createSessionFactoryWithHibernateXML();
         }
         return null;
@@ -83,7 +90,9 @@ public class ConnectionPullManager implements IConnectionPullManager {
 
     @Override
     public SessionFactory getConfigureSessionFactoryByDefault() {
-        return connectionPullHikariConfiguration.createDefaultSessionFactory(connectionDetails, annotatedClasses);
+        LOG.info("getting default hikari configuration");
+        return connectionPullHikariConfiguration
+                .createDefaultSessionFactory(connectionDetails, annotatedClasses);
     }
 
     private boolean isHibernateConfigExist(String xmlConfigName) {
@@ -112,6 +121,7 @@ public class ConnectionPullManager implements IConnectionPullManager {
         if (propertiesProvider.isHibernateConfigExistsByName(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME)) {
             return connectionPullDBCP2Configuration;
         }
+        LOG.info("No correct ConnectionProviderClas");
         throw new RuntimeException("No correct ConnectionProviderClass");
     }
 
@@ -128,7 +138,8 @@ public class ConnectionPullManager implements IConnectionPullManager {
         if (CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME.equals(xmlConfigName)) {
             return connectionPullDBCP2Configuration;
         }
-        throw new RuntimeException("No correct ConnectionProviderClass");
+        LOG.info("No correct hibernate.cfg.xml configuration");
+        throw new RuntimeException("No correct hibernate.cfg.xml configuration");
     }
 
     private IConnectionPullConfiguration getSessionFactoryConfigurationByProperties(Properties properties) {
@@ -154,6 +165,7 @@ public class ConnectionPullManager implements IConnectionPullManager {
         if (connectionProviderClass == null) {
             return connectionPullDBCP2Configuration;
         }
+        LOG.info("No correct ConnectionProviderClass");
         throw new RuntimeException("No correct ConnectionProviderClass");
     }
 

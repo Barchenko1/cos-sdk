@@ -10,10 +10,13 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
 public class ConnectionPullHikariConfiguration extends AbstractConnectionPullConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullHikariConfiguration.class);
     private ServiceRegistry serviceRegistry;
     private SessionFactory sessionFactory;
 
@@ -55,6 +58,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
+                LOG.warn("properties error {}", e.getMessage());
                 throw new RuntimeException();
             }
         }

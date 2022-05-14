@@ -20,7 +20,6 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     protected SessionFactory sessionFactory;
     protected IPropertiesProvider propertiesProvider;
     protected Class<?>[] annotatedClasses;
-    protected ConnectionDetails connectionDetails;
 
     @Override
     public void setPropertiesProvider(IPropertiesProvider propertiesProvider) {
