@@ -1,6 +1,6 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.Book;
+import com.cos.core.modal.TestEntity;
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -39,7 +39,7 @@ public class ConnectionPullProxoolConfiguration extends AbstractConnectionPullCo
                         .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
-                        .addAnnotatedClass(Book.class)
+                        .addAnnotatedClasses(annotatedClasses)
                         .getMetadataBuilder()
                         .build();
 

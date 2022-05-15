@@ -27,7 +27,7 @@
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
         <!-- add annotated resources here -->
-        <mapping class="com.cos.core.modal.Book" />
+        <mapping class="com.cos.core.modal.TestEntity" />
 
     </session-factory>
 </hibernate-configuration>

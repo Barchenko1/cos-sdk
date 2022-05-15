@@ -1,9 +1,10 @@
 package com.cos.core;
 
 
+import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
-import com.cos.core.modal.Book;
+import com.cos.core.modal.TestEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -22,40 +23,18 @@ public class Main {
 
     public static void main(String[] args) {
         LOG.info("test123");
-//        Book book = new Book();
-//        book.setName("test123");
-//        IUserDao<Book> userDao = new UserDao<>();
-//        userDao.setClazz(Book.class);
-////        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
-//        userDao.saveUser(book);
+        TestEntity testEntity = new TestEntity();
+        testEntity.setName("test123");
+
+        SessionFactory sessionFactory =
+                new ConnectionPullHikariConfiguration().createSessionFactoryWithHibernateXML();
+        IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+        userDao.setClazz(TestEntity.class);
+        userDao.saveUser(testEntity);
 //        System.out.println(userDao.getAllUsers());
 //        System.out.println(userDao.getUserByUserName("test123"));
 //        createSessionFactoryWithoutXML();
     }
-
-//    private static void saveObject(Book entityTest) {
-//        Transaction transaction = null;
-//        SessionFactory sessionFactory = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML();
-//
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            // start a transaction
-//            transaction = session.beginTransaction();
-//            // save the student object
-//            session.persist(entityTest);
-//            // commit transaction
-//            transaction.commit();
-//        } catch (Exception e) {
-//            if (transaction != null) {
-//                transaction.rollback();
-//            }
-//        }
-//    }
-//
-//    public static List<Book> getObjects() {
-//        try (Session session = new ConnectionPullConfiguration().createSessionFactoryWithOutHibernateXML().openSession()) {
-//            return session.createQuery("from Book", Book.class).list();
-//        }
-//    }
 
     private static void createSessionFactoryWithoutXML() {
 
@@ -78,7 +57,7 @@ public class Main {
                     .applySettings(settings).build();
 
             Metadata metadata = new MetadataSources(standardRegistry)
-                    .addAnnotatedClass(Book.class)
+                    .addAnnotatedClass(TestEntity.class)
                     .getMetadataBuilder()
                     .build();
 
@@ -91,10 +70,10 @@ public class Main {
         session = sessionFactory.openSession();
         session.beginTransaction();
 
-        Book book = new Book();
-        book.setName("aaa");
+        TestEntity testEntity = new TestEntity();
+        testEntity.setName("main");
 
-        session.persist(book);
+        session.persist(testEntity);
 
 
         session.getTransaction().commit();

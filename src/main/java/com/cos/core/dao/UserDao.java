@@ -1,7 +1,6 @@
 package com.cos.core.dao;
 
 import com.cos.core.connect.AbstractDaoConnector;
-import com.cos.core.modal.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -1,6 +1,6 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.Book;
+import com.cos.core.modal.TestEntity;
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.DBCP2Settings;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -38,10 +38,11 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                         .applySettings(settings)
                         .build();
 
-                MetadataSources sources = new MetadataSources(serviceRegistry)
-                        .addAnnotatedClass(Book.class);
+                Metadata metadata = new MetadataSources(serviceRegistry)
+                        .addAnnotatedClasses(annotatedClasses)
+                        .getMetadataBuilder()
+                        .build();
 
-                Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
             } catch (Exception e) {
                 if (serviceRegistry != null) {

@@ -1,6 +1,6 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.Book;
+import com.cos.core.modal.TestEntity;
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.HikariSettings;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
@@ -49,7 +49,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                         .build();
 
                 Metadata metadata = new MetadataSources(serviceRegistry)
-                        .addAnnotatedClass(Book.class)
+                        .addAnnotatedClasses(annotatedClasses)
                         .getMetadataBuilder()
                         .build();
 

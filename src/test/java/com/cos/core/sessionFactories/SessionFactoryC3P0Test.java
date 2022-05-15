@@ -4,7 +4,7 @@ import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
-import com.cos.core.modal.Book;
+import com.cos.core.modal.TestEntity;
 
 import com.cos.core.properties.modal.ConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
@@ -23,36 +23,36 @@ public class SessionFactoryC3P0Test {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     List<Class<?>> annotationList = new ArrayList<>();
-    annotationList.add(Book.class);
+    annotationList.add(TestEntity.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
-    Book book = new Book();
+    TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory =
             connectionPullManager.getConfigureSessionFactoryByProperties("c3p0.db.properties");
 
-    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
-    userDao.setClazz(Book.class);
-    book.setName("testprops");
+    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    userDao.setClazz(TestEntity.class);
+    testEntity.setName("testprops");
 
-    userDao.saveUser(book);
+    userDao.saveUser(testEntity);
 
-    Assertions.assertNotNull(book.getId());
+    Assertions.assertNotNull(testEntity.getId());
   }
 
   @Test
   void createSessionFactoryWithXML() {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
-    Book book = new Book();
+    TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory =
             connectionPullManager.getConfigureSessionFactoryByXML("c3p0.hibernate.cfg.xml");
-    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
-    userDao.setClazz(Book.class);
-    book.setName("testxml");
+    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    userDao.setClazz(TestEntity.class);
+    testEntity.setName("testxml");
 
-    userDao.saveUser(book);
+    userDao.saveUser(testEntity);
 
-    Assertions.assertNotNull(book.getId());
+    Assertions.assertNotNull(testEntity.getId());
   }
 
   @Test
@@ -60,7 +60,7 @@ public class SessionFactoryC3P0Test {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     List<Class<?>> annotationList = new ArrayList<>();
-    annotationList.add(Book.class);
+    annotationList.add(TestEntity.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     connectionPullManager.setAnnotatedClasses(annotationClasses);
     ConnectionDetails connectionDetails = ConnectionDetails.newBuilder()
@@ -79,15 +79,15 @@ public class SessionFactoryC3P0Test {
             .setMaxTotal(0)
             .build();
     connectionPullManager.setConnectionDetails(connectionDetails);
-    Book book = new Book();
+    TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByDefault();
 
-    IUserDao<Book> userDao = new UserDao<>(sessionFactory);
-    userDao.setClazz(Book.class);
-    book.setName("testprops");
+    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    userDao.setClazz(TestEntity.class);
+    testEntity.setName("testprops");
 
-    userDao.saveUser(book);
+    userDao.saveUser(testEntity);
 
-    Assertions.assertNotNull(book.getId());
+    Assertions.assertNotNull(testEntity.getId());
   }
 }

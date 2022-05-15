@@ -24,7 +24,7 @@
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
 
         <!-- add annotated resources here -->
-        <mapping class="com.cos.core.modal.Book" />
+        <mapping class="com.cos.core.modal.TestEntity" />
 
     </session-factory>
 </hibernate-configuration>

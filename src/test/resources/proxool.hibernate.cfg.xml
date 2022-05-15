@@ -19,7 +19,7 @@
         <property name="hibernate.proxool.pool_alias">pool</property>
 
         <!-- add annotated resources here -->
-        <mapping class="com.cos.core.modal.Book" />
+        <mapping class="com.cos.core.modal.TestEntity" />
 
     </session-factory>
 </hibernate-configuration>
