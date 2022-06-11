@@ -15,7 +15,7 @@
 
         <property name="hibernate.connection.pool_size">5</property>
         <property name="hibernate.jdbc.batch_size">10</property>
-<!--        <property name="hibernate.proxool.properties">proxool.properties</property>-->
+        <property name="hibernate.proxool.properties">proxool.properties</property>
         <property name="hibernate.proxool.pool_alias">pool</property>
 
         <!-- add annotated resources here -->

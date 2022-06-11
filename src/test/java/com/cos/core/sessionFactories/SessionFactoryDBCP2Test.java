@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionFactoryCPDB2Test {
+public class SessionFactoryDBCP2Test {
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -33,7 +33,7 @@ public class SessionFactoryCPDB2Test {
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }
@@ -49,9 +49,9 @@ public class SessionFactoryCPDB2Test {
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testxml");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(0, testEntity.getId());
   }
 
   @Test
@@ -85,7 +85,7 @@ public class SessionFactoryCPDB2Test {
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }

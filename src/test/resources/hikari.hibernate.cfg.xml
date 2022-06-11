@@ -22,7 +22,7 @@
         <property name="hibernate.hikari.maximumPoolSize">20</property>
         <property name="hibernate.hikari.idleTimeout">300000</property>
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
-
+<!--        <property name="hibernate.hbm2ddl.import_files">initTest.sql</property>-->
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />
 

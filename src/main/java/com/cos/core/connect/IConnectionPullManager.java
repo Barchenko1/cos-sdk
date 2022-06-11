@@ -3,6 +3,8 @@ package com.cos.core.connect;
 import com.cos.core.properties.modal.ConnectionDetails;
 import org.hibernate.SessionFactory;
 
+import java.sql.Connection;
+
 public interface IConnectionPullManager {
 
     SessionFactory getConfigureSessionFactory();

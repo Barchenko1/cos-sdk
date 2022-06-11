@@ -1,6 +1,5 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.TestEntity;
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

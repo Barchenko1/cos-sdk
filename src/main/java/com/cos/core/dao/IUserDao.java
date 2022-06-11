@@ -5,7 +5,7 @@ import com.cos.core.connect.IConnectionPullManager;
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserDao<E> {
+public interface IUserDao<E> extends IEntityDao<E> {
 
     void setClazz(Class<E> clazz);
     List<E> getAllUsers();
@@ -14,9 +14,4 @@ public interface IUserDao<E> {
 
     Optional<E> getUserByEmail(String email);
 
-    void saveUser(E user);
-
-    void updateUser(E user);
-
-    void deleteUser(E user);
 }

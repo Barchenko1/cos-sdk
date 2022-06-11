@@ -5,6 +5,7 @@ import com.cos.core.config.ConnectionPullDBCP2Configuration;
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.ConnectionPullProxoolConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.dao.AbstractDaoConnector;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.modal.ConnectionDetails;
@@ -14,7 +15,8 @@ import org.hibernate.cfg.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Properties;
 import java.util.Set;
 
@@ -81,9 +83,11 @@ public class ConnectionPullManager implements IConnectionPullManager {
 
     @Override
     public SessionFactory getConfigureSessionFactoryByXML(String xmlConfigName) {
+        Properties properties = propertiesProvider.loadPropertiesByName(xmlConfigName);
         if (isHibernateConfigExist(xmlConfigName)) {
             LOG.info("getting hibernate.cfg.xml configuration");
-            return getSessionFactoryConfigurationByXmlConfig(xmlConfigName).createSessionFactoryWithHibernateXML();
+            return getSessionFactoryConfigurationByXmlConfig(xmlConfigName)
+                    .createSessionFactoryWithHibernateXML();
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.cos.core.config;
 
-import com.cos.core.modal.TestEntity;
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.HikariSettings;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
@@ -9,7 +8,6 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
-import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +15,6 @@ import java.util.Properties;
 
 public class ConnectionPullHikariConfiguration extends AbstractConnectionPullConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullHikariConfiguration.class);
-    private ServiceRegistry serviceRegistry;
-    private SessionFactory sessionFactory;
 
     @Override
     public SessionFactory createSessionFactoryWithProperties() {

@@ -33,7 +33,7 @@ public class SessionFactoryProxoolTest {
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }
@@ -43,15 +43,15 @@ public class SessionFactoryProxoolTest {
     IConnectionPullManager connectionPullManager = new ConnectionPullManager();
 
     TestEntity testEntity = new TestEntity();
-    SessionFactory sessionFactory = connectionPullManager
-                    .getConfigureSessionFactoryByXML("proxool.hibernate.cfg.xml");
+    SessionFactory sessionFactory =
+            connectionPullManager.getConfigureSessionFactoryByXML("proxool.hibernate.cfg.xml");
     IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testxml");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(0, testEntity.getId());
   }
 
   @Test
@@ -85,7 +85,7 @@ public class SessionFactoryProxoolTest {
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveUser(testEntity);
+    userDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }

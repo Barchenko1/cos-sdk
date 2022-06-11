@@ -5,19 +5,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 
 @Entity
 @Table(name = "testEntity")
-@NamedQueries({
-        @NamedQuery(name = "book.selectAll", query = "select b from TestEntity b"),
-//        @NamedAttributeNode(name = "book.select", query = "select b from Book b")
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "getTestEntityAll",
+                query = "select * from testEntity",
+                resultClass = TestEntity.class),
+        @NamedNativeQuery(name = "getTestEntity",
+                query = "select * from testEntity t where t.name=?",
+                resultClass = TestEntity.class),
 })
 public class TestEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private long id;
 

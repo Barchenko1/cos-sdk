@@ -32,7 +32,7 @@ public class SessionFactoryHikariTest {
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testprops");
 
-        userDao.saveUser(testEntity);
+        userDao.saveEntity(testEntity);
 
         Assertions.assertNotNull(testEntity.getId());
     }
@@ -48,9 +48,9 @@ public class SessionFactoryHikariTest {
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testxml");
 
-        userDao.saveUser(testEntity);
+        userDao.saveEntity(testEntity);
 
-        Assertions.assertNotNull(testEntity.getId());
+        Assertions.assertEquals(1, testEntity.getId());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class SessionFactoryHikariTest {
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testprops");
 
-        userDao.saveUser(testEntity);
+        userDao.saveEntity(testEntity);
 
         Assertions.assertNotNull(testEntity.getId());
     }
