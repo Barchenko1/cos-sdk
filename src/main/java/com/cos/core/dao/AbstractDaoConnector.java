@@ -8,53 +8,55 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDaoConnector<E> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDaoConnector.class);
+    protected Class<E> clazz;
     protected final SessionFactory sessionFactory;
 
     public AbstractDaoConnector(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    protected SessionFactory getSessionFactory() {
-        LOG.info("getSessionFactory");
-        return sessionFactory;
-    }
-
     public void saveEntity(E user) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(user);
             transaction.commit();
         } catch (Exception e) {
+            LOG.warn("transaction error {}", e.getMessage());
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e);
         }
     }
 
     public void updateEntity(E user) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.merge(user);
             transaction.commit();
         } catch (Exception e) {
+            LOG.warn("transaction error {}", e.getMessage());
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e);
         }
     }
 
     public void deleteEntity(E user) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
         } catch (Exception e) {
+            LOG.warn("transaction error {}", e.getMessage());
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException(e);
         }
     }
 }

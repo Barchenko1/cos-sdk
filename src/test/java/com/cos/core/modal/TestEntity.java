@@ -10,7 +10,7 @@ import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 
 @Entity
-@Table(name = "testEntity")
+@Table(name = "TestEntity")
 @NamedNativeQueries({
         @NamedNativeQuery(name = "getTestEntityAll",
                 query = "select * from testEntity",

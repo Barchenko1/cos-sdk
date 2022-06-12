@@ -3,12 +3,10 @@ package com.cos.core.config;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.modal.ConnectionDetails;
 import com.cos.core.util.cp.HikariSettings;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
@@ -116,8 +114,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         settings.put(Environment.DIALECT, properties.getProperty(Environment.DIALECT));
 
         settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
-        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
-                properties.getProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS));
         settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
+        settings.put(Environment.AUTOCOMMIT, properties.getProperty(Environment.AUTOCOMMIT));
     }
 }

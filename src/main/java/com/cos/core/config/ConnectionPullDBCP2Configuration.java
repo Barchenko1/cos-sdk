@@ -26,8 +26,6 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
                 settings.put(Environment.DATASOURCE, getDataSource());
                 settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
                 settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
-                        properties.getProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS));
 
                 serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings)

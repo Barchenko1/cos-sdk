@@ -2,14 +2,14 @@ package com.cos.core.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class UserDao<E> extends AbstractDaoConnector<E> implements IUserDao<E> {
-
-    private Class<E> clazz;
+    private static final Logger LOG = LoggerFactory.getLogger(UserDao.class);
 
     public UserDao(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -22,28 +22,25 @@ public class UserDao<E> extends AbstractDaoConnector<E> implements IUserDao<E> {
 
     @Override
     public List<E> getAllUsers() {
+        List<E> users;
         try (Session session = sessionFactory.openSession()) {
-            return session.createNamedQuery("getTestEntityAll", clazz)
+            users = session.createNamedQuery("getTestEntityAll", clazz)
                     .list();
         }
+        return users;
     }
 
     @Override
     public Optional<E> getUserByUserName(String name) {
-        Transaction transaction = null;
-        Optional<E> opt = Optional.empty();
-
+        Optional<E> opt;
         try (Session session = sessionFactory.openSession()) {
-//            transaction = session.beginTransaction();
             opt = Optional.ofNullable(session
                     .createNamedQuery("getTestEntity", clazz)
                     .setParameter(1, name)
                     .getSingleResult());
-//            transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            LOG.warn("get entity error {}", e.getMessage());
+            throw new RuntimeException(e);
         }
         return opt;
     }
@@ -53,45 +50,4 @@ public class UserDao<E> extends AbstractDaoConnector<E> implements IUserDao<E> {
         return Optional.empty();
     }
 
-//    @Override
-//    public void saveUser(E user) {
-//        Transaction transaction = null;
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            transaction = session.beginTransaction();
-//            session.persist(user);
-//            transaction.commit();
-//        } catch (Exception e) {
-//            if (transaction != null) {
-//                transaction.rollback();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void updateUser(E user) {
-//        Transaction transaction = null;
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            transaction = session.beginTransaction();
-//            session.merge(user);
-//            transaction.commit();
-//        } catch (Exception e) {
-//            if (transaction != null) {
-//                transaction.rollback();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void deleteUser(E user) {
-//        Transaction transaction = null;
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            transaction = session.beginTransaction();
-//            session.remove(user);
-//            transaction.commit();
-//        } catch (Exception e) {
-//            if (transaction != null) {
-//                transaction.rollback();
-//            }
-//        }
-//    }
 }
