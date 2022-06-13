@@ -51,6 +51,8 @@ public class SessionFactoryHikariTest {
         userDao.saveEntity(testEntity);
 
         Assertions.assertEquals(1, testEntity.getId());
+        List<TestEntity> testEntities = userDao.getAllUsers();
+        Assertions.assertEquals(1, testEntities.size());
     }
 
     @Test

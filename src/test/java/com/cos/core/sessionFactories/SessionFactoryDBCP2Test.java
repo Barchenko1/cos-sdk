@@ -51,7 +51,7 @@ public class SessionFactoryDBCP2Test {
 
     userDao.saveEntity(testEntity);
 
-    Assertions.assertEquals(0, testEntity.getId());
+    Assertions.assertEquals(1, testEntity.getId());
   }
 
   @Test

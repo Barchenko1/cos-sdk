@@ -115,6 +115,6 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
 
         settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
         settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
-        settings.put(Environment.AUTOCOMMIT, properties.getProperty(Environment.AUTOCOMMIT));
+        settings.put(Environment.AUTOCOMMIT, properties.getOrDefault(Environment.AUTOCOMMIT, "true"));
     }
 }

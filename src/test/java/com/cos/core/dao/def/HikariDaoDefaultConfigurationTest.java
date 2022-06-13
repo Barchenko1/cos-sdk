@@ -1,4 +1,4 @@
-package com.cos.core.dao.xml;
+package com.cos.core.dao.def;
 
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
@@ -6,12 +6,13 @@ import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.TestEntity;
+import com.cos.core.properties.modal.ConnectionDetails;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-
 import com.github.database.rider.junit5.DBUnitExtension;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
+import org.hibernate.SessionFactory;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,46 +24,55 @@ import java.util.Optional;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
-public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class HikariDaoDefaultConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static IUserDao<TestEntity> userDao;
 
     @Rule
     private static final ConnectionHolder connectionHolder =
-            () -> sessionFactory.getSessionFactoryOptions()
+            () -> {
+                return sessionFactory.getSessionFactoryOptions()
                         .getServiceRegistry()
                         .getService(HikariConnectionProvider.class)
                         .getConnection();
+            };
 
-//    private ConnectionHolder connectionHolder = () ->
-//            instance("junit5-pu").connection();
-
-//    @Rule
-//    public DBUnitRule dbUnitRule =  DBUnitRule.instance(
-//            () ->
-//                    sessionFactory.getSessionFactoryOptions()
-//                            .getServiceRegistry()
-//                            .getService(HikariConnectionProvider.class)
-//                            .getConnection()
-//    );
-
-    public HikariDaoXMLConfigurationTest() {
+    public HikariDaoDefaultConfigurationTest() {
     }
 
     @BeforeAll
-    @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
         Class<?>[] classes = { TestEntity.class };
         connectionPullConfiguration.setAnnotatedClasses(classes);
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        sessionFactory =
+                connectionPullConfiguration.createDefaultSessionFactory(setUpConnectionDetails(), classes);
         userDao = new UserDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
+    }
+
+    private static ConnectionDetails setUpConnectionDetails() {
+        return ConnectionDetails.newBuilder()
+                .setDriver("org.h2.Driver")
+                .setUrl("jdbc:h2:mem:test")
+                .setUserName("sa")
+                .setPassword("")
+                .setDialect("org.hibernate.dialect.H2Dialect")
+                .setShowSQL("true")
+                .setCurrentSessionContextClass("thread")
+                .setHBM2ddlAuto("create-drop")
+                .setConnectionPullProviderClass(HikariConnectionProvider.class)
+                .setInitialSize(0)
+                .setMinIdle(5)
+                .setMaxIdle(5)
+                .setMaxTotal(0)
+                .build();
     }
 
     @Test
     @ExpectedDataSet(value = "/data/expected/createExpectedSet.yml")
     void saveDaoTest() {
+
         TestEntity testEntity = new TestEntity();
         testEntity.setName("testSave");
 

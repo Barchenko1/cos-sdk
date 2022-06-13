@@ -1,17 +1,18 @@
-package com.cos.core.dao.xml;
+package com.cos.core.dao.properties;
 
-import com.cos.core.config.ConnectionPullHikariConfiguration;
+import com.cos.core.config.ConnectionPullC3P0Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.UserDao;
 import com.cos.core.modal.TestEntity;
+import com.cos.core.properties.IPropertiesProvider;
+import com.cos.core.properties.PropertiesProvider;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-
 import com.github.database.rider.junit5.DBUnitExtension;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
+import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +24,7 @@ import java.util.Optional;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
-public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static IUserDao<TestEntity> userDao;
 
@@ -31,31 +32,21 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     private static final ConnectionHolder connectionHolder =
             () -> sessionFactory.getSessionFactoryOptions()
                         .getServiceRegistry()
-                        .getService(HikariConnectionProvider.class)
+                        .getService(C3P0ConnectionProvider.class)
                         .getConnection();
 
-//    private ConnectionHolder connectionHolder = () ->
-//            instance("junit5-pu").connection();
-
-//    @Rule
-//    public DBUnitRule dbUnitRule =  DBUnitRule.instance(
-//            () ->
-//                    sessionFactory.getSessionFactoryOptions()
-//                            .getServiceRegistry()
-//                            .getService(HikariConnectionProvider.class)
-//                            .getConnection()
-//    );
-
-    public HikariDaoXMLConfigurationTest() {
+    public C3P0DaoPropertiesConfigurationTest() {
     }
 
     @BeforeAll
-    @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
+        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullC3P0Configuration();
         Class<?>[] classes = { TestEntity.class };
+        IPropertiesProvider propertiesProvider = new PropertiesProvider();
+        propertiesProvider.loadPropertiesByName("c3p0.db.properties");
         connectionPullConfiguration.setAnnotatedClasses(classes);
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+        sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
         userDao = new UserDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
     }
@@ -67,6 +58,8 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
         testEntity.setName("testSave");
 
         userDao.saveEntity(testEntity);
+        List<TestEntity> testEntityList = userDao.getAllUsers();
+        System.out.println(testEntityList);
     }
 
     @Test
@@ -78,18 +71,21 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
         testEntity.setName("testUpdate");
 
         userDao.updateEntity(testEntity);
+        List<TestEntity> testEntityList = userDao.getAllUsers();
+        System.out.println(testEntityList);
     }
 
     @Test
     @DataSet(value = "/data/dataset/initDataSet.yml")
     @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.yml")
     void deleteDaoTest() {
-
         TestEntity testEntity = new TestEntity();
         testEntity.setId(2L);
         testEntity.setName("test2");
 
         userDao.deleteEntity(testEntity);
+        List<TestEntity> testEntityList = userDao.getAllUsers();
+        System.out.println(testEntityList);
     }
 
     @Test
@@ -107,6 +103,9 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
                 .getUserByUserName("test2");
 
         Assertions.assertEquals("test2", result.get().getName());
+
+        List<TestEntity> testEntityList = userDao.getAllUsers();
+        System.out.println(testEntityList);
     }
 }
 
