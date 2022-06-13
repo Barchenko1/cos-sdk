@@ -99,13 +99,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.github.database-rider</groupId>-->
-<!--            <artifactId>rider-core</artifactId>-->
-<!--            <version>${rider.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.github.database-rider</groupId>
             <artifactId>rider-junit5</artifactId>
@@ -124,7 +117,7 @@
 
     <properties>
         <spring.version>5.3.19</spring.version>
-        <hibernate.version>6.0.1.Final</hibernate.version>
+        <hibernate.version>6.1.0.Final</hibernate.version>
         <javax.version>2.2</javax.version>
         <c3p0.version>0.9.5.5</c3p0.version>
         <hikari.version>5.0.1</hikari.version>
@@ -136,11 +129,33 @@
         <junit.platform.version>1.8.2</junit.platform.version>
         <junit.platform.version>1.9.0-M1</junit.platform.version>
         <rider.version>1.32.3</rider.version>
+        <compile.plugin.version>3.10.1</compile.plugin.version>
+        <surefire.plugin.version>2.22.0</surefire.plugin.version>
+        <failsafe.plugin.version>2.22.0</failsafe.plugin.version>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
 
     <build>
+        <finalName>maven-unit-test</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compile.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
+            </plugin>
+
+        </plugins>
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
