@@ -58,8 +58,6 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         testEntity.setName("testSave");
 
         userDao.saveEntity(testEntity);
-        List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 
     @Test
@@ -84,8 +82,6 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         testEntity.setName("test2");
 
         userDao.deleteEntity(testEntity);
-        List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 
     @Test
