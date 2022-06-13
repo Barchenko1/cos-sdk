@@ -8,6 +8,7 @@ import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
+import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -43,7 +44,7 @@ public class DBCP2DaoPropertiesConfigurationTest extends AbstractDaoConfiguratio
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullDBCP2Configuration();
         Class<?>[] classes = { TestEntity.class };
         IPropertiesProvider propertiesProvider = new PropertiesProvider();
-        propertiesProvider.loadPropertiesByName("dbcp2.db.properties");
+        propertiesProvider.loadPropertiesByName(CosCoreConstants.DBCP2_PROPERTIES_FILE_NAME);
         connectionPullConfiguration.setAnnotatedClasses(classes);
         connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();

@@ -1,7 +1,6 @@
 package com.cos.core.config;
 
 import com.cos.core.util.CosCoreConstants;
-import com.cos.core.util.cp.DBCP2Settings;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -50,7 +49,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
 
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
-        LOG.info("C3P0 createSessionFactoryWithHibernateXML");
+        LOG.info("DBCP2 createSessionFactoryWithHibernateXML");
         return createSessionFactoryWithHibernateXML(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
     }
 
@@ -61,18 +60,6 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
         dataSource.setUrl(properties.getProperty(Environment.URL));
         dataSource.setUsername(properties.getProperty(Environment.USER));
         dataSource.setPassword(properties.getProperty(Environment.PASS));
-
-        // Connection pooling properties
-        dataSource.setInitialSize(Integer.parseInt(
-                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_INITIAL_SIZE, 1))));
-        dataSource.setMaxIdle(Integer.parseInt(
-                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_IDLE, 1))));
-        dataSource.setMaxTotal(Integer.parseInt(
-                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_TOTAL, 1))));
-        dataSource.setMinIdle(Integer.parseInt(
-                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MIN_IDLE, 1))));
-        dataSource.setMaxWaitMillis(Integer.parseInt(
-                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_WAIT_MS, 1))));
         return dataSource;
     }
 }

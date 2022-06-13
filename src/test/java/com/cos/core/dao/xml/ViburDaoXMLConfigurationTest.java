@@ -1,6 +1,6 @@
 package com.cos.core.dao.xml;
 
-import com.cos.core.config.ConnectionPullHikariConfiguration;
+import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
@@ -9,21 +9,21 @@ import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-
 import com.github.database.rider.junit5.DBUnitExtension;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
+import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+//import org.vibur.dbcp.integration.ViburDBCPConnectionProvider;
 
 import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
-public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static IUserDao<TestEntity> userDao;
 
@@ -31,16 +31,16 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     private static final ConnectionHolder connectionHolder =
             () -> sessionFactory.getSessionFactoryOptions()
                         .getServiceRegistry()
-                        .getService(HikariConnectionProvider.class)
+                        .getService(ViburDBCPConnectionProvider.class)
                         .getConnection();
 
-    public HikariDaoXMLConfigurationTest() {
+    public ViburDaoXMLConfigurationTest() {
     }
 
     @BeforeAll
     @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
+        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullViburConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);

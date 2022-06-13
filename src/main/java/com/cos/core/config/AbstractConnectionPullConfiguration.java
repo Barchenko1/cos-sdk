@@ -88,18 +88,9 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         settings.put(Environment.DIALECT, connectionDetails.getDialect());
 
         settings.put(Environment.SHOW_SQL, connectionDetails.getShowSQL());
-        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, connectionDetails.getCurrentSessionContextClass());
+        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
+                connectionDetails.getCurrentSessionContextClass());
         settings.put(Environment.HBM2DDL_AUTO, connectionDetails.getHbm2ddlAuto());
-
-        // Maximum waiting time for a connection from the pool
-        settings.put(HikariSettings.HIBERNATE_HIKARI_CONNECTION_TIMEOUT, "20000");
-        // Minimum number of ideal connections in the pool
-        settings.put(HikariSettings.HIBERNATE_HIKARI_MINIMUM_IDLE, "10");
-        // Maximum number of actual connection in the pool
-        settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20");
-
-        // Maximum time that a connection is allowed to sit ideal in the pool
-        settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT, "300000");
         //change def conn provide class
         settings.put(Environment.CONNECTION_PROVIDER, connectionDetails.getConnectionPullProviderClass());
         return settings;

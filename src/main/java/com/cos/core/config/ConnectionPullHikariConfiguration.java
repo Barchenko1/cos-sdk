@@ -34,7 +34,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                 settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE,
                         properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20"));
                 settings.put(Environment.CONNECTION_PROVIDER,
-                        properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, HikariConnectionProvider.class));
+                        properties.getOrDefault(Environment.CONNECTION_PROVIDER, HikariConnectionProvider.class));
 
                 // Maximum time that a connection is allowed to sit ideal in the pool
                 settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT,
@@ -63,6 +63,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
 
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
+        LOG.info("Hikari createSessionFactoryWithHibernateXML");
         return createSessionFactoryWithHibernateXML(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME);
     }
 

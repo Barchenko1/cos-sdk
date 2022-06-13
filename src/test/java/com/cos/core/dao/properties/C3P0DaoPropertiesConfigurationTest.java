@@ -8,6 +8,7 @@ import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
+import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -43,7 +44,7 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullC3P0Configuration();
         Class<?>[] classes = { TestEntity.class };
         IPropertiesProvider propertiesProvider = new PropertiesProvider();
-        propertiesProvider.loadPropertiesByName("c3p0.db.properties");
+        propertiesProvider.loadPropertiesByName(CosCoreConstants.C3P0_PROPERTIES_FILE_NAME);
         connectionPullConfiguration.setAnnotatedClasses(classes);
         connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();

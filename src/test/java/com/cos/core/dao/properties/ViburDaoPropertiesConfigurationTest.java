@@ -1,29 +1,32 @@
-package com.cos.core.dao.xml;
+package com.cos.core.dao.properties;
 
-import com.cos.core.config.ConnectionPullHikariConfiguration;
+import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
+import com.cos.core.properties.IPropertiesProvider;
+import com.cos.core.properties.PropertiesProvider;
+import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-
 import com.github.database.rider.junit5.DBUnitExtension;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
+import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+//import org.vibur.dbcp.integration.ViburDBCPConnectionProvider;
 
 import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
-public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class ViburDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static IUserDao<TestEntity> userDao;
 
@@ -31,17 +34,21 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     private static final ConnectionHolder connectionHolder =
             () -> sessionFactory.getSessionFactoryOptions()
                         .getServiceRegistry()
-                        .getService(HikariConnectionProvider.class)
+                        .getService(ViburDBCPConnectionProvider.class)
                         .getConnection();
 
-    public HikariDaoXMLConfigurationTest() {
+    public ViburDaoPropertiesConfigurationTest() {
     }
 
     @BeforeAll
-    @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullViburConfiguration();
+        Class<?>[] classes = { TestEntity.class };
+        IPropertiesProvider propertiesProvider = new PropertiesProvider();
+        propertiesProvider.loadPropertiesByName(CosCoreConstants.VIBUR_PROPERTIES_FILE_NAME);
+        connectionPullConfiguration.setAnnotatedClasses(classes);
+        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+        sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
     }
