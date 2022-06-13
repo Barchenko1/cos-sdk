@@ -39,8 +39,6 @@ public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     @BeforeAll
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullDBCP2Configuration();
-        Class<?>[] classes = { TestEntity.class };
-        connectionPullConfiguration.setAnnotatedClasses(classes);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);

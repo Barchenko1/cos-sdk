@@ -39,8 +39,6 @@ public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     @BeforeAll
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullC3P0Configuration();
-        Class<?>[] classes = { TestEntity.class };
-        connectionPullConfiguration.setAnnotatedClasses(classes);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
@@ -65,8 +63,6 @@ public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
         testEntity.setName("testUpdate");
 
         userDao.updateEntity(testEntity);
-        List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 
     @Test
@@ -96,9 +92,6 @@ public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
                 .getUserByUserName("test2");
 
         Assertions.assertEquals("test2", result.get().getName());
-
-        List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 }
 

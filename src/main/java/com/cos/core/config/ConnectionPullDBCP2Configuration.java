@@ -63,11 +63,16 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
         dataSource.setPassword(properties.getProperty(Environment.PASS));
 
         // Connection pooling properties
-        dataSource.setInitialSize(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_INITIAL_SIZE)));
-        dataSource.setMaxIdle(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_IDLE)));
-        dataSource.setMaxTotal(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_TOTAL)));
-        dataSource.setMinIdle(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MIN_IDLE)));
-        dataSource.setMaxWaitMillis(Integer.parseInt(properties.getProperty(DBCP2Settings.HIBERNATE_DBCP_MAX_WAIT_MS)));
+        dataSource.setInitialSize(Integer.parseInt(
+                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_INITIAL_SIZE, 1))));
+        dataSource.setMaxIdle(Integer.parseInt(
+                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_IDLE, 1))));
+        dataSource.setMaxTotal(Integer.parseInt(
+                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_TOTAL, 1))));
+        dataSource.setMinIdle(Integer.parseInt(
+                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MIN_IDLE, 1))));
+        dataSource.setMaxWaitMillis(Integer.parseInt(
+                String.valueOf(properties.getOrDefault(DBCP2Settings.HIBERNATE_DBCP_MAX_WAIT_MS, 1))));
         return dataSource;
     }
 }

@@ -34,18 +34,6 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
                         .getService(HikariConnectionProvider.class)
                         .getConnection();
 
-//    private ConnectionHolder connectionHolder = () ->
-//            instance("junit5-pu").connection();
-
-//    @Rule
-//    public DBUnitRule dbUnitRule =  DBUnitRule.instance(
-//            () ->
-//                    sessionFactory.getSessionFactoryOptions()
-//                            .getServiceRegistry()
-//                            .getService(HikariConnectionProvider.class)
-//                            .getConnection()
-//    );
-
     public HikariDaoXMLConfigurationTest() {
     }
 
@@ -53,8 +41,8 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
-        Class<?>[] classes = { TestEntity.class };
-        connectionPullConfiguration.setAnnotatedClasses(classes);
+//        Class<?>[] classes = { TestEntity.class };
+//        connectionPullConfiguration.setAnnotatedClasses(classes);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);

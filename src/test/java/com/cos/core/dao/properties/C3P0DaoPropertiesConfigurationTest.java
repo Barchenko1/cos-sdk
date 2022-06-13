@@ -69,8 +69,6 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         testEntity.setName("testUpdate");
 
         userDao.updateEntity(testEntity);
-        List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 
     @Test
@@ -101,7 +99,6 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         Assertions.assertEquals("test2", result.get().getName());
 
         List<TestEntity> testEntityList = userDao.getAllUsers();
-        System.out.println(testEntityList);
     }
 }
 
