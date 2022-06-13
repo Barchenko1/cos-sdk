@@ -2,7 +2,7 @@ package com.cos.core.sessionFactories;
 
 import com.cos.core.config.ConnectionPullDBCP2Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
-import com.cos.core.dao.IUserDao;
+import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 
@@ -35,11 +35,11 @@ public class SessionFactoryC3P0Test {
     SessionFactory sessionFactory =
             connectionPullConfiguration.createSessionFactoryWithProperties();
 
-    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
-    userDao.setClazz(TestEntity.class);
+    ITestEntityDao<TestEntity> testEntityDao = new TestEntityDao<>(sessionFactory);
+    testEntityDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveEntity(testEntity);
+    testEntityDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }
@@ -51,11 +51,11 @@ public class SessionFactoryC3P0Test {
     TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory =
             connectionPullConfiguration.createSessionFactoryWithHibernateXML();
-    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
-    userDao.setClazz(TestEntity.class);
+    ITestEntityDao<TestEntity> testEntityDao = new TestEntityDao<>(sessionFactory);
+    testEntityDao.setClazz(TestEntity.class);
     testEntity.setName("testxml");
 
-    userDao.saveEntity(testEntity);
+    testEntityDao.saveEntity(testEntity);
 
     Assertions.assertEquals(1, testEntity.getId());
   }
@@ -83,11 +83,11 @@ public class SessionFactoryC3P0Test {
     SessionFactory sessionFactory = connectionPullConfiguration
             .createClassDetailsSessionFactory(connectionDetails, annotationClasses);
 
-    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
-    userDao.setClazz(TestEntity.class);
+    ITestEntityDao<TestEntity> testEntityDao = new TestEntityDao<>(sessionFactory);
+    testEntityDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
-    userDao.saveEntity(testEntity);
+    testEntityDao.saveEntity(testEntity);
 
     Assertions.assertNotNull(testEntity.getId());
   }

@@ -3,7 +3,7 @@ package com.cos.core.dao.xml;
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
-import com.cos.core.dao.IUserDao;
+import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
@@ -25,7 +25,7 @@ import java.util.Optional;
 @DataSet(cleanBefore = true, cleanAfter = true)
 public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
-    private static IUserDao<TestEntity> userDao;
+    private static ITestEntityDao<TestEntity> testEntityDao;
 
     @Rule
     private static final ConnectionHolder connectionHolder =
@@ -42,8 +42,8 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
-        userDao = new TestEntityDao<>(sessionFactory);
-        userDao.setClazz(TestEntity.class);
+        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao.setClazz(TestEntity.class);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
         TestEntity testEntity = new TestEntity();
         testEntity.setName("testSave");
 
-        userDao.saveEntity(testEntity);
+        testEntityDao.saveEntity(testEntity);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
         testEntity.setId(1L);
         testEntity.setName("testUpdate");
 
-        userDao.updateEntity(testEntity);
+        testEntityDao.updateEntity(testEntity);
     }
 
     @Test
@@ -75,21 +75,21 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
         testEntity.setId(2L);
         testEntity.setName("test2");
 
-        userDao.deleteEntity(testEntity);
+        testEntityDao.deleteEntity(testEntity);
     }
 
     @Test
     @DataSet(value = "/data/dataset/initDataSet.yml")
     @ExpectedDataSet(value = "/data/dataset/initDataSet.yml")
     void getTestEntityList() {
-        List<TestEntity> resultList = userDao.getAllUsers();
+        List<TestEntity> resultList = testEntityDao.getAllUsers();
         Assertions.assertEquals(2, resultList.size());
     }
 
     @Test
     @DataSet(value = "/data/dataset/initDataSet.yml")
     void getTestEntity() {
-        Optional<TestEntity> result = userDao
+        Optional<TestEntity> result = testEntityDao
                 .getUserByUserName("test2");
 
         Assertions.assertEquals("test2", result.get().getName());
