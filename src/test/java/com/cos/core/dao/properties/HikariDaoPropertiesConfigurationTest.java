@@ -4,7 +4,7 @@ import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
-import com.cos.core.dao.UserDao;
+import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
@@ -13,7 +13,6 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
-import org.hibernate.SessionFactory;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
@@ -49,7 +47,7 @@ public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurati
         connectionPullConfiguration.setAnnotatedClasses(classes);
         connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
-        userDao = new UserDao<>(sessionFactory);
+        userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
     }
 

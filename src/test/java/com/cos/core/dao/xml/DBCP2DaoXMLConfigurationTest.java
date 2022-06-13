@@ -4,13 +4,12 @@ import com.cos.core.config.ConnectionPullDBCP2Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
-import com.cos.core.dao.UserDao;
+import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
@@ -43,7 +42,7 @@ public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
         Class<?>[] classes = { TestEntity.class };
         connectionPullConfiguration.setAnnotatedClasses(classes);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
-        userDao = new UserDao<>(sessionFactory);
+        userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
     }
 

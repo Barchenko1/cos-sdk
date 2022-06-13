@@ -4,7 +4,7 @@ import com.cos.core.config.ConnectionPullC3P0Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
-import com.cos.core.dao.UserDao;
+import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
@@ -47,7 +47,7 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         connectionPullConfiguration.setAnnotatedClasses(classes);
         connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
-        userDao = new UserDao<>(sessionFactory);
+        userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
     }
 

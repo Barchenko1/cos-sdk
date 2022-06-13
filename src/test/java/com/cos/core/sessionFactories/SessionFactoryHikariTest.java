@@ -3,7 +3,7 @@ package com.cos.core.sessionFactories;
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
 import com.cos.core.dao.IUserDao;
-import com.cos.core.dao.UserDao;
+import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.modal.ConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
@@ -28,7 +28,7 @@ public class SessionFactoryHikariTest {
         SessionFactory sessionFactory = connectionPullManager
                 .getConfigureSessionFactoryByProperties("hikari.db.properties");
 
-        IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+        IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testprops");
 
@@ -44,7 +44,7 @@ public class SessionFactoryHikariTest {
         TestEntity testEntity = new TestEntity();
         SessionFactory sessionFactory = connectionPullManager
                 .getConfigureSessionFactoryByXML("hikari.hibernate.cfg.xml");
-        IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+        IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testxml");
 
@@ -82,7 +82,7 @@ public class SessionFactoryHikariTest {
         TestEntity testEntity = new TestEntity();
         SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByDefault();
 
-        IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+        IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
         testEntity.setName("testprops");
 

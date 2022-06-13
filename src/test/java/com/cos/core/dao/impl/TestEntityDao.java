@@ -1,5 +1,7 @@
-package com.cos.core.dao;
+package com.cos.core.dao.impl;
 
+import com.cos.core.dao.AbstractDaoConnector;
+import com.cos.core.dao.IUserDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -8,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDao<E> extends AbstractDaoConnector<E> implements IUserDao<E> {
-    private static final Logger LOG = LoggerFactory.getLogger(UserDao.class);
+public class TestEntityDao<E> extends AbstractDaoConnector<E> implements IUserDao<E> {
+    private static final Logger LOG = LoggerFactory.getLogger(TestEntityDao.class);
 
-    public UserDao(SessionFactory sessionFactory) {
+    public TestEntityDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 

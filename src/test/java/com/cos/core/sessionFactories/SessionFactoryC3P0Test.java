@@ -3,7 +3,7 @@ package com.cos.core.sessionFactories;
 import com.cos.core.connect.ConnectionPullManager;
 import com.cos.core.connect.IConnectionPullManager;
 import com.cos.core.dao.IUserDao;
-import com.cos.core.dao.UserDao;
+import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 
 import com.cos.core.properties.modal.ConnectionDetails;
@@ -30,7 +30,7 @@ public class SessionFactoryC3P0Test {
     SessionFactory sessionFactory =
             connectionPullManager.getConfigureSessionFactoryByProperties("c3p0.db.properties");
 
-    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
@@ -46,7 +46,7 @@ public class SessionFactoryC3P0Test {
     TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory =
             connectionPullManager.getConfigureSessionFactoryByXML("c3p0.hibernate.cfg.xml");
-    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testxml");
 
@@ -82,7 +82,7 @@ public class SessionFactoryC3P0Test {
     TestEntity testEntity = new TestEntity();
     SessionFactory sessionFactory = connectionPullManager.getConfigureSessionFactoryByDefault();
 
-    IUserDao<TestEntity> userDao = new UserDao<>(sessionFactory);
+    IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
     userDao.setClazz(TestEntity.class);
     testEntity.setName("testprops");
 
