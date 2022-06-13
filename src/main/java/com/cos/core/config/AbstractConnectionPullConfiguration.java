@@ -1,8 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.modal.ConnectionDetails;
-import com.cos.core.util.cp.HikariSettings;
+import com.cos.core.properties.modal.AbstractConnectionDetails;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -53,7 +52,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     }
 
     @Override
-    public SessionFactory createDefaultSessionFactory(ConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
+    public SessionFactory createClassDetailsSessionFactory(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
         if (sessionFactory == null) {
             try {
                 Properties settings = getDefaultConnectionPullSettings(connectionDetails);
@@ -78,7 +77,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         return sessionFactory;
     }
 
-    private Properties getDefaultConnectionPullSettings(ConnectionDetails connectionDetails) {
+    private Properties getDefaultConnectionPullSettings(AbstractConnectionDetails connectionDetails) {
         Properties settings = new Properties();
 
         settings.put(Environment.DRIVER, connectionDetails.getDriver());

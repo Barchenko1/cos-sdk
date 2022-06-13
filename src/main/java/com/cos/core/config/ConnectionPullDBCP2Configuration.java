@@ -1,5 +1,6 @@
 package com.cos.core.config;
 
+import com.cos.core.properties.modal.AbstractConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -51,6 +52,48 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
     public SessionFactory createSessionFactoryWithHibernateXML() {
         LOG.info("DBCP2 createSessionFactoryWithHibernateXML");
         return createSessionFactoryWithHibernateXML(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
+    }
+
+    @Override
+    public SessionFactory createClassDetailsSessionFactory(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
+        if (sessionFactory == null) {
+            try {
+                Properties settings = new Properties();
+                settings.put(Environment.DATASOURCE, getClassDBCPConnectionPullSettings(connectionDetails));
+
+                settings.put(Environment.SHOW_SQL, connectionDetails.getShowSQL());
+                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
+                        connectionDetails.getCurrentSessionContextClass());
+                settings.put(Environment.HBM2DDL_AUTO, connectionDetails.getHbm2ddlAuto());
+
+                serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(settings)
+                        .build();
+
+                Metadata metadata = new MetadataSources(serviceRegistry)
+                        .addAnnotatedClasses(annotatedClasses)
+                        .getMetadataBuilder()
+                        .build();
+
+                sessionFactory = metadata.getSessionFactoryBuilder().build();
+            } catch (Exception e) {
+                if (serviceRegistry != null) {
+                    StandardServiceRegistryBuilder.destroy(serviceRegistry);
+                }
+                throw new RuntimeException();
+            }
+        }
+        return sessionFactory;
+    }
+
+    private DataSource getClassDBCPConnectionPullSettings(AbstractConnectionDetails connectionDetails) {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(connectionDetails.getDriver());
+        dataSource.setUrl(connectionDetails.getUrl());
+        dataSource.setUsername(connectionDetails.getUsername());
+        dataSource.setPassword(connectionDetails.getPassword());
+
+        return dataSource;
     }
 
     private DataSource getDataSource() {

@@ -1,16 +1,19 @@
-package com.cos.core.dao.xml;
+package com.cos.core.dao.details;
 
-import com.cos.core.config.ConnectionPullViburConfiguration;
+import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.IUserDao;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
+import com.cos.core.properties.modal.AbstractConnectionDetails;
+import com.cos.core.properties.modal.DBCP2ConnectionDetails;
+import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
+import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +25,7 @@ import java.util.Optional;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanBefore = true, cleanAfter = true)
-public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class HikariDaoClassConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static IUserDao<TestEntity> userDao;
 
@@ -30,24 +33,40 @@ public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     private static final ConnectionHolder connectionHolder =
             () -> sessionFactory.getSessionFactoryOptions()
                         .getServiceRegistry()
-                        .getService(ViburDBCPConnectionProvider.class)
+                        .getService(HikariConnectionProvider.class)
                         .getConnection();
 
-    public ViburDaoXMLConfigurationTest() {
+    public HikariDaoClassConfigurationTest() {
     }
 
     @BeforeAll
-    @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullViburConfiguration();
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
+        Class<?>[] classes = { TestEntity.class };
+        sessionFactory =
+                connectionPullConfiguration.createClassDetailsSessionFactory(setUpConnectionDetails(), classes);
         userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
+    }
+
+    private static AbstractConnectionDetails setUpConnectionDetails() {
+        return ExternalCPConnectionDetails.newBuilder()
+                .setDriver("org.h2.Driver")
+                .setUrl("jdbc:h2:mem:test")
+                .setUserName("sa")
+                .setPassword("")
+                .setDialect("org.hibernate.dialect.H2Dialect")
+                .setShowSQL("true")
+                .setCurrentSessionContextClass("thread")
+                .setHBM2ddlAuto("create-drop")
+                .setConnectionPullProviderClass(HikariConnectionProvider.class)
+                .build();
     }
 
     @Test
     @ExpectedDataSet(value = "/data/expected/createExpectedSet.yml")
     void saveDaoTest() {
+
         TestEntity testEntity = new TestEntity();
         testEntity.setName("testSave");
 

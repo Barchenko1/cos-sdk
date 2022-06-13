@@ -7,9 +7,11 @@ import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.properties.modal.DBCP2ConnectionDetails;
+import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
+import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -61,14 +63,13 @@ public class SessionFactoryHikariTest {
     }
 
     @Test
-    public void createDefaultSessionFactory() {
+    public void createClassDetailsSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullDBCP2Configuration();
 
         List<Class<?>> annotationList = new ArrayList<>();
         annotationList.add(TestEntity.class);
         Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
-        connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
-        ConnectionDetails connectionDetails = ConnectionDetails.newBuilder()
+        ExternalCPConnectionDetails connectionDetails = ExternalCPConnectionDetails.newBuilder()
                 .setDriver("org.h2.Driver")
                 .setUrl("jdbc:h2:mem:test")
                 .setUserName("sa")
@@ -78,15 +79,11 @@ public class SessionFactoryHikariTest {
                 .setCurrentSessionContextClass("thread")
                 .setHBM2ddlAuto("create-drop")
                 .setConnectionPullProviderClass(HikariConnectionProvider.class)
-                .setInitialSize(0)
-                .setMinIdle(5)
-                .setMaxIdle(5)
-                .setMaxTotal(0)
                 .build();
-//        connectionPullManager.setConnectionDetails(connectionDetails);
+
         TestEntity testEntity = new TestEntity();
         SessionFactory sessionFactory = connectionPullConfiguration
-                .createDefaultSessionFactory(connectionDetails, annotationClasses);
+                .createClassDetailsSessionFactory(connectionDetails, annotationClasses);
 
         IUserDao<TestEntity> userDao = new TestEntityDao<>(sessionFactory);
         userDao.setClazz(TestEntity.class);
