@@ -16,6 +16,8 @@
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
 
-		<mapping class="com.cos.core.modal.TestEntity" />
+		<mapping class="com.cos.core.test.modal.TestEntity" />
+		<mapping class="com.cos.core.test.modal.TestEmployee" />
+		<mapping class="com.cos.core.test.modal.TestDependent" />
 	</session-factory>
 </hibernate-configuration>
