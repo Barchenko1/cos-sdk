@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface ITestEntityDao<E> extends IEntityDao<E> {
 
-    void setClazz(Class<E> clazz);
     List<E> getAllUsers();
 
     Optional<E> getUserByUserName(String name);

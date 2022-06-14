@@ -1,7 +1,6 @@
 package com.cos.core.dao.details;
 
 import com.cos.core.config.ConnectionPullDBCP2Configuration;
-import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;

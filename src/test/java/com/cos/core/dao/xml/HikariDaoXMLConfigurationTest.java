@@ -38,7 +38,6 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     }
 
     @BeforeAll
-    @DataSet(cleanBefore = true, cleanAfter = true)
     public static void getSessionFactory() {
         IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();

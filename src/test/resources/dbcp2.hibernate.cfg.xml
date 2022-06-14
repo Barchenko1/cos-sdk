@@ -15,7 +15,7 @@
 <!--        <property name="hibernate.connection.autocommit">false</property>-->
 
         <!-- show mysql queries output in console -->
-        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.show_sql">true</property>
 
         <!-- manage automatic database creation -->
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
@@ -29,6 +29,7 @@
 
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />
-
+        <mapping class="com.cos.core.modal.TestEmployee" />
+        <mapping class="com.cos.core.modal.TestDependent" />
     </session-factory>
 </hibernate-configuration>

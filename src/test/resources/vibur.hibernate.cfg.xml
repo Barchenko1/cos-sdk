@@ -33,6 +33,7 @@
 
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />
-
+        <mapping class="com.cos.core.modal.TestEmployee" />
+        <mapping class="com.cos.core.modal.TestDependent" />
     </session-factory>
 </hibernate-configuration>

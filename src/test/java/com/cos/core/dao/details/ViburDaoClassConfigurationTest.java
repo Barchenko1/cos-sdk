@@ -12,7 +12,6 @@ import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;

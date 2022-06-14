@@ -10,7 +10,6 @@ import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

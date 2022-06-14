@@ -9,6 +9,7 @@
         <!-- database connection properties -->
         <property name="hibernate.connection.driver_class">org.h2.Driver</property>
         <property name="hibernate.connection.url">jdbc:h2:mem:test</property>
+<!--        <property name="hibernate.connection.url">jdbc:h2:~/gallerytest</property>-->
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.show_sql">true</property>
@@ -24,6 +25,8 @@
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />
+        <mapping class="com.cos.core.modal.TestEmployee" />
+        <mapping class="com.cos.core.modal.TestDependent" />
 
     </session-factory>
 </hibernate-configuration>

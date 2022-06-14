@@ -9,7 +9,6 @@ import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import org.hibernate.SessionFactory;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
