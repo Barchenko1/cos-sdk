@@ -72,6 +72,11 @@
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>javax.persistence</groupId>-->
@@ -111,26 +116,36 @@
             <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.core.im</groupId>
+            <artifactId>integration-modal</artifactId>
+            <scope>system</scope>
+            <version>1.0-SNAPSHOT</version>
+            <systemPath>
+                ${project.basedir}/lib/integration-modal-1.0-SNAPSHOT.jar
+            </systemPath>
+        </dependency>
 
     </dependencies>
 
     <properties>
         <spring.version>5.3.19</spring.version>
-        <hibernate.version>6.1.0.Final</hibernate.version>
+        <hibernate.version>6.1.1.Final</hibernate.version>
         <javax.version>2.2</javax.version>
         <c3p0.version>0.9.5.5</c3p0.version>
         <hikari.version>5.0.1</hikari.version>
         <dbcp2.version>2.9.0</dbcp2.version>
-        <h2.version>2.1.212</h2.version>
-        <log.version>2.17.2</log.version>
+        <h2.version>2.1.214</h2.version>
+        <mysql.version>8.0.30</mysql.version>
+        <log.version>2.18.0</log.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <junit.jupiter.version>5.8.2</junit.jupiter.version>
-        <junit.platform.version>1.8.2</junit.platform.version>
+        <junit.jupiter.version>5.9.0</junit.jupiter.version>
+        <junit.platform.version>1.9.0</junit.platform.version>
         <junit.platform.version>1.9.0-M1</junit.platform.version>
         <rider.version>1.32.3</rider.version>
         <compile.plugin.version>3.10.1</compile.plugin.version>
-        <surefire.plugin.version>2.22.0</surefire.plugin.version>
-        <failsafe.plugin.version>2.22.0</failsafe.plugin.version>
+        <surefire.plugin.version>2.22.2</surefire.plugin.version>
+        <failsafe.plugin.version>3.0.0-M7</failsafe.plugin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
