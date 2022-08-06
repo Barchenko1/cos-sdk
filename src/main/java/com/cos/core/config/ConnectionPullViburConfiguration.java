@@ -56,7 +56,7 @@ public class ConnectionPullViburConfiguration  extends AbstractConnectionPullCon
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
                 LOG.warn("properties error {}", e.getMessage());
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return sessionFactory;

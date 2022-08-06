@@ -41,11 +41,11 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
 
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 if (serviceRegistry != null) {
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return sessionFactory;

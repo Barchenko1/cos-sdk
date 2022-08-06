@@ -48,7 +48,7 @@ public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfi
                     StandardServiceRegistryBuilder.destroy(serviceRegistry);
                 }
                 LOG.warn("properties error {}", e.getMessage());
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return sessionFactory;
