@@ -1,10 +1,13 @@
-package com.cos.core.dao;
+package com.cos.core.test;
+
+import com.cos.core.dao.IEntityDao;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IUserDao<E> extends IEntityDao<E> {
+public interface ITestEntityDao<E> extends IEntityDao<E> {
 
+    void setClazz(Class<E> clazz);
     List<E> getAllUsers();
 
     Optional<E> getUserByUserName(String name);

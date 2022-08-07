@@ -6,20 +6,20 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDaoConnector<E> {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractDaoConnector.class);
+public abstract class AbstractDao<E> {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
     protected Class<E> clazz;
     protected final SessionFactory sessionFactory;
 
-    public AbstractDaoConnector(SessionFactory sessionFactory) {
+    public AbstractDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public void saveEntity(E user) {
+    public void saveEntity(E entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.persist(user);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             LOG.warn("transaction error {}", e.getMessage());
@@ -30,11 +30,11 @@ public abstract class AbstractDaoConnector<E> {
         }
     }
 
-    public void updateEntity(E user) {
+    public void updateEntity(E entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.merge(user);
+            session.merge(entity);
             transaction.commit();
         } catch (Exception e) {
             LOG.warn("transaction error {}", e.getMessage());
@@ -45,11 +45,11 @@ public abstract class AbstractDaoConnector<E> {
         }
     }
 
-    public void deleteEntity(E user) {
+    public void deleteEntity(E entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.remove(user);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             LOG.warn("transaction error {}", e.getMessage());
