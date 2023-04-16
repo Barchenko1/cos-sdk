@@ -2,13 +2,13 @@ package com.cos.core;
 
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
-import com.cos.core.test.ITestEntityDao;
-import com.cos.core.test.TestEntityDao;
-import com.cos.core.test.service.EmployeeDependentTransactionService;
-import com.cos.core.test.service.IEmployeeDependentTransactionService;
-import com.cos.core.test.modal.TestDependent;
-import com.cos.core.test.modal.TestEmployee;
-import com.cos.core.test.modal.TestEntity;
+import com.cos.core.dao.impl.ITestEntityDao;
+import com.cos.core.dao.impl.TestEntityDao;
+import com.cos.core.modal.TestDependent;
+import com.cos.core.modal.TestEmployee;
+import com.cos.core.modal.TestEntity;
+import com.cos.core.service.EmployeeDependentTransactionService;
+import com.cos.core.service.IEmployeeDependentTransactionService;
 import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
