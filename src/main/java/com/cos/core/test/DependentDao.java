@@ -1,4 +1,4 @@
-package com.cos.core.dao.impl;
+package com.cos.core.test;
 
 import com.cos.core.dao.AbstractDao;
 import org.hibernate.SessionFactory;

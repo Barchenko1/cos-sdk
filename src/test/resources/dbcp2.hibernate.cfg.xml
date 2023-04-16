@@ -12,7 +12,7 @@
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
-<!--        <property name="hibernate.connection.autocommit">false</property>-->
+        <property name="hibernate.connection.autocommit">true</property>
 
         <!-- show mysql queries output in console -->
         <property name="hibernate.show_sql">true</property>
