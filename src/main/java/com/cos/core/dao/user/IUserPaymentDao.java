@@ -1,6 +1,6 @@
 package com.cos.core.dao.user;
 
-import com.cos.core.test.IEmployeeDao;
+import com.cos.core.dao.IEntityDao;
 
-public interface IUserPaymentDao<E> extends IEmployeeDao<E> {
+public interface IUserPaymentDao<E> extends IEntityDao<E> {
 }

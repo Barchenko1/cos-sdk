@@ -1,6 +1,6 @@
 package com.cos.core.modal;
 
-import com.cos.core.test.modal.TestEntity;
+import com.cos.core.modal.TestEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +17,7 @@ import org.hibernate.annotations.NamedNativeQuery;
 @NamedNativeQueries({
         @NamedNativeQuery(name = "getTestDependentAll",
                 query = "select * from testDependent",
-                resultClass = com.cos.core.test.modal.TestEntity.class),
+                resultClass = com.cos.core.modal.TestEntity.class),
         @NamedNativeQuery(name = "getTestDependentByName",
                 query = "select * from testDependent d where d.name=?",
                 resultClass = TestEntity.class),

@@ -1,6 +1,6 @@
 package com.cos.core.modal;
 
-import com.cos.core.test.modal.TestEntity;
+import com.cos.core.modal.TestEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +21,7 @@ import java.util.List;
 @NamedNativeQueries({
         @NamedNativeQuery(name = "getTestEmployeeAll",
                 query = "select * from testEmployee",
-                resultClass = com.cos.core.test.modal.TestEntity.class),
+                resultClass = com.cos.core.modal.TestEntity.class),
         @NamedNativeQuery(name = "getTestEmployeeByName",
                 query = "select * from testEmployee e where e.name=?",
                 resultClass = TestEntity.class),
