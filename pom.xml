@@ -116,16 +116,20 @@
             <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.core.im</groupId>-->
+<!--            <artifactId>integration-modal</artifactId>-->
+<!--            <scope>system</scope>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--            <systemPath>-->
+<!--                ${project.basedir}/lib/integration-modal-1.0-SNAPSHOT.jar-->
+<!--            </systemPath>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.core.im</groupId>
             <artifactId>integration-modal</artifactId>
-            <scope>system</scope>
             <version>1.0-SNAPSHOT</version>
-            <systemPath>
-                ${project.basedir}/lib/integration-modal-1.0-SNAPSHOT.jar
-            </systemPath>
         </dependency>
-
     </dependencies>
 
     <properties>
@@ -151,7 +155,7 @@
     </properties>
 
     <build>
-        <finalName>maven-unit-test</finalName>
+        <finalName>cos-sdk</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

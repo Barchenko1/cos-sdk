@@ -14,7 +14,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.connection.autocommit">false</property>
 
         <property name="hibernate.hikari.connectionTimeout">1000</property>
@@ -23,9 +23,6 @@
         <property name="hibernate.hikari.idleTimeout">300000</property>
         <property name="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
         <!-- add annotated resources here -->
-        <mapping class="com.cos.core.test.modal.TestEntity" />
-        <mapping class="com.cos.core.test.modal.TestEmployee" />
-        <mapping class="com.cos.core.test.modal.TestDependent" />
 
         <mapping class="com.core.im.modal.order.Order" />
         <mapping class="com.core.im.modal.order.OrderStatus" />
@@ -56,8 +53,8 @@
         <mapping class="com.core.im.modal.option.Option" />
 
         <mapping class="com.core.im.modal.bucket.Bucket" />
-        <mapping class="com.core.im.modal.like.Liked" />
-        <mapping class="com.core.im.modal.view.Viewed" />
+        <mapping class="com.core.im.modal.liked.Liked" />
+        <mapping class="com.core.im.modal.viewed.Viewed" />
 
         <mapping class="com.core.im.modal.product.Product" />
 

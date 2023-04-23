@@ -12,9 +12,4 @@ public class DependentDao<E> extends AbstractDao<E> implements IDependentDao<E> 
         super(sessionFactory);
     }
 
-    @Override
-    public void setClazz(Class<E> clazz) {
-        this.clazz = clazz;
-    }
-
 }

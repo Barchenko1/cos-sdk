@@ -17,11 +17,6 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
     }
 
     @Override
-    public void setClazz(Class<E> clazz) {
-        this.clazz = clazz;
-    }
-
-    @Override
     public List<E> getAllUsers() {
         List<E> users;
         try (Session session = sessionFactory.openSession()) {

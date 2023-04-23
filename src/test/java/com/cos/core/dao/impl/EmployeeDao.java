@@ -11,14 +11,4 @@ public class EmployeeDao<E> extends AbstractDao<E> implements IEmployeeDao<E> {
     public EmployeeDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
-
-    @Override
-    public void setClazz(Class<E> clazz) {
-        this.clazz = clazz;
-    }
-
-    @Override
-    public void saveEntity(E user) {
-        super.saveEntity(user);
-    }
 }

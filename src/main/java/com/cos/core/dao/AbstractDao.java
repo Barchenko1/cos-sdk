@@ -15,6 +15,10 @@ public abstract class AbstractDao<E> {
         this.sessionFactory = sessionFactory;
     }
 
+    public void setClazz(Class<E> clazz) {
+        this.clazz = clazz;
+    }
+
     public void saveEntity(E entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
