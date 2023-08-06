@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 
 public class ConnectionPullC3P0Configuration extends AbstractConnectionPullConfiguration {
+
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullC3P0Configuration.class);
 
     @Override
