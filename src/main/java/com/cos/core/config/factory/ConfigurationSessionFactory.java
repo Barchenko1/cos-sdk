@@ -9,7 +9,7 @@ import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.properties.cd.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;

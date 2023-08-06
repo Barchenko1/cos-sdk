@@ -1,4 +1,4 @@
-package com.cos.core.properties.modal;
+package com.cos.core.properties.cd;
 
 public abstract class ConnectionDetails {
     protected String driver;

@@ -1,7 +1,7 @@
 package com.cos.core.config;
 
 import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.properties.cd.ConnectionDetails;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
