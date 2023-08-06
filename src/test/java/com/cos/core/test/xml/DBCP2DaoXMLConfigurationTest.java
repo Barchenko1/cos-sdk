@@ -33,7 +33,7 @@ public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.DBCP2, ConfigDbType.XML, new Class[]{TestEntity.class}
+                ConnectionPoolType.DBCP2, ConfigDbType.XML
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

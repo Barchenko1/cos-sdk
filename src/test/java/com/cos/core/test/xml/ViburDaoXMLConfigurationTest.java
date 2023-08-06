@@ -33,7 +33,7 @@ public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.VIBUR, ConfigDbType.XML, new Class[]{TestEntity.class}
+                ConnectionPoolType.VIBUR, ConfigDbType.XML
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

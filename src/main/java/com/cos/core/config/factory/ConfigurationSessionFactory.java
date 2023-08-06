@@ -21,9 +21,15 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
 
     private final ConnectionPoolType connectionPoolType;
     private final ConfigDbType configDbType;
-    private final Class<?>[] annotationClasses;
     private SessionFactory sessionFactory;
+    private Class<?>[] annotationClasses;
     private ConnectionDetails connectionDetails;
+
+    public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
+                                       ConfigDbType configDbType) {
+        this.connectionPoolType = connectionPoolType;
+        this.configDbType = configDbType;
+    }
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
                                        ConfigDbType configDbType,

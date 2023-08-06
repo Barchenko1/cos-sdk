@@ -34,7 +34,7 @@ public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest 
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.XML, new Class[]{TestEntity.class}
+                ConnectionPoolType.HIKARI, ConfigDbType.XML
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
