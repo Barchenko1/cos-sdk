@@ -5,9 +5,10 @@ import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
-import com.cos.core.service.EmployeeDependentTransactionService;
-import com.cos.core.service.IEmployeeDependentTransactionService;
+import com.cos.core.service.EmployeeDependentService;
+import com.cos.core.service.IEmployeeDependentService;
 import com.cos.core.test.base.AbstractTransactionTest;
+import com.cos.core.test.modal.EmployeeDependentTestDto;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -27,7 +28,7 @@ import static com.cos.core.constant.DataSourcePool.getDataSource;
 public class TransactionTest extends AbstractTransactionTest {
     private static ConnectionHolder connectionHolder;
 
-    private static IEmployeeDependentTransactionService employeeDependentTransactionService;
+    private static IEmployeeDependentService employeeDependentService;
 
     @BeforeAll
     public static void getSessionFactory() {
@@ -35,9 +36,8 @@ public class TransactionTest extends AbstractTransactionTest {
                 new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
 
-        Class<?>[] classes = { TestEmployee.class, TestDependent.class };
-        employeeDependentTransactionService = new EmployeeDependentTransactionService(sessionFactory);
-        employeeDependentTransactionService.setClasses(classes);
+        Class<?>[] classes = { TestEmployee.class, TestDependent.class, EmployeeDependentTestDto.class };
+        employeeDependentService = new EmployeeDependentService(sessionFactory);
 
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
@@ -62,7 +62,7 @@ public class TransactionTest extends AbstractTransactionTest {
         TestEmployee employee = new TestEmployee();
         employee.setName("Robert");
 
-        employeeDependentTransactionService.saveTransactionalEntities(employee, dependents);
+        employeeDependentService.saveTransactionalEntities(employee, dependents);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TransactionTest extends AbstractTransactionTest {
         employee.setName("Robert");
 
         Assertions.assertThrows(RuntimeException.class, () -> {
-            employeeDependentTransactionService.saveIncorrectTransactionalEntities(null, dependents);
+            employeeDependentService.saveIncorrectTransactionalEntities(null, dependents);
         });
     }
 
