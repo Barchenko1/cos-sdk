@@ -3,14 +3,13 @@ package com.cos.core.dao;
 import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.util.ResourceReader;
-import com.github.database.rider.core.api.connection.ConnectionHolder;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.junit.AfterClass;
+
 import org.junit.jupiter.api.AfterAll;
 
 import javax.sql.DataSource;

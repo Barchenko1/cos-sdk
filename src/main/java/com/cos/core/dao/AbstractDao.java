@@ -23,7 +23,7 @@ public abstract class AbstractDao<E> {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.merge(entity);
             transaction.commit();
         } catch (Exception e) {
             LOG.warn("transaction error {}", e.getMessage());
