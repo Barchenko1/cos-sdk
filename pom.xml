@@ -120,13 +120,11 @@
     </dependencies>
 
     <properties>
-        <spring.version>5.3.19</spring.version>
         <hibernate.version>6.1.1.Final</hibernate.version>
         <javax.version>2.2</javax.version>
         <c3p0.version>0.9.5.5</c3p0.version>
         <hikari.version>5.0.1</hikari.version>
         <dbcp2.version>2.9.0</dbcp2.version>
-        <h2.version>2.1.214</h2.version>
         <mysql.version>8.0.30</mysql.version>
         <postgres.version>42.6.0</postgres.version>
         <log.version>2.18.0</log.version>
