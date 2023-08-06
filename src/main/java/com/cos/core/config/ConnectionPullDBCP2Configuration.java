@@ -55,7 +55,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
     }
 
     @Override
-    public SessionFactory createClassDetailsSessionFactory(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
+    public SessionFactory createSessionFactoryWithClassDetails(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
         if (sessionFactory == null) {
             try {
                 Properties settings = new Properties();

@@ -37,7 +37,7 @@ public class HikariDaoClassConfigurationTest extends AbstractDaoConfigurationTes
                 new ConnectionPullHikariConfiguration();
         Class<?>[] classes = { TestEntity.class };
         sessionFactory =
-                connectionPullConfiguration.createClassDetailsSessionFactory(getConnectionDetails(DataSourcePoolType.HIKARI_DATASOURCE), classes);
+                connectionPullConfiguration.createSessionFactoryWithClassDetails(getConnectionDetails(DataSourcePoolType.HIKARI_DATASOURCE), classes);
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);

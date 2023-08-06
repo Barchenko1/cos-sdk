@@ -52,7 +52,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
     }
 
     @Override
-    public SessionFactory createClassDetailsSessionFactory(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
+    public SessionFactory createSessionFactoryWithClassDetails(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
         if (sessionFactory == null) {
             try {
                 Properties settings = getDefaultConnectionPullSettings(connectionDetails);

@@ -8,7 +8,7 @@ public interface IConnectionPullConfiguration {
 
     SessionFactory createSessionFactoryWithProperties();
     SessionFactory createSessionFactoryWithHibernateXML();
-    SessionFactory createClassDetailsSessionFactory(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses);
+    SessionFactory createSessionFactoryWithClassDetails(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses);
     void setPropertiesProvider(IPropertiesProvider propertiesProvider);
     void setAnnotatedClasses(Class<?>[] classes);
 }

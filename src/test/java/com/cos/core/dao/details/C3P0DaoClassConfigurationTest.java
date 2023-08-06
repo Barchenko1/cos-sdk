@@ -33,7 +33,7 @@ public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest 
                 new ConnectionPullC3P0Configuration();
         Class<?>[] classes = { TestEntity.class };
         sessionFactory =
-                connectionPullConfiguration.createClassDetailsSessionFactory(getConnectionDetails(DataSourcePoolType.C3PO_DATASOURCE), classes);
+                connectionPullConfiguration.createSessionFactoryWithClassDetails(getConnectionDetails(DataSourcePoolType.C3PO_DATASOURCE), classes);
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
