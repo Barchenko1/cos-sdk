@@ -1,4 +1,4 @@
-CREATE DATABASE test_db;
+ALTER SYSTEM SET max_connections = 200;
 
 CREATE TABLE TestEntity (
     id BIGSERIAL PRIMARY KEY,

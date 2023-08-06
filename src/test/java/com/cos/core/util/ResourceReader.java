@@ -1,6 +1,5 @@
 package com.cos.core.util;
 
-import com.cos.core.dao.details.HikariDaoClassConfigurationTest;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 
