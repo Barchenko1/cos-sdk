@@ -10,5 +10,6 @@ public interface IEmployeeDependentTransactionService {
 
     void setClasses(Class<?>[] classes);
     void saveTransactionalEntities(TestEmployee employee, List<TestDependent> dependent);
+    void saveIncorrectTransactionalEntities(TestEmployee employee, List<TestDependent> dependent);
 
 }

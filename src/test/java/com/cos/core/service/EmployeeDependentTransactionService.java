@@ -37,18 +37,36 @@ public class EmployeeDependentTransactionService implements IEmployeeDependentTr
     @Override
     public void saveTransactionalEntities(TestEmployee employee, List<TestDependent> dependents) {
         dependents.forEach(employee::addDependent);
+        employeeDao.saveEntity(employee);
+//        Transaction transaction = null;
+//        try (Session session = sessionFactory.openSession()) {
+//            transaction = session.beginTransaction();
+//            session.merge(employee);
+//            transaction.commit();
+//        } catch (Exception e) {
+//            LOG.warn("transaction error {}", e.getMessage());
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//            throw new RuntimeException(e);
+//        }
+    }
 
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.persist(employee);
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.warn("transaction error {}", e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void saveIncorrectTransactionalEntities(TestEmployee employee, List<TestDependent> dependents) {
+//        dependents.forEach(employee::addDependent);
+        employeeDao.saveEntity(null);
+//        Transaction transaction = null;
+//        try (Session session = sessionFactory.openSession()) {
+//            transaction = session.beginTransaction();
+//            session.merge(employee);
+//            transaction.commit();
+//        } catch (Exception e) {
+//            LOG.warn("transaction error {}", e.getMessage());
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//            throw new RuntimeException(e);
+//        }
     }
 }

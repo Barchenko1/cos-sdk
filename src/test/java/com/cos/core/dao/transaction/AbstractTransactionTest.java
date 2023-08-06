@@ -1,4 +1,4 @@
-package com.cos.core.dao;
+package com.cos.core.dao.transaction;
 
 import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.modal.TestEntity;
@@ -9,13 +9,12 @@ import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
 import org.junit.jupiter.api.AfterAll;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-public abstract class AbstractDaoConfigurationTest {
+public abstract class AbstractTransactionTest {
 
     protected static SessionFactory sessionFactory;
     protected static ITestEntityDao<TestEntity> testEntityDao;
@@ -36,8 +35,8 @@ public abstract class AbstractDaoConfigurationTest {
 
     public static void prepareTestEntityDb() {
         try (Connection connection = dataSource.getConnection()) {
-            IDataSet dataSet = resourceReader.getDataSet("/data/dataset/initDataSet.xml");
-            DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(connection), dataSet);
+            IDataSet dataSet = resourceReader.getDataSet("/data/dataset/initEmptyDataSet.xml");
+            DatabaseOperation.DELETE_ALL.execute(new DatabaseConnection(connection), dataSet);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

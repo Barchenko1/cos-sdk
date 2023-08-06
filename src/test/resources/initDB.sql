@@ -1,6 +1,3 @@
--- Step 1: Drop the Database (be careful with this command)
-DROP DATABASE IF EXISTS test_db;
--- Step 2: Recreate the Database
 CREATE DATABASE test_db;
 
 CREATE TABLE TestEntity (
@@ -8,6 +5,18 @@ CREATE TABLE TestEntity (
     name VARCHAR(255) NOT NULL
 );
 
--- Step 4: Optional - Insert initial data into the "TestEntity" table
-INSERT INTO TestEntity (name) VALUES ('test1');
-INSERT INTO TestEntity (name) VALUES ('test2');
+CREATE TABLE TestEmployee (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+CREATE TABLE TestDependent (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    status VARCHAR(255),
+    testEmployee_id BIGINT
+);
+
+ALTER TABLE TestDependent
+ADD CONSTRAINT fk_testEmployee_id
+FOREIGN KEY (testEmployee_id) REFERENCES TestEmployee(id);

@@ -2,9 +2,7 @@ package com.cos.core.dao.transaction;
 
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
-import com.cos.core.dao.AbstractDaoConfigurationTest;
-import com.cos.core.dao.impl.IDependentDao;
-import com.cos.core.dao.impl.IEmployeeDao;
+import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
 import com.cos.core.service.EmployeeDependentTransactionService;
@@ -13,48 +11,46 @@ import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
-import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cos.core.constant.DataSourcePool.getDataSource;
+
 @ExtendWith(DBUnitExtension.class)
-public class EmployeeDependentTransactionTest extends AbstractDaoConfigurationTest {
+public class TransactionTest extends AbstractTransactionTest {
+    private static ConnectionHolder connectionHolder;
 
-    private static IEmployeeDao<TestEmployee> employeeDao;
-    private static IDependentDao<TestDependent> dependentDao;
     private static IEmployeeDependentTransactionService employeeDependentTransactionService;
-
-    @Rule
-    private static final ConnectionHolder connectionHolder =
-            () -> sessionFactory.getSessionFactoryOptions()
-                    .getServiceRegistry()
-                    .getService(HikariConnectionProvider.class)
-                    .getConnection();
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
+        IConnectionPullConfiguration connectionPullConfiguration =
+                new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
-
-//        employeeDao = new EmployeeDao<>(sessionFactory);
-//        employeeDao.setClazz(TestEmployee.class);
-//
-//        dependentDao = new DependentDao<>(sessionFactory);
-//        dependentDao.setClazz(TestDependent.class);
 
         Class<?>[] classes = { TestEmployee.class, TestDependent.class };
         employeeDependentTransactionService = new EmployeeDependentTransactionService(sessionFactory);
         employeeDependentTransactionService.setClasses(classes);
+
+        dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
+        connectionHolder = dataSource::getConnection;
+    }
+
+    @BeforeEach
+    public void BeforeEach() {
+        prepareTestEntityDb();
     }
 
     @Test
-    @ExpectedDataSet(value = "/data/expected/createExpectedTransactionSet.yml")
-    void saveDaoTest() {
+    @DataSet(cleanBefore = true)
+    @ExpectedDataSet(value = "/data/expected/createExpectedTransactionSet.xml")
+    void saveCorrectTransactionTest() {
         TestDependent dependent1 = setUpDependent("Liza", "GirlFriend");
         TestDependent dependent2 = setUpDependent("Bread", "Child");
 
@@ -66,6 +62,24 @@ public class EmployeeDependentTransactionTest extends AbstractDaoConfigurationTe
         employee.setName("Robert");
 
         employeeDependentTransactionService.saveTransactionalEntities(employee, dependents);
+    }
+
+    @Test
+    @DataSet(cleanBefore = true)
+    void saveIncorrectTransactionTest() {
+        TestDependent dependent1 = setUpDependent("Liza", "GirlFriend");
+        TestDependent dependent2 = setUpDependent("Bread", "Child");
+
+        List<TestDependent> dependents = new ArrayList<>();
+        dependents.add(dependent1);
+        dependents.add(dependent2);
+
+        TestEmployee employee = new TestEmployee();
+        employee.setName("Robert");
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            employeeDependentTransactionService.saveIncorrectTransactionalEntities(null, dependents);
+        });
     }
 
     private TestDependent setUpDependent(String name, String status) {

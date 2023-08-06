@@ -4,27 +4,21 @@ import com.cos.core.config.ConnectionPullDBCP2Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
-import com.cos.core.dao.details.HikariDaoClassConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
+import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.InputStream;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,17 +53,17 @@ public class DBCP2DaoPropertiesConfigurationTest extends AbstractDaoConfiguratio
     }
 
     @Test
-    @ExpectedDataSet(value = "/data/expected/createExpectedSet.xml")
+    @DataSet(cleanBefore = true)
+    @ExpectedDataSet(value = "/data/expected/createOneExpectedSet.xml")
     void saveDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setName("testSave");
 
         testEntityDao.saveEntity(testEntity);
     }
-
     @Test
-    @ExpectedDataSet("/data/expected/expectedDataSet.xml")
-    public void testUpdateEntity() {
+    @ExpectedDataSet("/data/expected/updateExpectedSet.xml")
+    void updateDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(1L);
         testEntity.setName("Updated");

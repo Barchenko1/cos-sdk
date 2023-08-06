@@ -7,6 +7,7 @@ import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
+import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
 
@@ -50,17 +51,17 @@ public class HikariDaoClassConfigurationTest extends AbstractDaoConfigurationTes
     }
 
     @Test
-    @ExpectedDataSet(value = "/data/expected/createExpectedSet.xml")
+    @DataSet(cleanBefore = true)
+    @ExpectedDataSet(value = "/data/expected/createOneExpectedSet.xml")
     void saveDaoTest() {
         TestEntity testEntity = new TestEntity();
-        testEntity.setId(3L);
         testEntity.setName("testSave");
 
         testEntityDao.saveEntity(testEntity);
     }
 
     @Test
-    @ExpectedDataSet("/data/expected/expectedDataSet.xml")
+    @ExpectedDataSet("/data/expected/updateExpectedSet.xml")
     void updateDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(1L);
@@ -87,9 +88,7 @@ public class HikariDaoClassConfigurationTest extends AbstractDaoConfigurationTes
 
     @Test
     void getTestEntity() {
-        Optional<TestEntity> result = testEntityDao
-                .getTestEntityByUser("Test1");
-
+        Optional<TestEntity> result = testEntityDao.getTestEntityByUser("Test1");
         Assertions.assertEquals("Test1", result.get().getName());
     }
 }
