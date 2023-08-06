@@ -15,7 +15,7 @@ public interface CosCoreConstants {
     String VIBUR_HIBERNATE_XML_FILE_NAME = "vibur.hibernate.cfg.xml";
 
     String C3P0_CONNECTION_PROVIDER = "org.hibernate.c3p0.internal.C3P0ConnectionProvider";
-    String HIKARI_CONNECTION_PROVIDER = "com.zaxxer.hikari.hibernate.HikariConnectionProvider";
+    String HIKARI_CONNECTION_PROVIDER = "org.hibernate.hikaricp.internal.HikariCPConnectionProvider";
     String VIBUR_CONNECTION_PROVIDER = "org.hibernate.vibur.internal.ViburDBCPConnectionProvider";
     String DBCP2_CONNECTION_PROVIDER = "";
 }

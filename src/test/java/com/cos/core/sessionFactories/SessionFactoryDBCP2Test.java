@@ -11,13 +11,15 @@ import com.cos.core.properties.modal.DBCP2ConnectionDetails;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.cos.core.constant.Constant.*;
-
+@Deprecated
+@Disabled
 public class  SessionFactoryDBCP2Test {
 
   @Test

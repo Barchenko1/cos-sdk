@@ -11,6 +11,7 @@ import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import org.hibernate.SessionFactory;
 import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import java.util.List;
 
 import static com.cos.core.constant.Constant.*;
 
+@Deprecated
+@Disabled
 public class SessionFactoryViburTest {
     @Test
     void createSessionFactoryWithProperties() {

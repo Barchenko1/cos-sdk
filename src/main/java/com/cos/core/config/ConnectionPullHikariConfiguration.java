@@ -2,7 +2,7 @@ package com.cos.core.config;
 
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.cp.HikariSettings;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
+import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -34,7 +34,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
                 settings.put(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE,
                         properties.getOrDefault(HikariSettings.HIBERNATE_HIKARI_MAXIMUM_PULL_SIZE, "20"));
                 settings.put(Environment.CONNECTION_PROVIDER,
-                        properties.getOrDefault(Environment.CONNECTION_PROVIDER, HikariConnectionProvider.class));
+                        properties.getOrDefault(Environment.CONNECTION_PROVIDER, HikariCPConnectionProvider.class));
 
                 // Maximum time that a connection is allowed to sit ideal in the pool
                 settings.put(HikariSettings.HIBERNATE_HIKARI_IDLE_TIMEOUT,

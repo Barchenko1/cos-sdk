@@ -1,31 +1,21 @@
 package com.cos.core.dao.details;
 
 import com.cos.core.config.ConnectionPullC3P0Configuration;
-import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
-import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.modal.TestEntity;
-import com.cos.core.properties.modal.AbstractConnectionDetails;
-import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cos.core.constant.Constant.*;
 import static com.cos.core.constant.DataSourcePool.*;
 
 @ExtendWith(DBUnitExtension.class)
@@ -36,8 +26,8 @@ public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest 
     public C3P0DaoClassConfigurationTest() {
     }
 
-    @BeforeEach
-    public void getSessionFactory() throws SQLException {
+    @BeforeAll
+    public static void getSessionFactory() throws SQLException {
         IConnectionPullConfiguration connectionPullConfiguration =
                 new ConnectionPullC3P0Configuration();
         Class<?>[] classes = { TestEntity.class };
@@ -51,6 +41,7 @@ public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest 
 
     @BeforeEach
     public void BeforeEach() {
+        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
         prepareTestEntityDb();
     }
 

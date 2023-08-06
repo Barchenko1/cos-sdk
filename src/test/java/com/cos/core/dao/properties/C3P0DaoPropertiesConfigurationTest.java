@@ -77,11 +77,6 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         testEntityDao.updateEntity(testEntity);
     }
 
-    private static IDataSet getDataSet(String fileName) throws Exception {
-        InputStream inputStream = HikariDaoClassConfigurationTest.class.getResourceAsStream(fileName);
-        return new FlatXmlDataSetBuilder().build(inputStream);
-    }
-
     @Test
     @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.xml")
     void deleteDaoTest() {

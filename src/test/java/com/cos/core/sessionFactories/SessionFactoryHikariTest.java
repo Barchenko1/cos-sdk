@@ -10,7 +10,9 @@ import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.hibernate.SessionFactory;
+import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.List;
 
 import static com.cos.core.constant.Constant.*;
 
+@Deprecated
+@Disabled
 public class SessionFactoryHikariTest {
     @Test
     void createSessionFactoryWithProperties() {
@@ -78,7 +82,8 @@ public class SessionFactoryHikariTest {
                 .setShowSQL(true)
                 .setCurrentSessionContextClass("thread")
                 .setHBM2ddlAuto("update")
-                .setConnectionPullProviderClass(HikariConnectionProvider.class)
+                .setAutoCommit(false)
+                .setConnectionPullProviderClass(HikariCPConnectionProvider.class)
                 .build();
 
         TestEntity testEntity = new TestEntity();

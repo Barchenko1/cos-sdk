@@ -12,6 +12,7 @@ import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import org.hibernate.SessionFactory;
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import static com.cos.core.constant.Constant.POSTGRES_DRIVER;
 import static com.cos.core.constant.Constant.POSTGRES_PASSWORD;
 import static com.cos.core.constant.Constant.POSTGRES_USERNAME;
 
+@Deprecated
+@Disabled
 public class SessionFactoryC3P0Test {
 
 

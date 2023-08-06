@@ -5,10 +5,10 @@ import com.cos.core.properties.modal.DBCP2ConnectionDetails;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
+import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
 import org.vibur.dbcp.ViburDBCPDataSource;
 
@@ -144,7 +144,7 @@ public class DataSourcePool {
                 .setCurrentSessionContextClass("thread")
                 .setHBM2ddlAuto("update")
                 .setAutoCommit(false)
-                .setConnectionPullProviderClass(HikariConnectionProvider.class)
+                .setConnectionPullProviderClass(HikariCPConnectionProvider.class)
                 .build();
     }
 }
