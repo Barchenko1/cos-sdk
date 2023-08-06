@@ -1,11 +1,10 @@
 package com.cos.core.properties.modal;
 
-public class DBCP2ConnectionDetails extends AbstractConnectionDetails{
+public class DBCP2ConnectionDetails extends ConnectionDetails {
     private int initialSize;
     private int minIdle;
     private int maxIdle;
     private int maxTotal;
-    private Class<?> connectionPullProviderClass;
 
     private DBCP2ConnectionDetails() {
     }

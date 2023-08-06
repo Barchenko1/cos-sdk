@@ -1,13 +1,8 @@
 package com.cos.core.properties.modal;
 
-public class ExternalCPConnectionDetails extends AbstractConnectionDetails{
-    private Class<?> connectionPullProviderClass;
+public class ExternalCPConnectionDetails extends ConnectionDetails {
 
     private ExternalCPConnectionDetails() {
-    }
-
-    public Class<?> getConnectionPullProviderClass() {
-        return connectionPullProviderClass;
     }
 
     public static Builder newBuilder() {

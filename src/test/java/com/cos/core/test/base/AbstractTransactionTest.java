@@ -1,4 +1,4 @@
-package com.cos.core.dao.transaction;
+package com.cos.core.test.base;
 
 import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.modal.TestEntity;

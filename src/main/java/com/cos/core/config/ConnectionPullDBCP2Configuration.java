@@ -1,6 +1,6 @@
 package com.cos.core.config;
 
-import com.cos.core.properties.modal.AbstractConnectionDetails;
+import com.cos.core.properties.modal.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
@@ -55,7 +55,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
     }
 
     @Override
-    public SessionFactory createSessionFactoryWithClassDetails(AbstractConnectionDetails connectionDetails, Class<?>[] annotatedClasses) {
+    public SessionFactory createSessionFactoryWithClassDetails() {
         if (sessionFactory == null) {
             try {
                 Properties settings = new Properties();
@@ -86,7 +86,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
         return sessionFactory;
     }
 
-    private DataSource getClassDBCPConnectionPullSettings(AbstractConnectionDetails connectionDetails) {
+    private DataSource getClassDBCPConnectionPullSettings(ConnectionDetails connectionDetails) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(connectionDetails.getDriver());
         dataSource.setUrl(connectionDetails.getUrl());

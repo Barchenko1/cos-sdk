@@ -1,9 +1,12 @@
-package com.cos.core.dao.xml;
+package com.cos.core.test.details;
 
+import com.cos.core.config.ConfigDbType;
+import com.cos.core.config.ConnectionPoolType;
 import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.dao.AbstractDaoConfigurationTest;
+import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
@@ -19,24 +22,27 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.List;
 import java.util.Optional;
 
+import static com.cos.core.constant.DataSourcePool.getConnectionDetails;
 import static com.cos.core.constant.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
-public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
-
+public class ViburDaoClassConfigurationTest extends AbstractDaoConfigurationTest {
     private static ConnectionHolder connectionHolder;
 
-    public ViburDaoXMLConfigurationTest() {
+    public ViburDaoClassConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullViburConfiguration();
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
+                ConnectionPoolType.VIBUR, ConfigDbType.CLASS, getConnectionDetails(DataSourcePoolType.VIBUR_DATASOURCE), new Class[]{TestEntity.class}
+        );
+        sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.VIBUR_DATASOURCE);
         connectionHolder = dataSource::getConnection;
+
     }
 
     @BeforeEach

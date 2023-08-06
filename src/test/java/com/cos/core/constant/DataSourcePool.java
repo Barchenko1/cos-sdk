@@ -1,6 +1,7 @@
 package com.cos.core.constant;
 
-import com.cos.core.properties.modal.AbstractConnectionDetails;
+import com.cos.core.config.ConnectionPullC3P0Configuration;
+import com.cos.core.properties.modal.ConnectionDetails;
 import com.cos.core.properties.modal.DBCP2ConnectionDetails;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -10,19 +11,38 @@ import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.hibernate.vibur.internal.ViburDBCPConnectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vibur.dbcp.ViburDBCPDataSource;
 
 import javax.sql.DataSource;
 
 import java.beans.PropertyVetoException;
 
-import static com.cos.core.constant.Constant.*;
-import static com.cos.core.constant.DataSourcePoolType.*;
+import static com.cos.core.constant.Constant.POSTGRES_DB_URL;
+import static com.cos.core.constant.Constant.POSTGRES_DIALECT;
+import static com.cos.core.constant.Constant.POSTGRES_DRIVER;
+import static com.cos.core.constant.Constant.POSTGRES_PASSWORD;
+import static com.cos.core.constant.Constant.POSTGRES_USERNAME;
+import static com.cos.core.constant.DataSourcePoolType.C3PO_DATASOURCE;
+import static com.cos.core.constant.DataSourcePoolType.DBCP2_DATASOURCE;
+import static com.cos.core.constant.DataSourcePoolType.HIKARI_DATASOURCE;
+import static com.cos.core.constant.DataSourcePoolType.VIBUR_DATASOURCE;
 
 public class DataSourcePool {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullC3P0Configuration.class);
+
     public static DataSource getDataSource(DataSourcePoolType dsType) {
         if (HIKARI_DATASOURCE.equals(dsType)) {
-            getHikariDS();
+            HikariDataSource dataSource = new HikariDataSource();
+            dataSource.setJdbcUrl(POSTGRES_DB_URL);
+            dataSource.setUsername(POSTGRES_USERNAME);
+            dataSource.setPassword(POSTGRES_PASSWORD);
+            dataSource.setDriverClassName(POSTGRES_DRIVER);
+            dataSource.setMaximumPoolSize(10);
+            dataSource.setMinimumIdle(5);
+            return dataSource;
         }
         if (C3PO_DATASOURCE.equals(dsType)) {
             ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -66,12 +86,25 @@ public class DataSourcePool {
             dataSource.start();
             return dataSource;
         }
-        return getHikariDS();
+
+        LOG.warn("wasn't select datasource type");
+        throw new RuntimeException();
     }
 
-    public static AbstractConnectionDetails getConnectionDetails(DataSourcePoolType dsType) {
+    public static ConnectionDetails getConnectionDetails(DataSourcePoolType dsType) {
         if (HIKARI_DATASOURCE.equals(dsType)) {
-            return getHikariConnectionDetails();
+            return ExternalCPConnectionDetails.newBuilder()
+                    .setDriver(POSTGRES_DRIVER)
+                    .setUrl(POSTGRES_DB_URL)
+                    .setUserName(POSTGRES_USERNAME)
+                    .setPassword(POSTGRES_PASSWORD)
+                    .setDialect(POSTGRES_DIALECT)
+                    .setShowSQL(true)
+                    .setCurrentSessionContextClass("thread")
+                    .setHBM2ddlAuto("update")
+                    .setAutoCommit(false)
+                    .setConnectionPullProviderClass(HikariCPConnectionProvider.class)
+                    .build();
         }
         if (C3PO_DATASOURCE.equals(dsType)) {
             return ExternalCPConnectionDetails.newBuilder()
@@ -119,32 +152,7 @@ public class DataSourcePool {
                     .setConnectionPullProviderClass(ViburDBCPConnectionProvider.class)
                     .build();
         }
-        return getHikariConnectionDetails();
-    }
-
-    private static DataSource getHikariDS() {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(POSTGRES_DB_URL);
-        dataSource.setUsername(POSTGRES_USERNAME);
-        dataSource.setPassword(POSTGRES_PASSWORD);
-        dataSource.setDriverClassName(POSTGRES_DRIVER);
-        dataSource.setMaximumPoolSize(10);
-        dataSource.setMinimumIdle(5);
-        return dataSource;
-    }
-
-    private static AbstractConnectionDetails getHikariConnectionDetails() {
-        return ExternalCPConnectionDetails.newBuilder()
-                .setDriver(POSTGRES_DRIVER)
-                .setUrl(POSTGRES_DB_URL)
-                .setUserName(POSTGRES_USERNAME)
-                .setPassword(POSTGRES_PASSWORD)
-                .setDialect(POSTGRES_DIALECT)
-                .setShowSQL(true)
-                .setCurrentSessionContextClass("thread")
-                .setHBM2ddlAuto("update")
-                .setAutoCommit(false)
-                .setConnectionPullProviderClass(HikariCPConnectionProvider.class)
-                .build();
+        LOG.warn("wasn't select ConnectionDetails");
+        throw new RuntimeException();
     }
 }

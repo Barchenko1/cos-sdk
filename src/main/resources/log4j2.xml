@@ -15,7 +15,10 @@
         <Logger name="com.zaxxer" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Logger name="org.logicalcobwebs" level="info" additivity="false">
+        <Logger name="org.apache.commons.pool2" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="org.vibur.dbcp" level="info" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Logger name="org.apache.commons.dbcp2" level="info" additivity="false">

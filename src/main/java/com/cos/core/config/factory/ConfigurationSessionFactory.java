@@ -7,7 +7,10 @@ import com.cos.core.config.ConnectionPullDBCP2Configuration;
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
-import com.cos.core.properties.modal.AbstractConnectionDetails;
+import com.cos.core.properties.IPropertiesProvider;
+import com.cos.core.properties.PropertiesProvider;
+import com.cos.core.properties.modal.ConnectionDetails;
+import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +23,7 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
     private final ConfigDbType configDbType;
     private final Class<?>[] annotationClasses;
     private SessionFactory sessionFactory;
-    private AbstractConnectionDetails connectionDetails;
+    private ConnectionDetails connectionDetails;
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
                                        ConfigDbType configDbType,
@@ -32,7 +35,7 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
                                        ConfigDbType configDbType,
-                                       AbstractConnectionDetails connectionDetails,
+                                       ConnectionDetails connectionDetails,
                                        Class<?>[] annotationClasses) {
         this.connectionPoolType = connectionPoolType;
         this.configDbType = configDbType;
@@ -59,12 +62,17 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
                     connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         }
         if (ConfigDbType.PROPERTY.equals(configDbType)) {
+            connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
+            IPropertiesProvider propertiesProvider = propertiesProviderFactory();
+            connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
             sessionFactory =
                     connectionPullConfiguration.createSessionFactoryWithProperties();
         }
         if (ConfigDbType.CLASS.equals(configDbType)) {
+            connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
+            connectionPullConfiguration.setConnectionDetails(connectionDetails);
             sessionFactory =
-                    connectionPullConfiguration.createSessionFactoryWithClassDetails(connectionDetails, annotationClasses);
+                    connectionPullConfiguration.createSessionFactoryWithClassDetails();
         }
         if (sessionFactory == null) {
             LOG.warn("no configuration selected");
@@ -95,5 +103,23 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
 
         connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
         return connectionPullConfiguration;
+    }
+
+    private IPropertiesProvider propertiesProviderFactory() {
+        IPropertiesProvider propertiesProvider = new PropertiesProvider();
+        if (ConnectionPoolType.HIKARI.equals(connectionPoolType)) {
+            propertiesProvider.loadPropertiesByName(CosCoreConstants.HIKARI_PROPERTIES_FILE_NAME);
+        }
+        if (ConnectionPoolType.C3P0.equals(connectionPoolType)) {
+            propertiesProvider.loadPropertiesByName(CosCoreConstants.C3P0_PROPERTIES_FILE_NAME);
+        }
+        if (ConnectionPoolType.DBCP2.equals(connectionPoolType)) {
+            propertiesProvider.loadPropertiesByName(CosCoreConstants.DBCP2_PROPERTIES_FILE_NAME);
+        }
+        if (ConnectionPoolType.VIBUR.equals(connectionPoolType)) {
+            propertiesProvider.loadPropertiesByName(CosCoreConstants.VIBUR_PROPERTIES_FILE_NAME);
+        }
+
+        return propertiesProvider;
     }
 }

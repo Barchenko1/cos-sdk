@@ -1,6 +1,6 @@
 package com.cos.core.properties.modal;
 
-public abstract class AbstractConnectionDetails {
+public abstract class ConnectionDetails {
     protected String driver;
     protected String url;
     protected String username;
@@ -10,8 +10,9 @@ public abstract class AbstractConnectionDetails {
     protected String currentSessionContextClass;
     protected String hbm2ddlAuto;
     protected boolean autoCommit;
+    protected Class<?> connectionPullProviderClass;
 
-    public AbstractConnectionDetails() {
+    public ConnectionDetails() {
     }
 
     public String getDriver() {
@@ -50,12 +51,12 @@ public abstract class AbstractConnectionDetails {
         return autoCommit;
     }
 
-    public int getMinIdle() {
-        return 0;
+    public Class<?> getConnectionPullProviderClass() {
+        return connectionPullProviderClass;
     }
 
-    public Class<?> getConnectionPullProviderClass() {
-        return null;
+    public int getMinIdle() {
+        return 0;
     }
 
     public int getInitialSize() {

@@ -1,4 +1,4 @@
-package com.cos.core.dao.transaction;
+package com.cos.core.test.transaction;
 
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
@@ -7,6 +7,7 @@ import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
 import com.cos.core.service.EmployeeDependentTransactionService;
 import com.cos.core.service.IEmployeeDependentTransactionService;
+import com.cos.core.test.base.AbstractTransactionTest;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;

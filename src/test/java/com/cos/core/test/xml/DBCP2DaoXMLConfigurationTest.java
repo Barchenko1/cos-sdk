@@ -1,14 +1,12 @@
-package com.cos.core.dao.properties;
+package com.cos.core.test.xml;
 
-import com.cos.core.config.ConnectionPullViburConfiguration;
-import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.ConfigDbType;
+import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.dao.AbstractDaoConfigurationTest;
+import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
-import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -25,25 +23,22 @@ import java.util.Optional;
 import static com.cos.core.constant.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
-public class ViburDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public ViburDaoPropertiesConfigurationTest() {
+    public DBCP2DaoXMLConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullViburConfiguration();
-        Class<?>[] classes = { TestEntity.class };
-        IPropertiesProvider propertiesProvider = new PropertiesProvider();
-        propertiesProvider.loadPropertiesByName(CosCoreConstants.VIBUR_PROPERTIES_FILE_NAME);
-        connectionPullConfiguration.setAnnotatedClasses(classes);
-        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
+        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
+                ConnectionPoolType.DBCP2, ConfigDbType.XML, new Class[]{TestEntity.class}
+        );
+        sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.VIBUR_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
 

@@ -1,9 +1,12 @@
-package com.cos.core.dao.properties;
+package com.cos.core.test.properties;
 
-import com.cos.core.config.ConnectionPullC3P0Configuration;
+import com.cos.core.config.ConfigDbType;
+import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.ConnectionPullViburConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.dao.AbstractDaoConfigurationTest;
+import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
@@ -25,25 +28,22 @@ import java.util.Optional;
 import static com.cos.core.constant.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
-public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class ViburDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public C3P0DaoPropertiesConfigurationTest() {
+    public ViburDaoPropertiesConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullC3P0Configuration();
-        Class<?>[] classes = { TestEntity.class };
-        IPropertiesProvider propertiesProvider = new PropertiesProvider();
-        propertiesProvider.loadPropertiesByName(CosCoreConstants.C3P0_PROPERTIES_FILE_NAME);
-        connectionPullConfiguration.setAnnotatedClasses(classes);
-        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
+        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
+                ConnectionPoolType.VIBUR, ConfigDbType.PROPERTY, new Class[]{TestEntity.class}
+        );
+        sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.VIBUR_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
 

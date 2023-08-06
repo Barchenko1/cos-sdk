@@ -1,17 +1,16 @@
-package com.cos.core.dao.properties;
+package com.cos.core.test.xml;
 
-import com.cos.core.config.ConnectionPullDBCP2Configuration;
-import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.ConfigDbType;
+import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.dao.AbstractDaoConfigurationTest;
+import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
-import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+
 import com.github.database.rider.junit5.DBUnitExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,26 +24,24 @@ import java.util.Optional;
 import static com.cos.core.constant.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
-public class DBCP2DaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public DBCP2DaoPropertiesConfigurationTest() {
+    public HikariDaoXMLConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullDBCP2Configuration();
-        Class<?>[] classes = { TestEntity.class };
-        IPropertiesProvider propertiesProvider = new PropertiesProvider();
-        propertiesProvider.loadPropertiesByName(CosCoreConstants.DBCP2_PROPERTIES_FILE_NAME);
-        connectionPullConfiguration.setAnnotatedClasses(classes);
-        connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
+        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
+                ConnectionPoolType.HIKARI, ConfigDbType.XML, new Class[]{TestEntity.class}
+        );
+        sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
+
     }
 
     @BeforeEach
@@ -61,6 +58,7 @@ public class DBCP2DaoPropertiesConfigurationTest extends AbstractDaoConfiguratio
 
         testEntityDao.saveEntity(testEntity);
     }
+
     @Test
     @ExpectedDataSet("/data/expected/updateExpectedSet.xml")
     void updateDaoTest() {
@@ -94,5 +92,6 @@ public class DBCP2DaoPropertiesConfigurationTest extends AbstractDaoConfiguratio
 
         Assertions.assertEquals("Test1", result.get().getName());
     }
+
 }
 
