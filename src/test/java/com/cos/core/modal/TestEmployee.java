@@ -1,14 +1,13 @@
 package com.cos.core.modal;
 
-import com.cos.core.modal.TestEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 
@@ -21,14 +20,14 @@ import java.util.List;
 @NamedNativeQueries({
         @NamedNativeQuery(name = "getTestEmployeeAll",
                 query = "select * from testEmployee",
-                resultClass = com.cos.core.modal.TestEntity.class),
+                resultClass = TestEmployee.class),
         @NamedNativeQuery(name = "getTestEmployeeByName",
                 query = "select * from testEmployee e where e.name=?",
-                resultClass = TestEntity.class),
+                resultClass = TestEmployee.class),
 })
 public class TestEmployee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
     @Column

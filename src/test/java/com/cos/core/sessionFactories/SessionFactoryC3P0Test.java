@@ -17,7 +17,15 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cos.core.constant.Constant.POSTGRES_DB_URL;
+import static com.cos.core.constant.Constant.POSTGRES_DIALECT;
+import static com.cos.core.constant.Constant.POSTGRES_DRIVER;
+import static com.cos.core.constant.Constant.POSTGRES_PASSWORD;
+import static com.cos.core.constant.Constant.POSTGRES_USERNAME;
+
 public class SessionFactoryC3P0Test {
+
+
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -41,7 +49,7 @@ public class SessionFactoryC3P0Test {
 
     testEntityDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(1, testEntity.getId());
   }
 
   @Test
@@ -68,14 +76,14 @@ public class SessionFactoryC3P0Test {
     annotationList.add(TestEntity.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     ExternalCPConnectionDetails connectionDetails = ExternalCPConnectionDetails.newBuilder()
-            .setDriver("org.h2.Driver")
-            .setUrl("jdbc:h2:mem:test")
-            .setUserName("sa")
-            .setPassword("")
-            .setDialect("org.hibernate.dialect.H2Dialect")
-            .setShowSQL("true")
+            .setDriver(POSTGRES_DRIVER)
+            .setUrl(POSTGRES_DB_URL)
+            .setUserName(POSTGRES_USERNAME)
+            .setPassword(POSTGRES_PASSWORD)
+            .setDialect(POSTGRES_DIALECT)
+            .setShowSQL(true)
             .setCurrentSessionContextClass("thread")
-            .setHBM2ddlAuto("create-drop")
+            .setHBM2ddlAuto("update")
             .setConnectionPullProviderClass(C3P0ConnectionProvider.class)
             .build();
 
@@ -89,6 +97,6 @@ public class SessionFactoryC3P0Test {
 
     testEntityDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(1, testEntity.getId());
   }
 }

@@ -6,9 +6,10 @@ public abstract class AbstractConnectionDetails {
     protected String username;
     protected String password;
     protected String dialect;
-    protected String showSQL;
+    protected boolean showSQL;
     protected String currentSessionContextClass;
     protected String hbm2ddlAuto;
+    protected boolean autoCommit;
 
     public AbstractConnectionDetails() {
     }
@@ -33,7 +34,7 @@ public abstract class AbstractConnectionDetails {
         return dialect;
     }
 
-    public String getShowSQL() {
+    public boolean getShowSQL() {
         return showSQL;
     }
 
@@ -43,6 +44,10 @@ public abstract class AbstractConnectionDetails {
 
     public String getHbm2ddlAuto() {
         return hbm2ddlAuto;
+    }
+
+    public boolean isAutoCommit() {
+        return autoCommit;
     }
 
     public int getMinIdle() {

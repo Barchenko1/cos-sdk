@@ -44,7 +44,7 @@ public class ExternalCPConnectionDetails extends AbstractConnectionDetails{
             return this;
         }
 
-        public Builder setShowSQL(String showSQL) {
+        public Builder setShowSQL(boolean showSQL) {
             ExternalCPConnectionDetails.this.showSQL = showSQL;
             return this;
         }
@@ -56,6 +56,11 @@ public class ExternalCPConnectionDetails extends AbstractConnectionDetails{
 
         public Builder setHBM2ddlAuto(String hbm2ddlAuto) {
             ExternalCPConnectionDetails.this.hbm2ddlAuto = hbm2ddlAuto;
+            return this;
+        }
+
+        public Builder setAutoCommit(boolean autoCommit) {
+            ExternalCPConnectionDetails.this.autoCommit = autoCommit;
             return this;
         }
 

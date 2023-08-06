@@ -1,7 +1,9 @@
 package com.cos.core.dao.details;
 
+import com.cos.core.config.ConnectionPullC3P0Configuration;
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.dao.impl.ITestEntityDao;
@@ -9,107 +11,91 @@ import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.modal.AbstractConnectionDetails;
 import com.cos.core.properties.modal.ExternalCPConnectionDetails;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
-import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
-import org.junit.Rule;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import static com.cos.core.constant.Constant.*;
+import static com.cos.core.constant.DataSourcePool.*;
+
 @ExtendWith(DBUnitExtension.class)
-@DataSet(cleanBefore = true, cleanAfter = true)
 public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest {
 
-    private static ITestEntityDao<TestEntity> testEntityDao;
-
-    @Rule
-    private static final ConnectionHolder connectionHolder =
-            () -> sessionFactory.getSessionFactoryOptions()
-                        .getServiceRegistry()
-                        .getService(C3P0ConnectionProvider.class)
-                        .getConnection();
+    private static ConnectionHolder connectionHolder;
 
     public C3P0DaoClassConfigurationTest() {
     }
 
-    @BeforeAll
-    public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration = new ConnectionPullHikariConfiguration();
+    @BeforeEach
+    public void getSessionFactory() throws SQLException {
+        IConnectionPullConfiguration connectionPullConfiguration =
+                new ConnectionPullC3P0Configuration();
         Class<?>[] classes = { TestEntity.class };
         sessionFactory =
-                connectionPullConfiguration.createClassDetailsSessionFactory(setUpConnectionDetails(), classes);
+                connectionPullConfiguration.createClassDetailsSessionFactory(getConnectionDetails(DataSourcePoolType.C3PO_DATASOURCE), classes);
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
+        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
+        connectionHolder = dataSource::getConnection;
     }
 
-    private static AbstractConnectionDetails setUpConnectionDetails() {
-        return ExternalCPConnectionDetails.newBuilder()
-                .setDriver("org.h2.Driver")
-                .setUrl("jdbc:h2:mem:test")
-                .setUserName("sa")
-                .setPassword("")
-                .setDialect("org.hibernate.dialect.H2Dialect")
-                .setShowSQL("true")
-                .setCurrentSessionContextClass("thread")
-                .setHBM2ddlAuto("create-drop")
-                .setConnectionPullProviderClass(C3P0ConnectionProvider.class)
-                .build();
+    @BeforeEach
+    public void BeforeEach() {
+        prepareTestEntityDb();
     }
 
     @Test
-    @ExpectedDataSet(value = "/data/expected/createExpectedSet.yml")
+    @ExpectedDataSet(value = "/data/expected/createExpectedSet.xml")
     void saveDaoTest() {
-
         TestEntity testEntity = new TestEntity();
+        testEntity.setId(3L);
         testEntity.setName("testSave");
 
         testEntityDao.saveEntity(testEntity);
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/expected/updateExpectedSet.yml")
+    @ExpectedDataSet("/data/expected/expectedDataSet.xml")
     void updateDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(1L);
-        testEntity.setName("testUpdate");
-
+        testEntity.setName("Updated");
         testEntityDao.updateEntity(testEntity);
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.yml")
+    @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.xml")
     void deleteDaoTest() {
-
         TestEntity testEntity = new TestEntity();
         testEntity.setId(2L);
-        testEntity.setName("test2");
+        testEntity.setName("Test2");
 
         testEntityDao.deleteEntity(testEntity);
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/dataset/initDataSet.yml")
+    @ExpectedDataSet(value = "/data/dataset/initDataSet.xml")
     void getTestEntityList() {
-        List<TestEntity> resultList = testEntityDao.getAllUsers();
+        List<TestEntity> resultList = testEntityDao.getAllTestEntities();
         Assertions.assertEquals(2, resultList.size());
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
     void getTestEntity() {
         Optional<TestEntity> result = testEntityDao
-                .getUserByUserName("test2");
+                .getTestEntityByUser("Test1");
 
-        Assertions.assertEquals("test2", result.get().getName());
+        Assertions.assertEquals("Test1", result.get().getName());
     }
 }
 

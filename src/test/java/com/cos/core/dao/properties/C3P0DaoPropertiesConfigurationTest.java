@@ -2,9 +2,10 @@ package com.cos.core.dao.properties;
 
 import com.cos.core.config.ConnectionPullC3P0Configuration;
 import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.AbstractDaoConfigurationTest;
+import com.cos.core.dao.details.HikariDaoClassConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
-import com.cos.core.dao.impl.ITestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
@@ -13,28 +14,27 @@ import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
-import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
-import org.junit.Rule;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+import static com.cos.core.constant.DataSourcePool.getDataSource;
+
 @ExtendWith(DBUnitExtension.class)
-@DataSet(cleanBefore = true, cleanAfter = true)
 public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
 
-    private static ITestEntityDao<TestEntity> testEntityDao;
-
-    @Rule
-    private static final ConnectionHolder connectionHolder =
-            () -> sessionFactory.getSessionFactoryOptions()
-                        .getServiceRegistry()
-                        .getService(C3P0ConnectionProvider.class)
-                        .getConnection();
+    private static ConnectionHolder connectionHolder;
 
     public C3P0DaoPropertiesConfigurationTest() {
     }
@@ -50,10 +50,17 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithProperties();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
+        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
+        connectionHolder = dataSource::getConnection;
+    }
+
+    @BeforeEach
+    public void BeforeEach() {
+        prepareTestEntityDb();
     }
 
     @Test
-    @ExpectedDataSet(value = "/data/expected/createExpectedSet.yml")
+    @ExpectedDataSet(value = "/data/expected/createExpectedSet.xml")
     void saveDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setName("testSave");
@@ -62,44 +69,42 @@ public class C3P0DaoPropertiesConfigurationTest extends AbstractDaoConfiguration
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/expected/updateExpectedSet.yml")
-    void updateDaoTest() {
+    @ExpectedDataSet("/data/expected/expectedDataSet.xml")
+    public void testUpdateEntity() {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(1L);
-        testEntity.setName("testUpdate");
-
+        testEntity.setName("Updated");
         testEntityDao.updateEntity(testEntity);
     }
 
+    private static IDataSet getDataSet(String fileName) throws Exception {
+        InputStream inputStream = HikariDaoClassConfigurationTest.class.getResourceAsStream(fileName);
+        return new FlatXmlDataSetBuilder().build(inputStream);
+    }
+
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.yml")
+    @ExpectedDataSet(value = "/data/expected/deleteExpectedSet.xml")
     void deleteDaoTest() {
         TestEntity testEntity = new TestEntity();
         testEntity.setId(2L);
-        testEntity.setName("test2");
+        testEntity.setName("Test2");
 
         testEntityDao.deleteEntity(testEntity);
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
-    @ExpectedDataSet(value = "/data/dataset/initDataSet.yml")
+    @ExpectedDataSet(value = "/data/dataset/initDataSet.xml")
     void getTestEntityList() {
-        List<TestEntity> resultList = testEntityDao.getAllUsers();
+        List<TestEntity> resultList = testEntityDao.getAllTestEntities();
         Assertions.assertEquals(2, resultList.size());
     }
 
     @Test
-    @DataSet(value = "/data/dataset/initDataSet.yml")
     void getTestEntity() {
         Optional<TestEntity> result = testEntityDao
-                .getUserByUserName("test2");
+                .getTestEntityByUser("Test1");
 
-        Assertions.assertEquals("test2", result.get().getName());
-
-        List<TestEntity> testEntityList = testEntityDao.getAllUsers();
+        Assertions.assertEquals("Test1", result.get().getName());
     }
 }
 

@@ -7,15 +7,15 @@
     <session-factory>
 
         <!-- database connection properties -->
-        <property name="hibernate.connection.driver_class">org.h2.Driver</property>
-        <property name="hibernate.connection.url">jdbc:h2:mem:test</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://172.17.0.2:5432/test_db</property>
         <property name="hibernate.connection.username">sa</property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.password">sa</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
-        <property name="hibernate.connection.autocommit">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.autocommit">false</property>
 
         <!-- Vibur DBCP specific properties: -->
         <property name="hibernate.connection.provider_class">

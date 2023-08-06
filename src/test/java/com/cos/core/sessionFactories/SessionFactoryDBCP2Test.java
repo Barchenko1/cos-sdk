@@ -16,7 +16,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionFactoryDBCP2Test {
+import static com.cos.core.constant.Constant.*;
+
+public class  SessionFactoryDBCP2Test {
 
   @Test
   void createSessionFactoryWithProperties() {
@@ -39,7 +41,7 @@ public class SessionFactoryDBCP2Test {
 
     testEntityDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(1, testEntity.getId());
   }
 
   @Test
@@ -66,14 +68,14 @@ public class SessionFactoryDBCP2Test {
     annotationList.add(TestEntity.class);
     Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
     DBCP2ConnectionDetails connectionDetails = DBCP2ConnectionDetails.newBuilder()
-            .setDriver("org.h2.Driver")
-            .setUrl("jdbc:h2:mem:test")
-            .setUserName("sa")
-            .setPassword("")
-            .setDialect("org.hibernate.dialect.H2Dialect")
-            .setShowSQL("true")
+            .setDriver(POSTGRES_DRIVER)
+            .setUrl(POSTGRES_DB_URL)
+            .setUserName(POSTGRES_USERNAME)
+            .setPassword(POSTGRES_PASSWORD)
+            .setDialect(POSTGRES_DIALECT)
+            .setShowSQL(true)
             .setCurrentSessionContextClass("thread")
-            .setHBM2ddlAuto("create-drop")
+            .setHBM2ddlAuto("update")
             .setConnectionPullProviderClass(DatasourceConnectionProviderImpl.class)
             .setInitialSize(0)
             .setMinIdle(5)
@@ -91,6 +93,6 @@ public class SessionFactoryDBCP2Test {
 
     testEntityDao.saveEntity(testEntity);
 
-    Assertions.assertNotNull(testEntity.getId());
+    Assertions.assertEquals(1, testEntity.getId());
   }
 }

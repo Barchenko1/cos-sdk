@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(DBUnitExtension.class)
-@DataSet(cleanBefore = true, cleanAfter = true)
 public class EmployeeDependentTransactionTest extends AbstractDaoConfigurationTest {
 
     private static IEmployeeDao<TestEmployee> employeeDao;

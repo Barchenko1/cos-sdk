@@ -1,5 +1,0 @@
-TestEntity:
-  - ID: 1
-    NAME: "testUpdate"
-  - ID: 2
-    NAME: "test2"

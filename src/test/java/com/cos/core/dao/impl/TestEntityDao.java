@@ -17,7 +17,7 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
     }
 
     @Override
-    public List<E> getAllUsers() {
+    public List<E> getAllTestEntities() {
         List<E> users;
         try (Session session = sessionFactory.openSession()) {
             users = session.createNamedQuery("getTestEntityAll", clazz)
@@ -27,11 +27,26 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
     }
 
     @Override
-    public Optional<E> getUserByUserName(String name) {
+    public Optional<E> getTestEntityById(long id) {
         Optional<E> opt;
         try (Session session = sessionFactory.openSession()) {
             opt = Optional.ofNullable(session
-                    .createNamedQuery("getTestEntity", clazz)
+                    .createNamedQuery("getTestEntityById", clazz)
+                    .setParameter(1, id)
+                    .getSingleResult());
+        } catch (Exception e) {
+            LOG.warn("get entity error {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return opt;
+    }
+
+    @Override
+    public Optional<E> getTestEntityByUser(String name) {
+        Optional<E> opt;
+        try (Session session = sessionFactory.openSession()) {
+            opt = Optional.ofNullable(session
+                    .createNamedQuery("getTestEntityByName", clazz)
                     .setParameter(1, name)
                     .getSingleResult());
         } catch (Exception e) {
@@ -42,7 +57,7 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
     }
 
     @Override
-    public Optional<E> getUserByEmail(String email) {
+    public Optional<E> getTestEntityByEmail(String email) {
         return Optional.empty();
     }
 

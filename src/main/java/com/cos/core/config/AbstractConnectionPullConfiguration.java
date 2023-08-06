@@ -90,6 +90,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
                 connectionDetails.getCurrentSessionContextClass());
         settings.put(Environment.HBM2DDL_AUTO, connectionDetails.getHbm2ddlAuto());
+        settings.put(Environment.AUTOCOMMIT, connectionDetails.isAutoCommit());
         //change def conn provide class
         settings.put(Environment.CONNECTION_PROVIDER, connectionDetails.getConnectionPullProviderClass());
         return settings;
@@ -105,6 +106,6 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
 
         settings.put(Environment.SHOW_SQL, properties.getProperty(Environment.SHOW_SQL));
         settings.put(Environment.HBM2DDL_AUTO, properties.getProperty(Environment.HBM2DDL_AUTO));
-        settings.put(Environment.AUTOCOMMIT, properties.getOrDefault(Environment.AUTOCOMMIT, "true"));
+        settings.put(Environment.AUTOCOMMIT, properties.getOrDefault(Environment.AUTOCOMMIT, "false"));
     }
 }

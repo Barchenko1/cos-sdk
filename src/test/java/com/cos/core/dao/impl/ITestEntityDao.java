@@ -7,10 +7,12 @@ import java.util.Optional;
 
 public interface ITestEntityDao<E> extends IEntityDao<E> {
 
-    List<E> getAllUsers();
+    List<E> getAllTestEntities();
 
-    Optional<E> getUserByUserName(String name);
+    Optional<E> getTestEntityById(long id);
 
-    Optional<E> getUserByEmail(String email);
+    Optional<E> getTestEntityByUser(String name);
+
+    Optional<E> getTestEntityByEmail(String email);
 
 }

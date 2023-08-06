@@ -15,15 +15,18 @@ import org.hibernate.annotations.NamedNativeQuery;
         @NamedNativeQuery(name = "getTestEntityAll",
                 query = "select * from testEntity",
                 resultClass = TestEntity.class),
-        @NamedNativeQuery(name = "getTestEntity",
+        @NamedNativeQuery(name = "getTestEntityById",
+                query = "select * from testEntity t where t.id=?",
+                resultClass = TestEntity.class),
+        @NamedNativeQuery(name = "getTestEntityByName",
                 query = "select * from testEntity t where t.name=?",
                 resultClass = TestEntity.class),
 })
 public class TestEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column
     private String name;

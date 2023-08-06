@@ -64,7 +64,7 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
         LOG.info("Hikari createSessionFactoryWithHibernateXML");
-        return createSessionFactoryWithHibernateXML(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME);
+        return super.createSessionFactoryWithHibernateXML(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME);
     }
 
 }

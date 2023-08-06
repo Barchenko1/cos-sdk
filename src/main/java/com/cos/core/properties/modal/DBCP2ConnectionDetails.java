@@ -68,7 +68,7 @@ public class DBCP2ConnectionDetails extends AbstractConnectionDetails{
             return this;
         }
 
-        public Builder setShowSQL(String showSQL) {
+        public Builder setShowSQL(boolean showSQL) {
             DBCP2ConnectionDetails.this.showSQL = showSQL;
             return this;
         }
@@ -80,6 +80,11 @@ public class DBCP2ConnectionDetails extends AbstractConnectionDetails{
 
         public Builder setHBM2ddlAuto(String hbm2ddlAuto) {
             DBCP2ConnectionDetails.this.hbm2ddlAuto = hbm2ddlAuto;
+            return this;
+        }
+
+        public Builder setAutoCommit(boolean autoCommit) {
+            DBCP2ConnectionDetails.this.autoCommit = autoCommit;
             return this;
         }
 

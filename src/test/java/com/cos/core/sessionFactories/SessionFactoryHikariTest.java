@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cos.core.constant.Constant.*;
+
 public class SessionFactoryHikariTest {
     @Test
     void createSessionFactoryWithProperties() {
@@ -39,7 +41,7 @@ public class SessionFactoryHikariTest {
 
         testEntityDao.saveEntity(testEntity);
 
-        Assertions.assertNotNull(testEntity.getId());
+        Assertions.assertEquals(1, testEntity.getId());
     }
 
     @Test
@@ -56,7 +58,7 @@ public class SessionFactoryHikariTest {
         testEntityDao.saveEntity(testEntity);
 
         Assertions.assertEquals(1, testEntity.getId());
-        List<TestEntity> testEntities = testEntityDao.getAllUsers();
+        List<TestEntity> testEntities = testEntityDao.getAllTestEntities();
         Assertions.assertEquals(1, testEntities.size());
     }
 
@@ -68,14 +70,14 @@ public class SessionFactoryHikariTest {
         annotationList.add(TestEntity.class);
         Class<?>[] annotationClasses = annotationList.toArray(new Class<?>[0]);
         ExternalCPConnectionDetails connectionDetails = ExternalCPConnectionDetails.newBuilder()
-                .setDriver("org.h2.Driver")
-                .setUrl("jdbc:h2:mem:test")
-                .setUserName("sa")
-                .setPassword("")
-                .setDialect("org.hibernate.dialect.H2Dialect")
-                .setShowSQL("true")
+                .setDriver(POSTGRES_DRIVER)
+                .setUrl(POSTGRES_DB_URL)
+                .setUserName(POSTGRES_USERNAME)
+                .setPassword(POSTGRES_PASSWORD)
+                .setDialect(POSTGRES_DIALECT)
+                .setShowSQL(true)
                 .setCurrentSessionContextClass("thread")
-                .setHBM2ddlAuto("create-drop")
+                .setHBM2ddlAuto("update")
                 .setConnectionPullProviderClass(HikariConnectionProvider.class)
                 .build();
 
@@ -89,6 +91,6 @@ public class SessionFactoryHikariTest {
 
         testEntityDao.saveEntity(testEntity);
 
-        Assertions.assertNotNull(testEntity.getId());
+        Assertions.assertEquals(1, testEntity.getId());
     }
 }
