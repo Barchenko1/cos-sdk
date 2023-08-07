@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.viewed.IViewedDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultViewedDao<E> extends AbstractDao<E> implements IViewedDao<E> {
-    public DefaultViewedDao(SessionFactory sessionFactory) {
+public class BasicViewedDao<E> extends AbstractDao<E> implements IViewedDao<E> {
+    public BasicViewedDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

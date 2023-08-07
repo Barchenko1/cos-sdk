@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.review.IReviewDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultReviewDao<E> extends AbstractDao<E> implements IReviewDao<E> {
-    public DefaultReviewDao(SessionFactory sessionFactory) {
+public class BasicReviewDao<E> extends AbstractDao<E> implements IReviewDao<E> {
+    public BasicReviewDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

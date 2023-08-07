@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.rating.IRatingDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultRatingDao<E> extends AbstractDao<E> implements IRatingDao<E> {
-    public DefaultRatingDao(SessionFactory sessionFactory) {
+public class BasicRatingDao<E> extends AbstractDao<E> implements IRatingDao<E> {
+    public BasicRatingDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

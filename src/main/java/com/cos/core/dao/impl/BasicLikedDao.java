@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.liked.ILikedDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultLikedDao<E> extends AbstractDao<E> implements ILikedDao<E> {
-    public DefaultLikedDao(SessionFactory sessionFactory) {
+public class BasicLikedDao<E> extends AbstractDao<E> implements ILikedDao<E> {
+    public BasicLikedDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

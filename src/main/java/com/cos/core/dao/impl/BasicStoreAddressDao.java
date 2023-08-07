@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.store.IStoreAddressDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultStoreAddressDao<E> extends AbstractDao<E> implements IStoreAddressDao<E> {
-    public DefaultStoreAddressDao(SessionFactory sessionFactory) {
+public class BasicStoreAddressDao<E> extends AbstractDao<E> implements IStoreAddressDao<E> {
+    public BasicStoreAddressDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

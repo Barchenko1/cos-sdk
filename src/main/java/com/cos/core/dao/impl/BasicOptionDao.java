@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.option.IOptionDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultOptionDao<E> extends AbstractDao<E> implements IOptionDao<E> {
-    public DefaultOptionDao(SessionFactory sessionFactory) {
+public class BasicOptionDao<E> extends AbstractDao<E> implements IOptionDao<E> {
+    public BasicOptionDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

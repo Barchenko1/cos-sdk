@@ -5,8 +5,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.user.IUserAddressDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultUserAddressDao<E> extends AbstractDao<E> implements IUserAddressDao<E> {
-    public DefaultUserAddressDao(SessionFactory sessionFactory) {
+public class BasicUserAddressDao<E> extends AbstractDao<E> implements IUserAddressDao<E> {
+    public BasicUserAddressDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

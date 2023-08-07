@@ -4,8 +4,8 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.order.IOrderDao;
 import org.hibernate.SessionFactory;
 
-public class DefaultOrderDao<E> extends AbstractDao<E> implements IOrderDao<E> {
-    public DefaultOrderDao(SessionFactory sessionFactory) {
+public class BasicOrderDao<E> extends AbstractDao<E> implements IOrderDao<E> {
+    public BasicOrderDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }
