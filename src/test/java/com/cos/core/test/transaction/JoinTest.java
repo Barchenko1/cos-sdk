@@ -1,10 +1,9 @@
 package com.cos.core.test.transaction;
 
-
 import com.cos.core.config.ConnectionPullHikariConfiguration;
 import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.dto.DefaultDtoEntityDao;
+import com.cos.core.dto.BasicDtoEntityDao;
 import com.cos.core.dto.IDtoEntityDao;
 import com.cos.core.service.EmployeeDependentService;
 import com.cos.core.service.IEmployeeDependentService;
@@ -41,7 +40,7 @@ public class JoinTest extends AbstractJoinTest {
                 new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         employeeDependentService = new EmployeeDependentService(sessionFactory);
-        dtoEntityDao = new DefaultDtoEntityDao<>(sessionFactory);
+        dtoEntityDao = new BasicDtoEntityDao<>(sessionFactory);
         dtoEntityDao.setClazz(EmployeeDependentTestDto.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
