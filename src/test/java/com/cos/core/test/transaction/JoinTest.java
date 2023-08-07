@@ -1,9 +1,11 @@
 package com.cos.core.test.transaction;
 
-import com.cos.core.config.ConfigDbType;
-import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.factory.ConfigurationSessionFactory;
+
+import com.cos.core.config.ConnectionPullHikariConfiguration;
+import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
+import com.cos.core.dto.DefaultDtoEntityDao;
+import com.cos.core.dto.IDtoEntityDao;
 import com.cos.core.service.EmployeeDependentService;
 import com.cos.core.service.IEmployeeDependentService;
 import com.cos.core.test.base.AbstractJoinTest;
@@ -25,15 +27,22 @@ public class JoinTest extends AbstractJoinTest {
 
     private static IEmployeeDependentService employeeDependentService;
 
+    private static IDtoEntityDao<EmployeeDependentTestDto> dtoEntityDao;
+
+    private static final String sqlQuery = """
+            SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatus
+            FROM TestEmployee te
+            LEFT JOIN TestDependent td ON te.id = td.testEmployee_id;
+            """;
+
     @BeforeAll
     public static void getSessionFactory() {
-        Class[] classes = new Class[]{EmployeeDependentTestDto.class};
-        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.PROPERTY, classes
-        );
-        sessionFactory = configurationSessionFactory.getSessionFactory();
+        IConnectionPullConfiguration connectionPullConfiguration =
+                new ConnectionPullHikariConfiguration();
+        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
         employeeDependentService = new EmployeeDependentService(sessionFactory);
-
+        dtoEntityDao = new DefaultDtoEntityDao<>(sessionFactory);
+        dtoEntityDao.setClazz(EmployeeDependentTestDto.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
@@ -46,8 +55,7 @@ public class JoinTest extends AbstractJoinTest {
     @Test
     @ExpectedDataSet(value = "/data/dataset/initDataJoinSet.xml")
     void employeeDependentServiceTest() {
-        List<EmployeeDependentTestDto> employeeDependentTestDtoList =
-                employeeDependentService.getEmployeeDependenTestDtoList();
+        List<EmployeeDependentTestDto> employeeDependentTestDtoList = dtoEntityDao.getDtoList(sqlQuery);
         Assertions.assertFalse(employeeDependentTestDtoList.isEmpty());
     }
 

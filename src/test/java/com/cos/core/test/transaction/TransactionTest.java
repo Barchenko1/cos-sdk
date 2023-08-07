@@ -35,8 +35,6 @@ public class TransactionTest extends AbstractTransactionTest {
         IConnectionPullConfiguration connectionPullConfiguration =
                 new ConnectionPullHikariConfiguration();
         sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
-
-        Class<?>[] classes = { TestEmployee.class, TestDependent.class, EmployeeDependentTestDto.class };
         employeeDependentService = new EmployeeDependentService(sessionFactory);
 
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);

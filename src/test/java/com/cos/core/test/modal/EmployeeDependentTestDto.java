@@ -1,49 +1,49 @@
 package com.cos.core.test.modal;
 
 public class EmployeeDependentTestDto {
-    private Long employee_id;
-    private String employee_name;
-    private Long dependent_id;
-    private String dependent_name;
-    private String dependent_status;
+    private Long employeeId;
+    private String employeeName;
+    private Long dependentId;
+    private String dependentName;
+    private String dependentStatus;
 
-    public Long getEmployee_id() {
-        return employee_id;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee_id(Long employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public String getEmployee_name() {
-        return employee_name;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setEmployee_name(String employee_name) {
-        this.employee_name = employee_name;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
-    public Long getDependent_id() {
-        return dependent_id;
+    public Long getDependentId() {
+        return dependentId;
     }
 
-    public void setDependent_id(Long dependent_id) {
-        this.dependent_id = dependent_id;
+    public void setDependentId(Long dependentId) {
+        this.dependentId = dependentId;
     }
 
-    public String getDependent_name() {
-        return dependent_name;
+    public String getDependentName() {
+        return dependentName;
     }
 
-    public void setDependent_name(String dependent_name) {
-        this.dependent_name = dependent_name;
+    public void setDependentName(String dependentName) {
+        this.dependentName = dependentName;
     }
 
-    public String getDependent_status() {
-        return dependent_status;
+    public String getDependentStatus() {
+        return dependentStatus;
     }
 
-    public void setDependent_status(String dependent_status) {
-        this.dependent_status = dependent_status;
+    public void setDependentStatus(String dependentStatus) {
+        this.dependentStatus = dependentStatus;
     }
 }
