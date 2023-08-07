@@ -2,8 +2,6 @@ package com.cos.core.test.details;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.ConnectionPullDBCP2Configuration;
-import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.test.base.AbstractDaoConfigurationTest;

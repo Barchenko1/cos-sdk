@@ -2,16 +2,11 @@ package com.cos.core.test.properties;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.ConnectionPullC3P0Configuration;
-import com.cos.core.config.IConnectionPullConfiguration;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.impl.TestEntityDao;
 import com.cos.core.modal.TestEntity;
-import com.cos.core.properties.IPropertiesProvider;
-import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -25,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cos.core.constant.DataSourcePool.getConnectionDetails;
 import static com.cos.core.constant.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
