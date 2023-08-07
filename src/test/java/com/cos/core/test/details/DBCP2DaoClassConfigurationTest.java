@@ -20,8 +20,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cos.core.constant.DataSourcePool.getConnectionDetails;
-import static com.cos.core.constant.DataSourcePool.getDataSource;
+import static com.cos.core.util.DataSourcePool.getConnectionDetails;
+import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 public class DBCP2DaoClassConfigurationTest extends AbstractDaoConfigurationTest {

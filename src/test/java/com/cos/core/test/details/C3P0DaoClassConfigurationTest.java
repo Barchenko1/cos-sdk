@@ -21,8 +21,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cos.core.constant.DataSourcePool.getConnectionDetails;
-import static com.cos.core.constant.DataSourcePool.getDataSource;
+import static com.cos.core.util.DataSourcePool.getConnectionDetails;
+import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest {

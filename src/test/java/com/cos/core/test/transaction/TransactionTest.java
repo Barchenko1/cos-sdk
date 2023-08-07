@@ -8,7 +8,6 @@ import com.cos.core.modal.TestEmployee;
 import com.cos.core.service.EmployeeDependentService;
 import com.cos.core.service.IEmployeeDependentService;
 import com.cos.core.test.base.AbstractTransactionTest;
-import com.cos.core.test.modal.EmployeeDependentTestDto;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -22,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cos.core.constant.DataSourcePool.getDataSource;
+import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 public class TransactionTest extends AbstractTransactionTest {

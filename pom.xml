@@ -132,7 +132,7 @@
         <junit.jupiter.version>5.9.0</junit.jupiter.version>
         <junit.platform.version>1.9.0</junit.platform.version>
         <junit.platform.version>1.9.0-M1</junit.platform.version>
-        <rider.version>1.5.0</rider.version>
+        <rider.version>1.39.0</rider.version>
         <compile.plugin.version>3.10.1</compile.plugin.version>
         <surefire.plugin.version>2.22.2</surefire.plugin.version>
         <failsafe.plugin.version>3.0.0-M7</failsafe.plugin.version>

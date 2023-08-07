@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.cos.core.constant.DataSourcePool.getDataSource;
+import static com.cos.core.util.DataSourcePool.getDataSource;
 
 public class JoinTest extends AbstractJoinTest {
 
