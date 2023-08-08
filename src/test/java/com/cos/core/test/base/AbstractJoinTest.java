@@ -16,7 +16,7 @@ public abstract class AbstractJoinTest {
 
     @AfterAll
     public static void cleanUp() {
-        TestUtil.cleanUp(sessionFactory, dataSource);
+        TestUtil.cleanUp(sessionFactory);
     }
 
     public static void prepareTestEntityDb() {

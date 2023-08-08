@@ -14,7 +14,7 @@ public final class TestUtil {
 
     private static final ResourceReader resourceReader = new ResourceReader();
 
-    public static void cleanUp(SessionFactory sessionFactory, DataSource dataSource) {
+    public static void cleanUp(SessionFactory sessionFactory) {
         if (sessionFactory != null) {
             StandardServiceRegistry serviceRegistry =
                     sessionFactory.getSessionFactoryOptions().getServiceRegistry();

@@ -30,7 +30,7 @@ import static com.cos.core.constant.DataSourcePoolType.DBCP2_DATASOURCE;
 import static com.cos.core.constant.DataSourcePoolType.HIKARI_DATASOURCE;
 import static com.cos.core.constant.DataSourcePoolType.VIBUR_DATASOURCE;
 
-public class DataSourcePool {
+public final class DataSourcePool {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullC3P0Configuration.class);
 
