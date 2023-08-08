@@ -23,6 +23,7 @@ import java.util.Optional;
 import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
+@DataSet(cleanAfter = true)
 public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
@@ -48,7 +49,7 @@ public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true)
+    @DataSet(cleanBefore = true, cleanAfter = true)
     @ExpectedDataSet(value = "/data/expected/createOneExpectedSet.xml")
     void saveDaoTest() {
         TestEntity testEntity = new TestEntity();

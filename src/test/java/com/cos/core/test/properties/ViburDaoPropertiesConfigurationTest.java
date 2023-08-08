@@ -48,7 +48,7 @@ public class ViburDaoPropertiesConfigurationTest extends AbstractDaoConfiguratio
     }
 
     @Test
-    @DataSet(cleanBefore = true)
+    @DataSet(cleanBefore = true, cleanAfter = true)
     @ExpectedDataSet(value = "/data/expected/createOneExpectedSet.xml")
     void saveDaoTest() {
         TestEntity testEntity = new TestEntity();

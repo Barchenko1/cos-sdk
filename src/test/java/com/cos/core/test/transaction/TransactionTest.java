@@ -46,7 +46,7 @@ public class TransactionTest extends AbstractTransactionTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true)
+    @DataSet(cleanBefore = true, cleanAfter = true)
     @ExpectedDataSet(value = "/data/expected/createExpectedTransactionSet.xml")
     void saveCorrectTransactionTest() {
         TestDependent dependent1 = setUpDependent("Liza", "GirlFriend");
@@ -63,7 +63,7 @@ public class TransactionTest extends AbstractTransactionTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true)
+    @DataSet(cleanBefore = true, cleanAfter = true)
     void saveIncorrectTransactionTest() {
         TestDependent dependent1 = setUpDependent("Liza", "GirlFriend");
         TestDependent dependent2 = setUpDependent("Bread", "Child");
