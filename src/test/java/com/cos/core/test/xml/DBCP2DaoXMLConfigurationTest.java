@@ -5,7 +5,7 @@ import com.cos.core.config.ConnectionPoolType;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.test.base.AbstractDaoConfigurationTest;
-import com.cos.core.dao.impl.TestEntityDao;
+import com.cos.core.dao.basic.TestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;

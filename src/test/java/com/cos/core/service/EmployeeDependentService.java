@@ -1,9 +1,9 @@
 package com.cos.core.service;
 
-import com.cos.core.dao.impl.DependentDao;
-import com.cos.core.dao.impl.EmployeeDao;
-import com.cos.core.dao.impl.IDependentDao;
-import com.cos.core.dao.impl.IEmployeeDao;
+import com.cos.core.dao.basic.DependentDao;
+import com.cos.core.dao.basic.EmployeeDao;
+import com.cos.core.dao.basic.IDependentDao;
+import com.cos.core.dao.basic.IEmployeeDao;
 import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
 import com.cos.core.test.modal.EmployeeDependentTestDto;

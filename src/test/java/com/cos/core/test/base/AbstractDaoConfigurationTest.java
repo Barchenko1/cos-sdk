@@ -1,6 +1,6 @@
 package com.cos.core.test.base;
 
-import com.cos.core.dao.impl.ITestEntityDao;
+import com.cos.core.dao.basic.ITestEntityDao;
 import com.cos.core.modal.TestEntity;
 import com.cos.core.util.TestUtil;
 import org.dbunit.operation.DatabaseOperation;
