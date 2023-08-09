@@ -10,6 +10,7 @@ public interface IEntityDao<E> {
     void updateEntity(E entity);
     void deleteEntity(E entity);
     List<E> getEntityListBySQLQuery(String sqlQuery);
+    E getEntityBySQLQuery(String sqlQuery);
     List<E> getEntityListBySQLQueryWithParams(String sqlQuery, List<Object> params);
     Optional<E> getEntityBySQLQueryWithParams(String sqlQuery, List<Object> params);
 

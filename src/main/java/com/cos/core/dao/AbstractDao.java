@@ -84,6 +84,17 @@ public abstract class AbstractDao<E> {
         }
     }
 
+    public E getEntityBySQLQuery(String sqlQuery) {
+        try (Session session = sessionFactory.openSession()) {
+            return session
+                    .createNativeQuery(sqlQuery, clazz)
+                    .getSingleResult();
+        } catch (Exception e) {
+            LOG.warn("get entity error {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<E> getEntityListBySQLQueryWithParams(String sqlQuery, List<Object> params) {
         Map<Integer, Object> paramMap = sqlParamsConverter.getObjectParamsMap(params);
         try (Session session = sessionFactory.openSession()) {
