@@ -24,11 +24,7 @@ public class EmployeeDependentService implements IEmployeeDependentService {
     private SessionFactory sessionFactory;
     private IEmployeeDao<TestEmployee> employeeDao;
     private IDependentDao<TestDependent> dependentDao;
-    private static final String sqlQuery = """
-            SELECT te.id AS employee_id, te.name AS employee_name, td.id AS dependent_id, td.name AS dependent_name, td.status AS dependent_status
-            FROM TestEmployee te
-            LEFT JOIN TestDependent td ON te.id = td.testEmployee_id;
-            """;
+    private static final String sqlQuery = "SELECT te.id AS employee_id, te.name AS employee_name, td.id AS dependent_id, td.name AS dependent_name, td.status AS dependent_statusFROM TestEmployee teLEFT JOIN TestDependent td ON te.id = td.testEmployee_id;";
 
     public EmployeeDependentService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

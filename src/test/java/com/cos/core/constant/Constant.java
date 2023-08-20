@@ -8,7 +8,7 @@ public interface Constant {
     String H2_DIALECT = "org.hibernate.dialect.H2Dialect";
 
     String POSTGRES_DRIVER = "org.postgresql.Driver";
-    String POSTGRES_DB_URL = "jdbc:postgresql://172.17.0.2:5432/test_db";
+    String POSTGRES_DB_URL = "jdbc:postgresql://127.0.0.1:5432/test_db";
     String POSTGRES_USERNAME = "sa";
     String POSTGRES_PASSWORD = "sa";
     String POSTGRES_DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
