@@ -28,7 +28,7 @@ public class JoinTest extends AbstractJoinTest {
 
     private static IDtoEntityDao<EmployeeDependentTestDto> dtoEntityDao;
 
-    private static final String sqlQuery = "SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatusFROM TestEmployee teLEFT JOIN TestDependent td ON te.id = td.testEmployee_id;";
+    private static final String sqlQuery = "SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatus FROM TestEmployee te LEFT JOIN TestDependent td ON te.id = td.testEmployee_id;";
 
     @BeforeAll
     public static void getSessionFactory() {
