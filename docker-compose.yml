@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  client-db:
+    build:
+      context: docker/client
+    ports:
+      - "5432:5432"
+
+  tenant-db:
+    build:
+      context: docker/tenant
+    ports:
+      - "5433:5432"
