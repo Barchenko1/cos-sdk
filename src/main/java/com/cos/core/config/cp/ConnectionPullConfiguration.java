@@ -1,6 +1,5 @@
 package com.cos.core.config.cp;
 
-import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.setting.HikariSetting;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
