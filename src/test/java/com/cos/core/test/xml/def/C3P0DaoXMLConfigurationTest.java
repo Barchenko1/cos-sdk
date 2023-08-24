@@ -1,4 +1,4 @@
-package com.cos.core.test.properties;
+package com.cos.core.test.xml.def;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
@@ -24,22 +24,22 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanAfter = true)
-public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public HikariDaoPropertiesConfigurationTest() {
+    public C3P0DaoXMLConfigurationTest() {
     }
 
     @BeforeAll
-    public static void getSessionFactory() throws Exception {
+    public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.PROPERTY, new Class[]{TestEntity.class}
+                ConnectionPoolType.C3P0, ConfigDbType.XML
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
 
@@ -91,6 +91,5 @@ public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurati
 
         Assertions.assertEquals("Test1", result.get().getName());
     }
-
 }
 

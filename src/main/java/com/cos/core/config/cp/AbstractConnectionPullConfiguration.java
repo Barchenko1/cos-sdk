@@ -38,7 +38,7 @@ public abstract class AbstractConnectionPullConfiguration implements IConnection
         this.annotatedClasses = annotatedClasses;
     }
 
-    protected SessionFactory createSessionFactoryWithHibernateXML(String xmlConfigFileName) {
+    protected SessionFactory createSessionFactoryWithHibernateXMLByConfig(String xmlConfigFileName) {
         if (sessionFactory == null) {
             try {
                 serviceRegistry = new StandardServiceRegistryBuilder()

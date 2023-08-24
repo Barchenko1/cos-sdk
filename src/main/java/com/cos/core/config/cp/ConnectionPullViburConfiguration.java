@@ -65,7 +65,7 @@ public class ConnectionPullViburConfiguration  extends AbstractConnectionPullCon
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
         LOG.info("Virub createSessionFactoryWithHibernateXML");
-        return super.createSessionFactoryWithHibernateXML(CosCoreConstants.VIBUR_HIBERNATE_XML_FILE_NAME);
+        return super.createSessionFactoryWithHibernateXMLByConfig(CosCoreConstants.VIBUR_HIBERNATE_XML_FILE_NAME);
     }
 
 }

@@ -1,7 +1,8 @@
 package com.cos.core.test.transaction;
 
-import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
-import com.cos.core.config.cp.IConnectionPullConfiguration;
+import com.cos.core.config.ConfigDbType;
+import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
@@ -31,9 +32,10 @@ public class TransactionTest extends AbstractTransactionTest {
 
     @BeforeAll
     public static void getSessionFactory() {
-        IConnectionPullConfiguration connectionPullConfiguration =
-                new ConnectionPullHikariConfiguration();
-        sessionFactory = connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
+                ConnectionPoolType.HIKARI, ConfigDbType.XML
+        );
+        sessionFactory = configurationSessionFactory.getSessionFactory();
         employeeDependentService = new EmployeeDependentService(sessionFactory);
 
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);

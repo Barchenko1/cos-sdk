@@ -1,12 +1,15 @@
-package com.cos.core.test.properties;
+package com.cos.core.test.xml.param;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
+import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.test.base.AbstractDaoConfigurationTest;
 import com.cos.core.dao.basic.TestEntityDao;
 import com.cos.core.modal.TestEntity;
+import com.cos.core.test.base.AbstractDaoConfigurationTest;
+import com.cos.core.util.CosCoreConstants;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -24,22 +27,22 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanAfter = true)
-public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public HikariDaoPropertiesConfigurationTest() {
+    public DBCP2DaoXMLConfigurationTest() {
     }
 
     @BeforeAll
-    public static void getSessionFactory() throws Exception {
+    public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.PROPERTY, new Class[]{TestEntity.class}
+                ConnectionPoolType.CUSTOM, ConfigDbType.XML, CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
 
@@ -91,6 +94,5 @@ public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurati
 
         Assertions.assertEquals("Test1", result.get().getName());
     }
-
 }
 

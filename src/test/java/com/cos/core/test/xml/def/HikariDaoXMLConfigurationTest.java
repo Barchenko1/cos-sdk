@@ -1,4 +1,4 @@
-package com.cos.core.test.properties;
+package com.cos.core.test.xml.def;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
@@ -10,6 +10,7 @@ import com.cos.core.modal.TestEntity;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+
 import com.github.database.rider.junit5.DBUnitExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,23 +25,24 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanAfter = true)
-public class HikariDaoPropertiesConfigurationTest extends AbstractDaoConfigurationTest {
+public class HikariDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public HikariDaoPropertiesConfigurationTest() {
+    public HikariDaoXMLConfigurationTest() {
     }
 
     @BeforeAll
-    public static void getSessionFactory() throws Exception {
+    public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.PROPERTY, new Class[]{TestEntity.class}
+                ConnectionPoolType.HIKARI, ConfigDbType.XML
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
+
     }
 
     @BeforeEach

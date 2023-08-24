@@ -51,7 +51,7 @@ public class ConnectionPullDBCP2Configuration extends AbstractConnectionPullConf
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
         LOG.info("DBCP2 createSessionFactoryWithHibernateXML");
-        return super.createSessionFactoryWithHibernateXML(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
+        return super.createSessionFactoryWithHibernateXMLByConfig(CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME);
     }
 
     @Override

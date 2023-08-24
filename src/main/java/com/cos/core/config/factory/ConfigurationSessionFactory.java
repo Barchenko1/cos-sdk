@@ -1,12 +1,8 @@
 package com.cos.core.config.factory;
 
 import com.cos.core.config.ConfigDbType;
-import com.cos.core.config.cp.ConnectionPoolType;
-import com.cos.core.config.cp.ConnectionPullC3P0Configuration;
-import com.cos.core.config.cp.ConnectionPullDBCP2Configuration;
-import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
-import com.cos.core.config.cp.ConnectionPullViburConfiguration;
-import com.cos.core.config.cp.IConnectionPullConfiguration;
+import com.cos.core.config.ConnectionPoolType;
+import com.cos.core.config.cp.*;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.details.ConnectionDetails;
@@ -24,11 +20,20 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
     private SessionFactory sessionFactory;
     private Class<?>[] annotationClasses;
     private ConnectionDetails connectionDetails;
+    private String configFileName;
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
                                        ConfigDbType configDbType) {
         this.connectionPoolType = connectionPoolType;
         this.configDbType = configDbType;
+    }
+
+    public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
+                                       ConfigDbType configDbType,
+                                       String configFileName) {
+        this.connectionPoolType = connectionPoolType;
+        this.configDbType = configDbType;
+        this.configFileName = configFileName;
     }
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
@@ -50,10 +55,10 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
     }
 
     public SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            this.sessionFactory = configureSessionFactory();
-        }
-        return sessionFactory;
+//        if (sessionFactory == null) {
+//            this.sessionFactory = configureSessionFactory();
+//        }
+        return configureSessionFactory();
     }
 
     private SessionFactory configureSessionFactory() {
@@ -80,6 +85,9 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
             sessionFactory =
                     connectionPullConfiguration.createSessionFactoryWithClassDetails();
         }
+        if (configFileName == null) {
+
+        }
         if (sessionFactory == null) {
             LOG.warn("no configuration selected");
             throw new RuntimeException();
@@ -101,6 +109,9 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
         }
         if (ConnectionPoolType.VIBUR.equals(connectionPoolType)) {
             connectionPullConfiguration = new ConnectionPullViburConfiguration();
+        }
+        if (ConnectionPoolType.CUSTOM.equals(connectionPoolType)) {
+            connectionPullConfiguration = new ConnectionPullConfiguration(configFileName);
         }
         if (connectionPullConfiguration == null) {
             LOG.warn("no connected pool selected");

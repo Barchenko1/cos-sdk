@@ -2,19 +2,25 @@ package com.cos.core.config.cp;
 
 import com.cos.core.util.CosCoreConstants;
 import com.cos.core.util.setting.HikariSetting;
-import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import org.hibernate.hikaricp.internal.HikariCPConnectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
-public class ConnectionPullHikariConfiguration extends AbstractConnectionPullConfiguration {
-    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullHikariConfiguration.class);
+public class ConnectionPullConfiguration extends AbstractConnectionPullConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullConfiguration.class);
+
+    private final String configFileName;
+
+    public ConnectionPullConfiguration(String configFileName) {
+        this.configFileName = configFileName;
+    }
 
     @Override
     public SessionFactory createSessionFactoryWithProperties() {
@@ -63,8 +69,8 @@ public class ConnectionPullHikariConfiguration extends AbstractConnectionPullCon
 
     @Override
     public SessionFactory createSessionFactoryWithHibernateXML() {
-        LOG.info("Hikari createSessionFactoryWithHibernateXML");
-        return super.createSessionFactoryWithHibernateXMLByConfig(CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME);
+        LOG.info("Hikari createSessionFactoryWithHibernateXML {}", configFileName);
+        return super.createSessionFactoryWithHibernateXMLByConfig(configFileName);
     }
 
 }
