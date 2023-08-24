@@ -1,6 +1,6 @@
-package com.cos.core.util.cp;
+package com.cos.core.util.setting;
 
-public interface HikariSettings {
+public interface HikariSetting {
     // HikariCP settings
 
     // Maximum waiting time for a connection from the pool

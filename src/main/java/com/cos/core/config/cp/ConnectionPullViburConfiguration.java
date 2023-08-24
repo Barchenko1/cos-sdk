@@ -1,7 +1,7 @@
-package com.cos.core.config;
+package com.cos.core.config.cp;
 
 import com.cos.core.util.CosCoreConstants;
-import com.cos.core.util.cp.ViburSettings;
+import com.cos.core.util.setting.ViburSetting;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -25,18 +25,18 @@ public class ConnectionPullViburConfiguration  extends AbstractConnectionPullCon
                 Properties properties = propertiesProvider.getProperties();
                 setGeneralDBSettings(settings);
 
-                settings.put(ViburSettings.HIBERNATE_VIBUR_POOL_INITIAL_SIZE,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_POOL_INITIAL_SIZE, "10"));
-                settings.put(ViburSettings.HIBERNATE_VIBUR_POOL_MAX_SIZE,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_POOL_MAX_SIZE, "100"));
-                settings.put(ViburSettings.HIBERNATE_VIBUR_CONNECTION_IDLE_LIMIT_IN_SECONDS,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_CONNECTION_IDLE_LIMIT_IN_SECONDS, "30"));
-                settings.put(ViburSettings.HIBERNATE_VIBUR_TEST_CONNECTION_QUERY,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_TEST_CONNECTION_QUERY, "isValid"));
-                settings.put(ViburSettings.HIBERNATE_VIBUR_LOG_QUERY_EXECUTION_LONGER_THAN_MS,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_LOG_QUERY_EXECUTION_LONGER_THAN_MS, "500"));
-                settings.put(ViburSettings.HIBERNATE_VIBUR_LOG_STACK_TRACE_FOR_LONG_QUERY_EXECUTION,
-                        properties.getOrDefault(ViburSettings.HIBERNATE_VIBUR_LOG_STACK_TRACE_FOR_LONG_QUERY_EXECUTION, "true"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_POOL_INITIAL_SIZE,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_POOL_INITIAL_SIZE, "10"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_POOL_MAX_SIZE,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_POOL_MAX_SIZE, "100"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_CONNECTION_IDLE_LIMIT_IN_SECONDS,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_CONNECTION_IDLE_LIMIT_IN_SECONDS, "30"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_TEST_CONNECTION_QUERY,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_TEST_CONNECTION_QUERY, "isValid"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_LOG_QUERY_EXECUTION_LONGER_THAN_MS,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_LOG_QUERY_EXECUTION_LONGER_THAN_MS, "500"));
+                settings.put(ViburSetting.HIBERNATE_VIBUR_LOG_STACK_TRACE_FOR_LONG_QUERY_EXECUTION,
+                        properties.getOrDefault(ViburSetting.HIBERNATE_VIBUR_LOG_STACK_TRACE_FOR_LONG_QUERY_EXECUTION, "true"));
 
                 settings.put(Environment.CONNECTION_PROVIDER,
                         properties.getOrDefault(Environment.CONNECTION_PROVIDER, ViburDBCPConnectionProvider.class));

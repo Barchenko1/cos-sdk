@@ -1,7 +1,7 @@
 package com.cos.core.test.transaction;
 
-import com.cos.core.config.ConnectionPullHikariConfiguration;
-import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
+import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dto.BasicDtoEntityDao;
 import com.cos.core.dto.IDtoEntityDao;

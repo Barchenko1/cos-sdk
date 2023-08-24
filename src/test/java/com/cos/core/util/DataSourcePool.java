@@ -1,10 +1,10 @@
 package com.cos.core.util;
 
-import com.cos.core.config.ConnectionPullC3P0Configuration;
+import com.cos.core.config.cp.ConnectionPullC3P0Configuration;
 import com.cos.core.constant.DataSourcePoolType;
-import com.cos.core.properties.cd.ConnectionDetails;
-import com.cos.core.properties.cd.DBCP2ConnectionDetails;
-import com.cos.core.properties.cd.ExternalCPConnectionDetails;
+import com.cos.core.properties.details.ConnectionDetails;
+import com.cos.core.properties.details.DBCP2ConnectionDetails;
+import com.cos.core.properties.details.ExternalCPConnectionDetails;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.dbcp2.BasicDataSource;

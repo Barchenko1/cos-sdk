@@ -1,15 +1,15 @@
 package com.cos.core.config.factory;
 
 import com.cos.core.config.ConfigDbType;
-import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.ConnectionPullC3P0Configuration;
-import com.cos.core.config.ConnectionPullDBCP2Configuration;
-import com.cos.core.config.ConnectionPullHikariConfiguration;
-import com.cos.core.config.ConnectionPullViburConfiguration;
-import com.cos.core.config.IConnectionPullConfiguration;
+import com.cos.core.config.cp.ConnectionPoolType;
+import com.cos.core.config.cp.ConnectionPullC3P0Configuration;
+import com.cos.core.config.cp.ConnectionPullDBCP2Configuration;
+import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
+import com.cos.core.config.cp.ConnectionPullViburConfiguration;
+import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
-import com.cos.core.properties.cd.ConnectionDetails;
+import com.cos.core.properties.details.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;

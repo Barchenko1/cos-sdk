@@ -1,6 +1,6 @@
-package com.cos.core.config;
+package com.cos.core.config.cp;
 
-import com.cos.core.properties.cd.ConnectionDetails;
+import com.cos.core.properties.details.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;

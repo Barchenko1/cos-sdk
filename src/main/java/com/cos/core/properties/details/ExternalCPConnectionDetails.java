@@ -1,4 +1,4 @@
-package com.cos.core.properties.cd;
+package com.cos.core.properties.details;
 
 public class ExternalCPConnectionDetails extends ConnectionDetails {
 

@@ -1,6 +1,6 @@
-package com.cos.core.util.cp;
+package com.cos.core.util.setting;
 
-public interface ViburSettings {
+public interface ViburSetting {
     // HikariCP settings
 
     String HIBERNATE_VIBUR_POOL_INITIAL_SIZE = "hibernate.vibur.poolInitialSize";

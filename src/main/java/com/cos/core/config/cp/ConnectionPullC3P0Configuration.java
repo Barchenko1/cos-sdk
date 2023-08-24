@@ -1,4 +1,4 @@
-package com.cos.core.config;
+package com.cos.core.config.cp;
 
 import com.cos.core.util.CosCoreConstants;
 import org.hibernate.boot.Metadata;

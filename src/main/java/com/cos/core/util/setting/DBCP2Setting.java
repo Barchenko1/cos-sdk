@@ -1,6 +1,6 @@
-package com.cos.core.util.cp;
+package com.cos.core.util.setting;
 
-public interface DBCP2Settings {
+public interface DBCP2Setting {
     String HIBERNATE_DBCP_INITIAL_SIZE = "hibernate.dbcp.initialSize";
     String HIBERNATE_DBCP_MAX_TOTAL = "hibernate.dbcp.maxTotal";
     String HIBERNATE_DBCP_MAX_IDLE = "hibernate.dbcp.maxIdle";
