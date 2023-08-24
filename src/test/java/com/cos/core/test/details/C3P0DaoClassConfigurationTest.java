@@ -36,7 +36,7 @@ public class C3P0DaoClassConfigurationTest extends AbstractDaoConfigurationTest 
     @BeforeAll
     public static void getSessionFactory() throws SQLException {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.C3P0, ConfigDbType.CLASS, getConnectionDetails(DataSourcePoolType.C3PO_DATASOURCE), new Class[]{TestEntity.class}
+                ConnectionPoolType.C3P0, getConnectionDetails(DataSourcePoolType.C3PO_DATASOURCE), new Class[]{TestEntity.class}
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

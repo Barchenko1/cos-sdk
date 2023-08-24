@@ -7,6 +7,9 @@ import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.details.ConnectionDetails;
 import com.cos.core.util.CosCoreConstants;
+import com.cos.core.util.format.FileFormat;
+import com.cos.core.util.format.FileFormatter;
+import com.cos.core.util.format.IFileFormatter;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,41 +18,36 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionPullC3P0Configuration.class);
 
+    private final IFileFormatter fileFormatter = new FileFormatter();
     private final ConnectionPoolType connectionPoolType;
-    private final ConfigDbType configDbType;
+    private ConfigDbType configDbType;
     private SessionFactory sessionFactory;
     private Class<?>[] annotationClasses;
     private ConnectionDetails connectionDetails;
     private String configFileName;
 
-    public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
-                                       ConfigDbType configDbType) {
+    public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType) {
         this.connectionPoolType = connectionPoolType;
-        this.configDbType = configDbType;
+        this.configDbType = ConfigDbType.XML;
     }
 
-    public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
-                                       ConfigDbType configDbType,
-                                       String configFileName) {
-        this.connectionPoolType = connectionPoolType;
-        this.configDbType = configDbType;
+    public ConfigurationSessionFactory(String configFileName) {
+        this.connectionPoolType = ConnectionPoolType.CUSTOM;
         this.configFileName = configFileName;
     }
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
-                                       ConfigDbType configDbType,
                                        Class<?>[] annotationClasses) {
         this.connectionPoolType = connectionPoolType;
-        this.configDbType = configDbType;
+        this.configDbType = ConfigDbType.PROPERTIES;
         this.annotationClasses = annotationClasses;
     }
 
     public ConfigurationSessionFactory(ConnectionPoolType connectionPoolType,
-                                       ConfigDbType configDbType,
                                        ConnectionDetails connectionDetails,
                                        Class<?>[] annotationClasses) {
         this.connectionPoolType = connectionPoolType;
-        this.configDbType = configDbType;
+        this.configDbType = ConfigDbType.CLASS;
         this.annotationClasses = annotationClasses;
         this.connectionDetails = connectionDetails;
     }
@@ -68,26 +66,40 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
 
     private SessionFactory configDbSessionFactory(IConnectionPullConfiguration connectionPullConfiguration) {
         SessionFactory sessionFactory = null;
-        if (ConfigDbType.XML.equals(configDbType)) {
-            sessionFactory =
-                    connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+        if (configFileName != null) {
+            FileFormat fileFormat = fileFormatter.getFormat(configFileName);
+            if (FileFormat.XML.equals(fileFormat)) {
+                sessionFactory =
+                        connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+            }
+            if (FileFormat.PROPERTIES.equals(fileFormat)) {
+                connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
+                IPropertiesProvider propertiesProvider = propertiesProviderFactory();
+                connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+                sessionFactory =
+                        connectionPullConfiguration.createSessionFactoryWithProperties();
+            }
+        } else {
+            if (ConfigDbType.XML.equals(configDbType)) {
+                sessionFactory =
+                        connectionPullConfiguration.createSessionFactoryWithHibernateXML();
+            }
+            if (ConfigDbType.PROPERTIES.equals(configDbType)) {
+                connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
+                IPropertiesProvider propertiesProvider = propertiesProviderFactory();
+                connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
+                sessionFactory =
+                        connectionPullConfiguration.createSessionFactoryWithProperties();
+            }
+            if (ConfigDbType.CLASS.equals(configDbType)) {
+                connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
+                connectionPullConfiguration.setConnectionDetails(connectionDetails);
+                sessionFactory =
+                        connectionPullConfiguration.createSessionFactoryWithClassDetails();
+            }
         }
-        if (ConfigDbType.PROPERTY.equals(configDbType)) {
-            connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
-            IPropertiesProvider propertiesProvider = propertiesProviderFactory();
-            connectionPullConfiguration.setPropertiesProvider(propertiesProvider);
-            sessionFactory =
-                    connectionPullConfiguration.createSessionFactoryWithProperties();
-        }
-        if (ConfigDbType.CLASS.equals(configDbType)) {
-            connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
-            connectionPullConfiguration.setConnectionDetails(connectionDetails);
-            sessionFactory =
-                    connectionPullConfiguration.createSessionFactoryWithClassDetails();
-        }
-        if (configFileName == null) {
 
-        }
+
         if (sessionFactory == null) {
             LOG.warn("no configuration selected");
             throw new RuntimeException();
@@ -118,7 +130,6 @@ public class ConfigurationSessionFactory implements IConfigurationSessionFactory
             throw new RuntimeException();
         }
 
-        connectionPullConfiguration.setAnnotatedClasses(annotationClasses);
         return connectionPullConfiguration;
     }
 

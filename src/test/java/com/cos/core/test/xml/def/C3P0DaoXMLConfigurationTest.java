@@ -34,7 +34,7 @@ public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.C3P0, ConfigDbType.XML
+                ConnectionPoolType.C3P0
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

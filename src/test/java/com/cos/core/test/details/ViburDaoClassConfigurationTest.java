@@ -34,7 +34,7 @@ public class ViburDaoClassConfigurationTest extends AbstractDaoConfigurationTest
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.VIBUR, ConfigDbType.CLASS, getConnectionDetails(DataSourcePoolType.VIBUR_DATASOURCE), new Class[]{TestEntity.class}
+                ConnectionPoolType.VIBUR, getConnectionDetails(DataSourcePoolType.VIBUR_DATASOURCE), new Class[]{TestEntity.class}
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

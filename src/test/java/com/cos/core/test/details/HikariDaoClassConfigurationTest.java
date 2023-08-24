@@ -36,7 +36,7 @@ public class HikariDaoClassConfigurationTest extends AbstractDaoConfigurationTes
     @BeforeAll
     public static void getSessionFactory() throws Exception {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.CLASS, getConnectionDetails(DataSourcePoolType.HIKARI_DATASOURCE), new Class[]{TestEntity.class}
+                ConnectionPoolType.HIKARI, getConnectionDetails(DataSourcePoolType.HIKARI_DATASOURCE), new Class[]{TestEntity.class}
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

@@ -1,9 +1,6 @@
 package com.cos.core.test.xml.param;
 
-import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
-import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.basic.TestEntityDao;
@@ -24,17 +21,17 @@ import java.util.Optional;
 import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @DataSet(cleanAfter = true)
-public class ViburDaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class ViburDaoXMLParamConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public ViburDaoXMLConfigurationTest() {
+    public ViburDaoXMLParamConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.CUSTOM, ConfigDbType.XML, CosCoreConstants.VIBUR_HIBERNATE_XML_FILE_NAME
+                CosCoreConstants.VIBUR_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);

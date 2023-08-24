@@ -38,7 +38,7 @@ public class JoinTest extends AbstractJoinTest {
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.HIKARI, ConfigDbType.XML
+                ConnectionPoolType.HIKARI
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         employeeDependentService = new EmployeeDependentService(sessionFactory);

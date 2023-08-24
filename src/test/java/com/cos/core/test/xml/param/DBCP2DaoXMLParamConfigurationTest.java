@@ -1,9 +1,6 @@
 package com.cos.core.test.xml.param;
 
-import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
-import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dao.basic.TestEntityDao;
@@ -27,22 +24,22 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 
 @ExtendWith(DBUnitExtension.class)
 @DataSet(cleanAfter = true)
-public class C3P0DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
+public class DBCP2DaoXMLParamConfigurationTest extends AbstractDaoConfigurationTest {
 
     private static ConnectionHolder connectionHolder;
 
-    public C3P0DaoXMLConfigurationTest() {
+    public DBCP2DaoXMLParamConfigurationTest() {
     }
 
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.CUSTOM, ConfigDbType.XML, CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME
+                CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
-        dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
+        dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
 

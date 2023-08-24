@@ -35,7 +35,7 @@ public class DBCP2DaoClassConfigurationTest extends AbstractDaoConfigurationTest
     @BeforeAll
     public static void getSessionFactory() {
         ConfigurationSessionFactory configurationSessionFactory = new ConfigurationSessionFactory(
-                ConnectionPoolType.DBCP2, ConfigDbType.CLASS, getConnectionDetails(DataSourcePoolType.DBCP2_DATASOURCE), new Class[]{TestEntity.class}
+                ConnectionPoolType.DBCP2, getConnectionDetails(DataSourcePoolType.DBCP2_DATASOURCE), new Class[]{TestEntity.class}
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         testEntityDao = new TestEntityDao<>(sessionFactory);
