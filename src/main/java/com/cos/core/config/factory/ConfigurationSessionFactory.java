@@ -3,7 +3,12 @@ package com.cos.core.config.factory;
 
 import com.cos.core.config.ConfigDbType;
 import com.cos.core.config.ConnectionPoolType;
-import com.cos.core.config.cp.*;
+import com.cos.core.config.cp.ConnectionPullC3P0Configuration;
+import com.cos.core.config.cp.ConnectionPullConfiguration;
+import com.cos.core.config.cp.ConnectionPullDBCP2Configuration;
+import com.cos.core.config.cp.ConnectionPullHikariConfiguration;
+import com.cos.core.config.cp.ConnectionPullViburConfiguration;
+import com.cos.core.config.cp.IConnectionPullConfiguration;
 import com.cos.core.properties.IPropertiesProvider;
 import com.cos.core.properties.PropertiesProvider;
 import com.cos.core.properties.details.ConnectionDetails;
