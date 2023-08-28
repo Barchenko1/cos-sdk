@@ -33,7 +33,7 @@ public class ViburDaoXMLParamConfigurationTest extends AbstractDaoConfigurationT
                 CosCoreConstants.VIBUR_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao = new TestEntityDao(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.VIBUR_DATASOURCE);
         connectionHolder = dataSource::getConnection;

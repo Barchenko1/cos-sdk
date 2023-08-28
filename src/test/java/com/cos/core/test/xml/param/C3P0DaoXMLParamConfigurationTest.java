@@ -36,7 +36,7 @@ public class C3P0DaoXMLParamConfigurationTest extends AbstractDaoConfigurationTe
                 CosCoreConstants.C3P0_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao = new TestEntityDao(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.C3PO_DATASOURCE);
         connectionHolder = dataSource::getConnection;

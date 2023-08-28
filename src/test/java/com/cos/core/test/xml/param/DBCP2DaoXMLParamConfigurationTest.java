@@ -37,7 +37,7 @@ public class DBCP2DaoXMLParamConfigurationTest extends AbstractDaoConfigurationT
                 CosCoreConstants.DBCP2_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao = new TestEntityDao(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
         connectionHolder = dataSource::getConnection;

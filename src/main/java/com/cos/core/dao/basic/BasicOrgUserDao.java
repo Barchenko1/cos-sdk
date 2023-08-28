@@ -4,7 +4,7 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.org.IOrgUserDao;
 import org.hibernate.SessionFactory;
 
-public class BasicOrgUserDao<E> extends AbstractDao<E> implements IOrgUserDao<E> {
+public class BasicOrgUserDao extends AbstractDao implements IOrgUserDao {
     public BasicOrgUserDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

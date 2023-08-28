@@ -26,7 +26,7 @@ public class JoinTest extends AbstractJoinTest {
 
     private static IEmployeeDependentService employeeDependentService;
 
-    private static IDtoEntityDao<EmployeeDependentTestDto> dtoEntityDao;
+    private static IDtoEntityDao dtoEntityDao;
 
     private static final String sqlQuery = """
             SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatus
@@ -41,7 +41,7 @@ public class JoinTest extends AbstractJoinTest {
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
         employeeDependentService = new EmployeeDependentService(sessionFactory);
-        dtoEntityDao = new BasicDtoEntityDao<>(sessionFactory);
+        dtoEntityDao = new BasicDtoEntityDao(sessionFactory);
         dtoEntityDao.setClazz(EmployeeDependentTestDto.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;

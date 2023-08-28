@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractDao<E> {
+public abstract class AbstractDao {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
-    protected Class<E> clazz;
+    protected Class<?> clazz;
     protected final SessionFactory sessionFactory;
     protected final ISqlParamsConverter sqlParamsConverter;
 
@@ -24,11 +24,12 @@ public abstract class AbstractDao<E> {
         this.sqlParamsConverter = new SqlParamsConverter();
     }
 
-    public void setClazz(Class<E> clazz) {
+    public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
     }
 
-    public void saveEntity(E entity) {
+    public <E> void saveEntity(E entity) {
+        classTypeChecker(entity);
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -43,7 +44,8 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public void updateEntity(E entity) {
+    public <E> void updateEntity(E entity) {
+        classTypeChecker(entity);
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -58,7 +60,8 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public void deleteEntity(E entity) {
+    public <E> void deleteEntity(E entity) {
+        classTypeChecker(entity);
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -73,9 +76,10 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public List<E> getEntityListBySQLQuery(String sqlQuery) {
+    @SuppressWarnings("unchecked")
+    public <E> List<E> getEntityListBySQLQuery(String sqlQuery) {
         try (Session session = sessionFactory.openSession()) {
-            return session
+            return (List<E>) session
                     .createNativeQuery(sqlQuery, clazz)
                     .list();
         } catch (Exception e) {
@@ -84,9 +88,10 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public E getEntityBySQLQuery(String sqlQuery) {
+    @SuppressWarnings("unchecked")
+    public <E> E getEntityBySQLQuery(String sqlQuery) {
         try (Session session = sessionFactory.openSession()) {
-            return session
+            return (E) session
                     .createNativeQuery(sqlQuery, clazz)
                     .getSingleResult();
         } catch (Exception e) {
@@ -95,10 +100,11 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public List<E> getEntityListBySQLQueryWithParams(String sqlQuery, List<Object> params) {
+    @SuppressWarnings("unchecked")
+    public <E> List<E> getEntityListBySQLQueryWithParams(String sqlQuery, List<Object> params) {
         Map<Integer, Object> paramMap = sqlParamsConverter.getObjectParamsMap(params);
         try (Session session = sessionFactory.openSession()) {
-            NativeQuery<E> nativeQuery = session.createNativeQuery(sqlQuery, clazz);
+            NativeQuery<E> nativeQuery = (NativeQuery<E>) session.createNativeQuery(sqlQuery, clazz);
             for (Map.Entry<Integer, Object> entry : paramMap.entrySet()) {
                 nativeQuery.setParameter(entry.getKey(), entry.getValue());
             }
@@ -109,10 +115,11 @@ public abstract class AbstractDao<E> {
         }
     }
 
-    public Optional<E> getEntityBySQLQueryWithParams(String sqlQuery, List<Object> params) {
+    @SuppressWarnings("unchecked")
+    public <E> Optional<E> getEntityBySQLQueryWithParams(String sqlQuery, List<Object> params) {
         Map<Integer, Object> paramMap = sqlParamsConverter.getObjectParamsMap(params);
         try (Session session = sessionFactory.openSession()) {
-            NativeQuery<E> nativeQuery = session.createNativeQuery(sqlQuery, clazz);
+            NativeQuery<E> nativeQuery = (NativeQuery<E>) session.createNativeQuery(sqlQuery, clazz);
             for (Map.Entry<Integer, Object> entry : paramMap.entrySet()) {
                 nativeQuery.setParameter(entry.getKey(), entry.getValue());
             }
@@ -120,6 +127,12 @@ public abstract class AbstractDao<E> {
         } catch (Exception e) {
             LOG.warn("get entity error {}", e.getMessage());
             throw new RuntimeException(e);
+        }
+    }
+
+    private <E> void classTypeChecker(E entity) {
+        if (this.clazz != entity.getClass()) {
+            throw new RuntimeException("Invalid entity type");
         }
     }
 }

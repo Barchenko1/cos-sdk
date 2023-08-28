@@ -9,28 +9,30 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E> {
+public class TestEntityDao extends AbstractDao implements ITestEntityDao {
     private static final Logger LOG = LoggerFactory.getLogger(TestEntityDao.class);
 
     public TestEntityDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public List<E> getAllTestEntities() {
+    public <E> List<E> getAllTestEntities() {
         List<E> users;
         try (Session session = sessionFactory.openSession()) {
-            users = session.createNamedQuery("getTestEntityAll", clazz)
+            users = (List<E>) session.createNamedQuery("getTestEntityAll", clazz)
                     .list();
         }
         return users;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Optional<E> getTestEntityById(long id) {
+    public <E> Optional<E> getTestEntityById(long id) {
         Optional<E> opt;
         try (Session session = sessionFactory.openSession()) {
-            opt = Optional.ofNullable(session
+            opt = (Optional<E>) Optional.ofNullable(session
                     .createNamedQuery("getTestEntityById", clazz)
                     .setParameter(1, id)
                     .getSingleResult());
@@ -41,11 +43,12 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
         return opt;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Optional<E> getTestEntityByUser(String name) {
+    public <E> Optional<E> getTestEntityByUser(String name) {
         Optional<E> opt;
         try (Session session = sessionFactory.openSession()) {
-            opt = Optional.ofNullable(session
+            opt = (Optional<E>) Optional.ofNullable(session
                     .createNamedQuery("getTestEntityByName", clazz)
                     .setParameter(1, name)
                     .getSingleResult());
@@ -57,7 +60,7 @@ public class TestEntityDao<E> extends AbstractDao<E> implements ITestEntityDao<E
     }
 
     @Override
-    public Optional<E> getTestEntityByEmail(String email) {
+    public <E> Optional<E> getTestEntityByEmail(String email) {
         return Optional.empty();
     }
 

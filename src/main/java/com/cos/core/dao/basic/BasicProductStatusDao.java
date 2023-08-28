@@ -4,7 +4,7 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.product.IProductStatusDao;
 import org.hibernate.SessionFactory;
 
-public class BasicProductStatusDao<E> extends AbstractDao<E> implements IProductStatusDao<E> {
+public class BasicProductStatusDao extends AbstractDao implements IProductStatusDao {
     public BasicProductStatusDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

@@ -4,7 +4,7 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.product.IDiscountDao;
 import org.hibernate.SessionFactory;
 
-public class BasicDiscountDao<E> extends AbstractDao<E> implements IDiscountDao<E> {
+public class BasicDiscountDao extends AbstractDao implements IDiscountDao {
     public BasicDiscountDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

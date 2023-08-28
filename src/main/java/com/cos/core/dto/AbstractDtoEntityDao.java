@@ -10,10 +10,10 @@ import org.hibernate.type.BasicTypeReference;
 import java.util.List;
 import java.util.Map;
 
-public class AbstractDtoEntityDao<E> implements IDtoEntityDao<E> {
+public class AbstractDtoEntityDao implements IDtoEntityDao {
 
     protected final SessionFactory sessionFactory;
-    protected Class<E> clazz;
+    protected Class<?> clazz;
     protected final IDtoAdaptor dtoAdaptor;
 
     public AbstractDtoEntityDao(SessionFactory sessionFactory) {
@@ -22,12 +22,12 @@ public class AbstractDtoEntityDao<E> implements IDtoEntityDao<E> {
     }
 
     @Override
-    public void setClazz(Class<E> clazz) {
+    public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public E getDto(String sqlQuery) {
+    public <E> E getDto(String sqlQuery) {
         Map<String, BasicTypeReference<?>> metadata = dtoAdaptor.getMetadata(clazz);
         try (Session session = sessionFactory.openSession()) {
             EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
@@ -35,13 +35,13 @@ public class AbstractDtoEntityDao<E> implements IDtoEntityDao<E> {
             for (Map.Entry<String, BasicTypeReference<?>> entry : metadata.entrySet()) {
                 nativeQuery.addScalar(entry.getKey(), entry.getValue());
             }
-            nativeQuery.setResultListTransformer(Transformers.aliasToBean(clazz));
+            nativeQuery.setResultListTransformer(Transformers.aliasToBean((Class<E>) clazz));
             return nativeQuery.getSingleResult();
         }
     }
 
     @Override
-    public List<E> getDtoList(String sqlQuery) {
+    public <E> List<E> getDtoList(String sqlQuery) {
         Map<String, BasicTypeReference<?>> metadata = dtoAdaptor.getMetadata(clazz);
         try (Session session = sessionFactory.openSession()) {
             EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
@@ -49,7 +49,7 @@ public class AbstractDtoEntityDao<E> implements IDtoEntityDao<E> {
             for (Map.Entry<String, BasicTypeReference<?>> entry : metadata.entrySet()) {
                 nativeQuery.addScalar(entry.getKey(), entry.getValue());
             }
-            nativeQuery.setResultListTransformer(Transformers.aliasToBean(clazz));
+            nativeQuery.setResultListTransformer(Transformers.aliasToBean((Class<E>) clazz));
             return nativeQuery.getResultList();
         }
     }

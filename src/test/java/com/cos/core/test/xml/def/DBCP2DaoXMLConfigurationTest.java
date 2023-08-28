@@ -36,7 +36,7 @@ public class DBCP2DaoXMLConfigurationTest extends AbstractDaoConfigurationTest {
                 ConnectionPoolType.DBCP2
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao = new TestEntityDao(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.DBCP2_DATASOURCE);
         connectionHolder = dataSource::getConnection;

@@ -37,7 +37,7 @@ public class HikariDaoXMLParamConfigurationTest extends AbstractDaoConfiguration
                 CosCoreConstants.HIKARI_HIBERNATE_XML_FILE_NAME
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        testEntityDao = new TestEntityDao<>(sessionFactory);
+        testEntityDao = new TestEntityDao(sessionFactory);
         testEntityDao.setClazz(TestEntity.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;

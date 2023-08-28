@@ -21,15 +21,14 @@ public class EmployeeDependentService implements IEmployeeDependentService {
     Class<?>[] classes;
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeDependentService.class);
 
-    private SessionFactory sessionFactory;
-    private IEmployeeDao<TestEmployee> employeeDao;
-    private IDependentDao<TestDependent> dependentDao;
+    private final SessionFactory sessionFactory;
+    private final IEmployeeDao employeeDao;
     private static final String sqlQuery = "SELECT te.id AS employee_id, te.name AS employee_name, td.id AS dependent_id, td.name AS dependent_name, td.status AS dependent_statusFROM TestEmployee teLEFT JOIN TestDependent td ON te.id = td.testEmployee_id;";
 
     public EmployeeDependentService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.employeeDao = new EmployeeDao<>(sessionFactory);
-        this.dependentDao = new DependentDao<>(sessionFactory);
+        this.employeeDao = new EmployeeDao(sessionFactory);
+        IDependentDao dependentDao = new DependentDao(sessionFactory);
     }
 
     @Override

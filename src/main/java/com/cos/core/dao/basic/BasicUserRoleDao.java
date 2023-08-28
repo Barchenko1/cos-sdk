@@ -4,7 +4,7 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.user.IUserRoleDao;
 import org.hibernate.SessionFactory;
 
-public class BasicUserRoleDao<E> extends AbstractDao<E> implements IUserRoleDao<E> {
+public class BasicUserRoleDao extends AbstractDao implements IUserRoleDao {
     public BasicUserRoleDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

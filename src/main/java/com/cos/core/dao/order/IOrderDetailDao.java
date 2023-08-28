@@ -2,5 +2,5 @@ package com.cos.core.dao.order;
 
 import com.cos.core.dao.IEntityDao;
 
-public interface IOrderDetailDao<E> extends IEntityDao<E> {
+public interface IOrderDetailDao extends IEntityDao {
 }

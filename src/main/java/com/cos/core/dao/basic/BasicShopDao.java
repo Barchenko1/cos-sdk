@@ -4,7 +4,7 @@ import com.cos.core.dao.AbstractDao;
 import com.cos.core.dao.shop.IShopDao;
 import org.hibernate.SessionFactory;
 
-public class BasicShopDao<E> extends AbstractDao<E> implements IShopDao<E> {
+public class BasicShopDao extends AbstractDao implements IShopDao {
     public BasicShopDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

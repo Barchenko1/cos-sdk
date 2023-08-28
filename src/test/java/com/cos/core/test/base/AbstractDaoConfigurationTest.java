@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 public abstract class AbstractDaoConfigurationTest {
 
     protected static SessionFactory sessionFactory;
-    protected static ITestEntityDao<TestEntity> testEntityDao;
+    protected static ITestEntityDao testEntityDao;
     protected static DataSource dataSource;
 
     @AfterAll
