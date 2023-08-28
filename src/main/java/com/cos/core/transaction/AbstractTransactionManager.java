@@ -2,7 +2,6 @@ package com.cos.core.transaction;
 
 import com.cos.core.annotation.AnnotationChecker;
 import com.cos.core.annotation.IAnnotationChecker;
-import com.cos.core.annotation.TransactionalApplicable;
 import com.cos.core.dao.AbstractDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,9 +24,9 @@ public class AbstractTransactionManager implements ITransactionManager {
 
     @Override
     public void useTransaction(List<?> values) {
-        if (!annotationChecker.areAllElementsHaveAnnotation(values, TransactionalApplicable.class)) {
-            throw new RuntimeException();
-        }
+//        if (!annotationChecker.areAllElementsHaveAnnotation(values, TransactionalApplicable.class)) {
+//            throw new RuntimeException();
+//        }
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();

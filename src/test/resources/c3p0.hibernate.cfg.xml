@@ -15,6 +15,7 @@
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+		<property name="hibernate.connection.isolation">2</property>
 
 		<mapping class="com.cos.core.modal.TestEntity" />
 		<mapping class="com.cos.core.modal.TestEmployee" />

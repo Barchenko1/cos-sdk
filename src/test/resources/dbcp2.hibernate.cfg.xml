@@ -26,6 +26,7 @@
         <property name="hibernate.dbcp.maxIdle">10</property>
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
+        <property name="hibernate.connection.isolation">2</property>
 
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />

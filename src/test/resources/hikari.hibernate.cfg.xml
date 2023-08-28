@@ -23,6 +23,7 @@
         <property name="hibernate.hikari.maximumPoolSize">20</property>
         <property name="hibernate.hikari.idleTimeout">300000</property>
         <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+        <property name="hibernate.connection.isolation">2</property>
         <!-- add annotated resources here -->
         <mapping class="com.cos.core.modal.TestEntity" />
         <mapping class="com.cos.core.modal.TestEmployee" />

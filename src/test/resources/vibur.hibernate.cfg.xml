@@ -21,6 +21,7 @@
         <property name="hibernate.connection.provider_class">
             org.hibernate.vibur.internal.ViburDBCPConnectionProvider
         </property>
+        <property name="hibernate.connection.isolation">2</property>
 
         <property name="hibernate.vibur.poolInitialSize">10</property>
         <property name="hibernate.vibur.poolMaxSize">100</property>
