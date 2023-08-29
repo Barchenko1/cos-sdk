@@ -1,4 +1,4 @@
-package com.cos.core.dao.store;
+package com.cos.core.dao.business;
 
 import com.cos.core.dao.IEntityDao;
 
