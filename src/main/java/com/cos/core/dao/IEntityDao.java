@@ -11,6 +11,7 @@ public interface IEntityDao {
     <E> void deleteEntity(E entity);
     <E> List<E> getEntityListBySQLQuery(String sqlQuery);
     <E> E getEntityBySQLQuery(String sqlQuery);
+    <E> Optional<E> getOptionEntityBySQLQuery(String sqlQuery);
     <E> List<E> getEntityListBySQLQueryWithParams(String sqlQuery, List<Object> params);
     <E> Optional<E> getEntityBySQLQueryWithParams(String sqlQuery, List<Object> params);
 

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,6 +95,18 @@ public abstract class AbstractDao {
             return (E) session
                     .createNativeQuery(sqlQuery, clazz)
                     .getSingleResult();
+        } catch (Exception e) {
+            LOG.warn("get entity error {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E> Optional<E> getOptionEntityBySQLQuery(String sqlQuery) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable((E) session
+                    .createNativeQuery(sqlQuery, clazz)
+                    .getSingleResult());
         } catch (Exception e) {
             LOG.warn("get entity error {}", e.getMessage());
             throw new RuntimeException(e);
