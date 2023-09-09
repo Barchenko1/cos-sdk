@@ -23,10 +23,16 @@ public class JoinTest extends AbstractJoinTest {
     private static ConnectionHolder connectionHolder;
     private static IDtoEntityDao dtoEntityDao;
 
-    private static final String sqlQuery = """
+    private static final String SQL_QUERY = """
             SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatus
             FROM TestEmployee te
             LEFT JOIN TestDependent td ON te.id = td.testEmployee_id;
+            """;
+
+    private static final String SQL_QUERY_WHERE = """
+            SELECT te.id AS employeeId, te.name AS employeeName, td.id AS dependentId, td.name AS dependentName, td.status AS dependentStatus
+            FROM TestEmployee te
+            LEFT JOIN TestDependent td ON te.id = td.testEmployee_id where td.id = '%s';
             """;
 
     @BeforeAll
@@ -48,14 +54,15 @@ public class JoinTest extends AbstractJoinTest {
     @Test
     @ExpectedDataSet(value = "/data/dataset/initDataJoinSet.xml")
     void dtoEntityDaoSingleTest() {
+        String sqlQuery = String.format(SQL_QUERY_WHERE, 1);
         EmployeeDependentTestDto employeeDependentTestDto = dtoEntityDao.getDto(sqlQuery, EmployeeDependentTestDto.class);
-        Assertions.assertNotEquals(1, employeeDependentTestDto.getEmployeeId());
+        Assertions.assertEquals(1, employeeDependentTestDto.getEmployeeId());
     }
 
     @Test
     @ExpectedDataSet(value = "/data/dataset/initDataJoinSet.xml")
     void dtoEntityDaoListTest() {
-        List<EmployeeDependentTestDto> employeeDependentTestDtoList = dtoEntityDao.getDtoList(sqlQuery, EmployeeDependentTestDto.class);
+        List<EmployeeDependentTestDto> employeeDependentTestDtoList = dtoEntityDao.getDtoList(SQL_QUERY, EmployeeDependentTestDto.class);
         Assertions.assertFalse(employeeDependentTestDtoList.isEmpty());
     }
 
