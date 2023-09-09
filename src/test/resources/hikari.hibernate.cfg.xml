@@ -29,5 +29,8 @@
         <mapping class="com.cos.core.modal.TestEmployee" />
         <mapping class="com.cos.core.modal.TestDependent" />
 
+        <mapping class="com.cos.core.dto.TestClass" />
+        <mapping class="com.cos.core.dto.ParentClass" />
+        <mapping class="com.cos.core.dto.ChildClass" />
     </session-factory>
 </hibernate-configuration>

@@ -39,7 +39,9 @@ public class DtoEntityBind implements IDtoEntityBind {
             BufferedReader reader;
             for (File file : files) {
                 if (file.isFile()) {
-                    try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(file.getName())) {
+                    try (InputStream in =
+                                 Thread.currentThread().getContextClassLoader().getResourceAsStream(
+                                         this.folderPath + "/" + file.getName())) {
                         reader = new BufferedReader(new InputStreamReader(in));
                         map.put(file.getName().substring(0, file.getName().lastIndexOf(".")),
                                 gson.fromJson(reader, JsonObject.class));
