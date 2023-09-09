@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class AbstractTransactionManager implements ITransactionManager {
@@ -23,10 +24,40 @@ public class AbstractTransactionManager implements ITransactionManager {
     }
 
     @Override
+    public <E> void useTransaction(E value) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            Field[] fields = value.getClass().getDeclaredFields();
+            transaction = session.beginTransaction();
+            for (Field field : fields) {
+                Class<?> fieldType = field.getType();
+                if (!fieldType.getName().startsWith("java.lang")
+                        && !fieldType.isPrimitive()
+                        && !fieldType.getName().startsWith("java.util")
+                        && isFieldValueValid(field, value)) {
+                    field.setAccessible(true);
+                    Object object;
+                    try {
+                        object = field.get(value);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                    session.persist(object);
+                }
+            }
+            session.persist(value);
+            transaction.commit();
+        } catch (Exception e) {
+            LOG.warn("transaction error {}", e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void useTransaction(List<?> values) {
-//        if (!annotationChecker.areAllElementsHaveAnnotation(values, TransactionalApplicable.class)) {
-//            throw new RuntimeException();
-//        }
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -42,4 +73,22 @@ public class AbstractTransactionManager implements ITransactionManager {
             throw new RuntimeException(e);
         }
     }
+
+    private boolean isFieldValueValid(Field field, Object value) {
+        field.setAccessible(true);
+        Object object;
+        try {
+            object = field.get(value);
+            if (object != null) {
+                Field innerField = object.getClass().getDeclaredField("id");
+                innerField.setAccessible(true);
+                return (long) innerField.get(object) == 0;
+            } else {
+                return false;
+            }
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
