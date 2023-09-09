@@ -78,12 +78,11 @@
             <version>${postgres.version}</version>
         </dependency>
 
-        <!--        jakarta from hibernate 6+-->
-<!--        <dependency>-->
-<!--            <groupId>javax.persistence</groupId>-->
-<!--            <artifactId>javax.persistence-api</artifactId>-->
-<!--            <version>2.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
