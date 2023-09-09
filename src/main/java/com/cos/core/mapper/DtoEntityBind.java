@@ -15,16 +15,17 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DtoEntityBind implements IDtoEntityBind {
-    private final Gson gson = new Gson();
+    private final String folderPath;
     private final Map<String, JsonObject> jsonObjectMap;
     private String key;
 
-    public DtoEntityBind() {
+    public DtoEntityBind(String folderPath) {
+        this.folderPath = folderPath;
         this.jsonObjectMap = initJsonMap();
     }
 
     private Map<String, JsonObject> initJsonMap() {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(getFolderPath());
+        URL url = Thread.currentThread().getContextClassLoader().getResource(this.folderPath);
         File folder;
         try {
             folder = new File(url.toURI());
@@ -34,6 +35,7 @@ public class DtoEntityBind implements IDtoEntityBind {
         File[] files = folder.listFiles();
         Map<String, JsonObject> map = new HashMap<>();
         if (files != null) {
+            Gson gson = new Gson();
             BufferedReader reader;
             for (File file : files) {
                 if (file.isFile()) {
@@ -48,11 +50,6 @@ public class DtoEntityBind implements IDtoEntityBind {
             }
         }
         return map;
-    }
-
-    @Override
-    public String getFolderPath() {
-        return "bind";
     }
 
     @Override
