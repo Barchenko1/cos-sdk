@@ -6,9 +6,9 @@ import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.modal.TestDependent;
 import com.cos.core.modal.TestEmployee;
-import com.cos.core.service.EmployeeDependentService;
-import com.cos.core.service.IEmployeeDependentService;
 import com.cos.core.test.base.AbstractTransactionTest;
+import com.cos.core.transaction.BasicTransactionManager;
+import com.cos.core.transaction.ITransactionManager;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -28,7 +28,7 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 public class TransactionTest extends AbstractTransactionTest {
     private static ConnectionHolder connectionHolder;
 
-    private static IEmployeeDependentService employeeDependentService;
+    private static ITransactionManager transactionManager;
 
     @BeforeAll
     public static void getSessionFactory() {
@@ -36,10 +36,11 @@ public class TransactionTest extends AbstractTransactionTest {
                 ConnectionPoolType.HIKARI
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        employeeDependentService = new EmployeeDependentService(sessionFactory);
+        transactionManager = new BasicTransactionManager(sessionFactory);
 
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
+
     }
 
     @BeforeEach
@@ -60,8 +61,9 @@ public class TransactionTest extends AbstractTransactionTest {
 
         TestEmployee employee = new TestEmployee();
         employee.setName("Robert");
+        employee.setTestDependents(dependents);
 
-        employeeDependentService.saveTransactionalEntities(employee, dependents);
+        transactionManager.useTransaction(employee);
     }
 
     @Test
@@ -78,7 +80,7 @@ public class TransactionTest extends AbstractTransactionTest {
         employee.setName("Robert");
 
         Assertions.assertThrows(RuntimeException.class, () -> {
-            employeeDependentService.saveIncorrectTransactionalEntities(null, dependents);
+            transactionManager.useTransaction(null);
         });
     }
 

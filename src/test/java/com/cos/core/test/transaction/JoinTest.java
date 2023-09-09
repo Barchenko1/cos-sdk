@@ -5,8 +5,6 @@ import com.cos.core.config.factory.ConfigurationSessionFactory;
 import com.cos.core.constant.DataSourcePoolType;
 import com.cos.core.dto.BasicDtoEntityDao;
 import com.cos.core.dto.IDtoEntityDao;
-import com.cos.core.service.EmployeeDependentService;
-import com.cos.core.service.IEmployeeDependentService;
 import com.cos.core.test.base.AbstractJoinTest;
 import com.cos.core.test.modal.EmployeeDependentTestDto;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
@@ -23,9 +21,6 @@ import static com.cos.core.util.DataSourcePool.getDataSource;
 public class JoinTest extends AbstractJoinTest {
 
     private static ConnectionHolder connectionHolder;
-
-    private static IEmployeeDependentService employeeDependentService;
-
     private static IDtoEntityDao dtoEntityDao;
 
     private static final String sqlQuery = """
@@ -40,9 +35,7 @@ public class JoinTest extends AbstractJoinTest {
                 ConnectionPoolType.HIKARI
         );
         sessionFactory = configurationSessionFactory.getSessionFactory();
-        employeeDependentService = new EmployeeDependentService(sessionFactory);
         dtoEntityDao = new BasicDtoEntityDao(sessionFactory);
-        dtoEntityDao.setClazz(EmployeeDependentTestDto.class);
         dataSource = getDataSource(DataSourcePoolType.HIKARI_DATASOURCE);
         connectionHolder = dataSource::getConnection;
     }
@@ -54,8 +47,15 @@ public class JoinTest extends AbstractJoinTest {
 
     @Test
     @ExpectedDataSet(value = "/data/dataset/initDataJoinSet.xml")
-    void employeeDependentServiceTest() {
-        List<EmployeeDependentTestDto> employeeDependentTestDtoList = dtoEntityDao.getDtoList(sqlQuery);
+    void dtoEntityDaoSingleTest() {
+        EmployeeDependentTestDto employeeDependentTestDto = dtoEntityDao.getDto(sqlQuery, EmployeeDependentTestDto.class);
+        Assertions.assertNotEquals(1, employeeDependentTestDto.getEmployeeId());
+    }
+
+    @Test
+    @ExpectedDataSet(value = "/data/dataset/initDataJoinSet.xml")
+    void dtoEntityDaoListTest() {
+        List<EmployeeDependentTestDto> employeeDependentTestDtoList = dtoEntityDao.getDtoList(sqlQuery, EmployeeDependentTestDto.class);
         Assertions.assertFalse(employeeDependentTestDtoList.isEmpty());
     }
 

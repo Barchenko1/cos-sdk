@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.ResultListTransformer;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.BasicTypeReference;
 
@@ -13,7 +14,6 @@ import java.util.Map;
 public class AbstractDtoEntityDao implements IDtoEntityDao {
 
     protected final SessionFactory sessionFactory;
-    protected Class<?> clazz;
     protected final IDtoAdaptor dtoAdaptor;
 
     public AbstractDtoEntityDao(SessionFactory sessionFactory) {
@@ -22,12 +22,7 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
     }
 
     @Override
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-
-    @Override
-    public <E> E getDto(String sqlQuery) {
+    public <E> E getDto(String sqlQuery, Class<?> clazz) {
         Map<String, BasicTypeReference<?>> metadata = dtoAdaptor.getMetadata(clazz);
         try (Session session = sessionFactory.openSession()) {
             EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
@@ -41,7 +36,7 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
     }
 
     @Override
-    public <E> List<E> getDtoList(String sqlQuery) {
+    public <E> List<E> getDtoList(String sqlQuery, Class<?> clazz) {
         Map<String, BasicTypeReference<?>> metadata = dtoAdaptor.getMetadata(clazz);
         try (Session session = sessionFactory.openSession()) {
             EntityManager entityManager = session.getEntityManagerFactory().createEntityManager();
@@ -50,6 +45,7 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
                 nativeQuery.addScalar(entry.getKey(), entry.getValue());
             }
             nativeQuery.setResultListTransformer(Transformers.aliasToBean((Class<E>) clazz));
+
             return nativeQuery.getResultList();
         }
     }
