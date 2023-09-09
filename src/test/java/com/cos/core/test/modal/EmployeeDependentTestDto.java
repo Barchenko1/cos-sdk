@@ -1,11 +1,22 @@
 package com.cos.core.test.modal;
 
+import java.util.List;
+
 public class EmployeeDependentTestDto {
     private Long employeeId;
     private String employeeName;
     private Long dependentId;
     private String dependentName;
     private String dependentStatus;
+    private List<Object> someField;
+
+    public List<Object> getSomeField() {
+        return someField;
+    }
+
+    public void setSomeField(List<Object> someField) {
+        this.someField = someField;
+    }
 
     public Long getEmployeeId() {
         return employeeId;
