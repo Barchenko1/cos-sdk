@@ -34,12 +34,7 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
             Field[] classFields = clazz.getDeclaredFields();
             try {
                 E resultObject = (E) clazz.getDeclaredConstructor().newInstance();
-                Arrays.stream(classFields)
-                        .filter(field -> isAliasContains(tuple.getElements(), field))
-                        .findFirst()
-                        .ifPresent(field -> {
-                            setValue(clazz, tuple, field, resultObject);
-                        });
+                setupResultObject(clazz, tuple, classFields, resultObject);
                 return resultObject;
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException e) {
@@ -61,12 +56,7 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
                 Object resultObject;
                 try {
                     resultObject = clazz.getDeclaredConstructor().newInstance();
-                    Arrays.stream(classFields)
-                            .filter(field -> isAliasContains(tuple.getElements(), field))
-                            .findFirst()
-                            .ifPresent(field -> {
-                                setValue(clazz, tuple, field, resultObject);
-                            });
+                    setupResultObject(clazz, tuple, classFields, resultObject);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                          NoSuchMethodException e) {
                     throw new RuntimeException(e);
@@ -75,6 +65,14 @@ public class AbstractDtoEntityDao implements IDtoEntityDao {
             }
             return result;
         }
+    }
+
+    private void setupResultObject(Class<?> clazz, Tuple tuple, Field[] classFields, Object resultObject) {
+        Arrays.stream(classFields)
+                .filter(field -> isAliasContains(tuple.getElements(), field))
+                .forEach(field -> {
+                    setValue(clazz, tuple, field, resultObject);
+                });
     }
 
     private void setValue(Class<?> clazz, Tuple tuple, Field field, Object resultObject) {
